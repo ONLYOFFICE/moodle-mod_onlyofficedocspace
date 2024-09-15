@@ -1,0 +1,89 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_onlyofficedocspace/docspaceusers
+
+    Template purpose and description.
+
+    Classes required for JS:
+    * none
+
+    Data attributes required for JS:
+    * none
+
+    Context variables required for this template:
+    * none
+
+    Example context (json):
+    {
+    }
+}}
+<div class="d-flex flex-column" style="row-gap: 16px;">
+  <p class="m-0">{{#str}} docspaceuserscategory:description, mod_onlyofficedocspace, Invite to DocSpace {{/str}}</p>
+  {{#invitations}} {{{.}}} {{/invitations}}
+  <table id="ds-invite-users-table" class="table table-striped m-0">
+    <thead>
+      <tr>
+        <th scope="col"><input data-action="select-all-users" id="select-all" type="checkbox"></th>
+        <th scope="col">
+          <div class="d-flex align-items-center">
+            <a href="{{urls.firstname}}">Firstname</a>
+            /
+            <a href="{{urls.lastname}}">Lastname</a>
+          </div>
+        </th>
+        <th scope="col"><a href="{{urls.email}}">Email address</a></th>
+        <th scope="col">Role</th>
+        <th scope="col">DocSpace user status</th>
+        <th scope="col">DocSpace user type</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#users}}
+        <tr>
+          <th scope="row"><input type="checkbox" name="users" value="{{id}}"></th>
+          <td>{{fullname}}</td>
+          <td>{{email}}</td>
+          <td>{{role}}</td>
+          <td>
+            {{#status}}
+              <img src="{{status}}">
+            {{/status}}
+          </td>
+          <td>{{type}}</td>
+        </tr>
+      {{/users}}
+    </tbody>
+  </table>
+  <div>
+    {{#paginator}}
+      {{{.}}}
+    {{/paginator}}
+  </div>
+  <div>
+    <button
+      type="button"
+      data-action="invite-to-docspace"
+      class="btn btn-primary"
+      >
+      {{#str}} invitetodocspace, mod_onlyofficedocspace {{/str}}
+    </button>
+  </div>
+  <div class="d-none">
+    <div id="ds-system-frame"></div>
+  </div>
+</div>
