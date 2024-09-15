@@ -23,6 +23,8 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->dirroot . '/mod/onlyofficedocspace/backup/moodle2/backup_onlyofficedocspace_stepslib.php');
 require_once($CFG->dirroot . '/mod/onlyofficedocspace/backup/moodle2/backup_onlyofficedocspace_settingslib.php');
 
@@ -30,31 +32,30 @@ require_once($CFG->dirroot . '/mod/onlyofficedocspace/backup/moodle2/backup_only
  * ONLYOFFICE DocSpace backup task that provides all the settings and steps to perform one
  * complete backup of the activity
  */
-class backup_onlyofficedocspace_activity_task extends backup_activity_task
-{
+class backup_onlyofficedocspace_activity_task extends backup_activity_task {
+
 
     /**
      * Define (add) particular settings this activity can have
      */
-    protected function define_my_settings()
-    {
-        // No particular settings for this activity
+    protected function define_my_settings() {
     }
 
     /**
      * Defines a backup step to store the instance data in the onlyofficedocspace.xml file
      */
-    protected function define_my_steps()
-    {
-        $this->add_step(new backup_onlyofficedocspace_activity_structure_step('onlyofficedocspace_structure', 'onlyofficedocspace.xml'));
+    protected function define_my_steps() {
+        $this->add_step(new backup_onlyofficedocspace_activity_structure_step(
+            'onlyofficedocspace_structure',
+            'onlyofficedocspace.xml'
+        ));
     }
 
     /**
      * Code the transformations to perform in the activity in
      * order to get transportable (encoded) links
      */
-    static public function encode_content_links($content)
-    {
+    public static function encode_content_links($content) {
         global $CFG;
 
         $base = preg_quote($CFG->wwwroot, '/');

@@ -41,8 +41,7 @@
  * @param mod_onlyofficedocspace_mod_form|null $mform The form instance itself (if needed)
  * @return int The id of the newly inserted ONLYOFFICE DocSpace record
  */
-function onlyofficedocspace_add_instance(stdClass $data, ?mod_onlyofficedocspace_mod_form $mform = null)
-{
+function onlyofficedocspace_add_instance(stdClass $data, ?mod_onlyofficedocspace_mod_form $mform = null) {
     global $CFG, $DB;
 
     $cmid = $data->coursemodule;
@@ -71,15 +70,19 @@ function onlyofficedocspace_add_instance(stdClass $data, ?mod_onlyofficedocspace
  * @param mod_onlyofficedocspace_mod_form|null $mform The form instance itself (if needed)
  * @return boolean Success/Fail
  */
-function onlyofficedocspace_update_instance(stdClass $data, ?mod_onlyofficedocspace_mod_form $mform = null)
-{
+function onlyofficedocspace_update_instance(stdClass $data, ?mod_onlyofficedocspace_mod_form $mform = null) {
     global $CFG, $DB;
 
     $data->timemodified = time();
     $data->id = $data->instance;
 
     $completiontimeexpected = !empty($data->completionexpected) ? $data->completionexpected : null;
-    \core_completion\api::update_completion_date_event($data->coursemodule, 'onlyofficedocspace', $data->id, $completiontimeexpected);
+    \core_completion\api::update_completion_date_event(
+        $data->coursemodule,
+        'onlyofficedocspace',
+        $data->id,
+        $completiontimeexpected
+    );
 
     $result = $DB->update_record('onlyofficedocspace', $data);
 
@@ -96,8 +99,7 @@ function onlyofficedocspace_update_instance(stdClass $data, ?mod_onlyofficedocsp
  * @param int $id Id of the module instance
  * @return boolean Success/Failure
  */
-function onlyofficedocspace_delete_instance($id)
-{
+function onlyofficedocspace_delete_instance($id) {
     global $DB;
 
     if (!$onlyofficedocspace = $DB->get_record('onlyofficedocspace', ['id' => $id])) {
@@ -120,8 +122,7 @@ function onlyofficedocspace_delete_instance($id)
  * @param string $feature FEATURE_xx constant for requested feature
  * @return mixed true if the feature is supported, null if unknown
  */
-function onlyofficedocspace_supports($feature)
-{
+function onlyofficedocspace_supports($feature) {
 
     switch ($feature) {
         case FEATURE_SHOW_DESCRIPTION:

@@ -26,11 +26,16 @@
 /**
  * Define the complete choice structure for backup, with file and id annotations
  */
-class backup_onlyofficedocspace_activity_structure_step extends backup_activity_structure_step
-{
+class backup_onlyofficedocspace_activity_structure_step extends backup_activity_structure_step {
 
-    protected function define_structure()
-    {
+    /**
+     * Define structure.
+     *
+     * @return backup_nested_element
+     * @throws base_element_struct_exception
+     * @throws base_step_exception
+     */
+    protected function define_structure() {
         // To know if we are including userinfo.
         $userinfo = $this->get_setting_value('userinfo');
 
