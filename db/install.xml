@@ -28,7 +28,7 @@
         <INDEX NAME="course" UNIQUE="false" FIELDS="course"/>
       </INDEXES>
     </TABLE>
-    <TABLE NAME="docspaceuser" COMMENT="Table for storing docspace user info">
+    <TABLE NAME="onlyofficedocspace_docspaceuser" COMMENT="Table for storing docspace user info">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="email" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
