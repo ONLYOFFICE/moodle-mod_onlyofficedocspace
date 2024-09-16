@@ -22,6 +22,7 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_onlyofficedocspace\common\flash_message;
 use mod_onlyofficedocspace\docspace\docspace_settings;
 use mod_onlyofficedocspace\errors\docspace_error;
 use mod_onlyofficedocspace\output\docspaceusers;
@@ -46,6 +47,14 @@ $section = $PAGE->url->get_param('section');
 
 if ($ADMIN->fulltree) {
     if ($section === 'manageonlyofficedocspace') {
+        $flash = new flash_message();
+        $success = $flash->get('success');
+
+        if ($success) {
+            $notification = $OUTPUT->notification($success, 'success');
+            $settings->add(new admin_setting_heading('onlyofficedocspace/docspace_settings_status', '', $notification));
+        }
+
         $docspaceurlconfigtext = new admin_setting_configtext(
             'onlyofficedocspace/docspace_server_url',
             get_string('docspaceserverurl', 'onlyofficedocspace'),

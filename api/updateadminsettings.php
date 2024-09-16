@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+use mod_onlyofficedocspace\common\flash_message;
 /**
  * Return json-encoded response.
  *
@@ -38,6 +39,8 @@ try {
     $request = new update_admin_settings_request();
     $request->__invoke();
     $result['status'] = 201;
+    $flash = new flash_message();
+    $flash->add('success', get_string('adminsettings:updated', 'onlyofficedocspace'));
 } catch (docspace_error $e) {
     $result['error'] = $e->getMessage();
     http_response_code(500);

@@ -53,7 +53,7 @@ define(
                 password: passwordHash,
                 randomPassword: randomPasswordHash
             };
-            $.ajax({
+            await $.ajax({
                 headers: {
                     Accept: "application/json",
                 },
@@ -63,14 +63,10 @@ define(
                 data: data,
             }).done(async function (response) {
                 if (response.status === 201) {
-                    document.getElementsByName("s_onlyofficedocspace_docspace_password")[0]
-                        .value = "";
-                    Notification.display(
-                        await Str.getString('adminsettings:updated', 'mod_onlyofficedocspace'),
-                        'success'
-                    );
+                    window.location.reload();
                 }
             }).fail(function (jqXHR) {
+                submitButton.removeAttribute("disabled");
                 const status = jqXHR.status;
                 if (status === 500 || status === 422) {
                     const error = jqXHR.responseJSON.error;
