@@ -46,7 +46,7 @@ class docspaceusers implements renderable, templatable {
     /**
      * __construct
      *
-     * @param  mixed $params
+     * @param mixed $params
      * @return void
      */
     public function __construct(
@@ -56,6 +56,7 @@ class docspaceusers implements renderable, templatable {
         public stdClass $params
     ) {
     }
+
     /**
      * export data for mustache template
      * @param renderer_base $output

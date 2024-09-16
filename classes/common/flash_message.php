@@ -52,7 +52,7 @@ class flash_message {
     /**
      * get
      *
-     * @param  mixed $name
+     * @param mixed $name
      * @return string
      */
     public function get(string $name): string | null {

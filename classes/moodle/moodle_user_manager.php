@@ -49,12 +49,13 @@ class moodle_user_manager {
     }
 
     /**
-     * Get all moodle users.
-     * @param string $sort column for sorting.
-     * @param string $dir sort direction.
-     * @param $limitfrom starting position.
-     * @param $limitnum limit number.
-     * @return array users list.
+     * Get all users
+     * @param string $sort
+     * @param string $dir
+     * @param int $limitfrom
+     * @param int $limitnum
+     * 
+     * @return array
      */
     public function all(string $sort = 'id', string $dir = 'ASC', int $limitfrom = 0, int $limitnum = 0): array {
         $context = context_system::instance();
@@ -120,7 +121,9 @@ class moodle_user_manager {
 
     /**
      * Get a user by id.
-     * @return mixed user.
+     * @param string $userid
+     * 
+     * @return mixed
      */
     public function get(string $userid): mixed {
         $user = $this->persistence->get_record($this->table, ['id' => $userid]);

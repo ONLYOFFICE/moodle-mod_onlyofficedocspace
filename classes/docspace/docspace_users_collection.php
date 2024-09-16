@@ -32,7 +32,7 @@ class docspace_users_collection {
     /**
      * __construct
      *
-     * @param  mixed $users
+     * @param mixed $users
      * @return void
      */
     public function __construct(
@@ -46,7 +46,7 @@ class docspace_users_collection {
     /**
      * get
      *
-     * @param  mixed $email
+     * @param mixed $email
      * @return array
      */
     public function get(string $email): array|null {

@@ -43,6 +43,7 @@ class docspace_user_manager {
          * @var string $url
          */
         private string $url,
+
         /**
          * @var string $token
          */
@@ -91,7 +92,7 @@ class docspace_user_manager {
     /**
      * get
      *
-     * @param  mixed $email
+     * @param mixed $email
      * @return array
      */
     public function get(string $email): array | null {
@@ -133,7 +134,7 @@ class docspace_user_manager {
     /**
      * requestuser
      *
-     * @param  mixed $email
+     * @param mixed $email
      * @return array
      */
     private function requestuser(string $email): array|null {

@@ -69,9 +69,15 @@ class docspace_settings {
      * @var string $token docspace auth token
      */
     private string $token;
-
+    
     /**
-     * DocSpace settings class constructor.
+     * __construct
+     *
+     * @param ?string $url
+     * @param ?string $login
+     * @param ?string $password
+     * @param ?string $token
+     * @return void
      */
     public function __construct(
         ?string $url = null,
