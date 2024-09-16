@@ -42,36 +42,40 @@ $settings = new admin_settingpage('manageonlyofficedocspace', get_string('settin
 
 $defaulthost = 'https://docspaceserver.url';
 
+$section = $PAGE->url->get_param('section');
+
 if ($ADMIN->fulltree) {
-    $docspaceurlconfigtext = new admin_setting_configtext(
-        'onlyofficedocspace/docspace_server_url',
-        get_string('docspaceserverurl', 'onlyofficedocspace'),
-        get_string('adminsettings:urldescription', 'onlyofficedocspace'),
-        $defaulthost
-    );
-    $settings->add($docspaceurlconfigtext);
-
-    $docspaceloginconfigtext = new admin_setting_configtext(
-        'onlyofficedocspace/docspace_login',
-        get_string('docspacelogin', 'onlyofficedocspace'),
-        '',
-        ''
-    );
-    $settings->add($docspaceloginconfigtext);
-
-    $docspacepasswordconfigtext = new admin_setting_encryptedpassword(
-        'onlyofficedocspace/docspace_password',
-        get_string('docspacepassword', 'onlyofficedocspace'),
-        '',
-    );
-    $settings->add($docspacepasswordconfigtext);
-
-    $PAGE->requires->js_call_amd('mod_onlyofficedocspace/admin_settings', 'init', [
-        'urls' => [
-            'current' => $docspacesettings->url(),
-            'default' => docspace_settings::DOCSPACE_DEFAULT_URL,
-        ],
-    ]);
+    if ($section === 'manageonlyofficedocspace') {
+        $docspaceurlconfigtext = new admin_setting_configtext(
+            'onlyofficedocspace/docspace_server_url',
+            get_string('docspaceserverurl', 'onlyofficedocspace'),
+            get_string('adminsettings:urldescription', 'onlyofficedocspace'),
+            $defaulthost
+        );
+        $settings->add($docspaceurlconfigtext);
+    
+        $docspaceloginconfigtext = new admin_setting_configtext(
+            'onlyofficedocspace/docspace_login',
+            get_string('docspacelogin', 'onlyofficedocspace'),
+            '',
+            ''
+        );
+        $settings->add($docspaceloginconfigtext);
+    
+        $docspacepasswordconfigtext = new admin_setting_encryptedpassword(
+            'onlyofficedocspace/docspace_password',
+            get_string('docspacepassword', 'onlyofficedocspace'),
+            '',
+        );
+        $settings->add($docspacepasswordconfigtext);
+    
+        $PAGE->requires->js_call_amd('mod_onlyofficedocspace/admin_settings', 'init', [
+            'urls' => [
+                'current' => $docspacesettings->url(),
+                'default' => docspace_settings::DOCSPACE_DEFAULT_URL,
+            ],
+        ]);
+    }
 }
 
 $ADMIN->add('onlyoffice_docspace_settings', $settings);
@@ -86,8 +90,6 @@ $settings = new admin_settingpage(
 );
 
 if ($ADMIN->fulltree) {
-    $section = $PAGE->url->get_param('section');
-
     if ($section && $section === 'manageonlyofficedocspaceusers') {
         try {
             $sort = optional_param('sort', 'firstname', PARAM_ALPHANUMEXT);
