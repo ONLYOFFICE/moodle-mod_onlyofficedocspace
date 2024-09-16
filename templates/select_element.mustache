@@ -15,7 +15,7 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template mod_onlyofficedocspace/teacherslist
+    @template mod_onlyofficedocspace/select_element
 
     Template purpose and description.
 
@@ -36,7 +36,7 @@
 <div id="ds-login-form" class="d-none flex-row border">
     <h4>{{#str}} logintodocspace, mod_onlyofficedocspace {{/str}} <a href="{{docspaceurl}}" >{{docspaceurl}}</a></h4>
     <p class="m-0">
-        <button id="ds-login-button" type="button" id="ds-login" class="btn btn-primary">Log In</button>
+        <button id="ds-login-button" type="button" class="btn btn-primary">Log In</button>
     </p>
 </div>
 <div id="ds-selected-item" class="d-none bg-white border">
@@ -47,7 +47,7 @@
         </button>
     </div>
     <div id="ds-selected-item-info" style="column-gap: 12px;" class="d-flex align-items-center flex-fill">
-        <img src="#" width="32" height="32">
+        <img src="#" width="32" alt="" height="32">
         <p class="m-0"></p>
     </div>
 </div>
