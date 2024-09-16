@@ -95,6 +95,7 @@ define(
                         submitButton.setAttribute("disabled", "");
                         const url = document.getElementById("id_s_onlyofficedocspace_docspace_server_url").value;
 
+                        // eslint-disable-next-line no-alert
                         if (url !== urls.current && url !== urls.default && confirm(warningMessage) !== true) {
                             submitButton.removeAttribute("disabled");
                             return;

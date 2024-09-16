@@ -84,6 +84,7 @@ define(['jquery', 'mod_onlyofficedocspace/docspace_integration_sdk', 'core/str']
     return {
         init: async function(docspaceUrl, config, user) {
             await DocSpaceIntegrationSDK.initScript('oodsp-api-js', docspaceUrl)
+                // eslint-disable-next-line promise/always-return
                 .then(async() => {
                     DocSpace.SDK.initSystem({
                         frameId: config.frameId,

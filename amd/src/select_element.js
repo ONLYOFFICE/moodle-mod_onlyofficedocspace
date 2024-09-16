@@ -113,6 +113,7 @@ define(
                 },
                 removeOnClose: true
             })
+                // eslint-disable-next-line promise/always-return
                 .then((modal) => {
                     modal.getRoot().on(ModalEvents.hidden, async() => {
                         await DocSpace.SDK.frames[frames.login].destroyFrame();
@@ -135,8 +136,10 @@ define(
                             const hashSettings = await docSpace.getHashSettings();
                             const passwordHash = await docSpace.createHash(password.trim(), hashSettings);
 
+                            // eslint-disable-next-line promise/catch-or-return, promise/no-nesting
                             docSpace.login(user.email, passwordHash)
                                 .then(async function(response) {
+                                    // eslint-disable-next-line promise/always-return
                                     if (response.status && response.status !== 200) {
                                         document.getElementById("ds-login-error").style.display = "block";
                                     } else {
@@ -251,6 +254,7 @@ define(
                             if (user.hash) {
                                 await docSpace.login(user.email, user.hash)
                                     .then(function(response) {
+                                        // eslint-disable-next-line promise/always-return
                                         if (response.status && response.status !== 200) {
                                             setState('login');
                                         } else {

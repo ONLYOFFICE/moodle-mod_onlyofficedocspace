@@ -24,6 +24,7 @@ define([], function() {
     const DOCSPACE_API_URL = "static/scripts/sdk/1.0.1/api.js";
 
     const initScript = async(id, url) => {
+        // eslint-disable-next-line consistent-return
         return new Promise((resolve, reject) => {
             try {
                 // If DocSpace is defined return resolve.
@@ -50,6 +51,7 @@ define([], function() {
 
                             // If DocSpace is defined, after loading return resolve.
                             if (typeof DocSpace !== "undefined") {
+                                // eslint-disable-next-line consistent-return
                                 return resolve(null);
                             }
 
@@ -134,9 +136,10 @@ define([], function() {
                             onUnSuccessLogin();
                             return;
                         }
-
+                        // eslint-disable-next-line promise/catch-or-return
                         DocSpace.SDK.frames[frameId].login(email, passwordHash)
                             .then(function(response) {
+                                // eslint-disable-next-line promise/always-return
                                 if (response.status && response.status !== 200) {
                                     DocSpace.SDK.frames[frameId].destroyFrame();
                                     onUnSuccessLogin();
@@ -166,6 +169,7 @@ define([], function() {
                     const userInfo = await DocSpace.SDK.frames[frameId].getUserInfo();
 
                     if (userInfo) {
+                        // eslint-disable-next-line promise/catch-or-return, promise/catch-or-return, promise/always-return
                         DocSpace.SDK.frames[frameId].logout().then(function() {
                             onLogout();
                         });
