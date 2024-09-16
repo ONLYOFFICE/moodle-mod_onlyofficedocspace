@@ -27,7 +27,7 @@ define(
         'mod_onlyofficedocspace/notification',
         'core/str',
     ],
-    function ($, DocSpaceIntegrationSDK, PasswordGenerator, Notification, Str) {
+    function($, DocSpaceIntegrationSDK, PasswordGenerator, Notification, Str) {
         const selectors = {
             inviteButton: "button[data-action='invite-to-docspace']",
             usersTable: "table[id='ds-invite-users-table']",
@@ -35,15 +35,15 @@ define(
             systemFrameId: "ds-system-frame",
         };
 
-        const disableInviteButton = function () {
+        const disableInviteButton = function() {
             document.querySelector(selectors.inviteButton).setAttribute("disabled", "");
         };
 
-        const enableInviteButton = function () {
+        const enableInviteButton = function() {
             inviteButton.removeAttribute("disabled");
         };
 
-        const toggle = function (event) {
+        const toggle = function(event) {
             const checked = event.target.checked;
             const checkboxes = document.querySelector(selectors.usersTable).querySelectorAll('input[name="users"]');
             for (var i = 0, n = checkboxes.length; i < n; i++) {
@@ -51,13 +51,13 @@ define(
             }
         };
 
-        const sendInvitations = async function (users) {
+        const sendInvitations = async function(users) {
             const docSpace = DocSpace.SDK.frames[selectors.systemFrameId];
             const hashSettings = await docSpace.getHashSettings();
 
             for (let user of users) {
                 const hash = await docSpace.createHash(PasswordGenerator.generate(), hashSettings);
-                user["hash"] = hash;
+                user.hash = hash;
             }
 
             const inviteUsersUrl = M.cfg.wwwroot + '/mod/onlyofficedocspace/api/inviteusers.php';
@@ -66,15 +66,15 @@ define(
                 type: 'POST',
                 url: inviteUsersUrl,
                 dataType: 'json',
-                data: { users: users },
-            }).done(function () {
+                data: {users: users},
+            }).done(function() {
                 window.location.reload();
-            }).fail(function () {
+            }).fail(function() {
                 enableInviteButton();
             });
         };
 
-        const inviteUsers = async function () {
+        const inviteUsers = async function() {
             if (!DocSpaceIntegrationSDK.initialized()) {
                 Notification.display(await Str.getString("docspaceunreachable", "onlyofficedocspace"), "error");
                 return;
@@ -86,7 +86,7 @@ define(
 
             for (var i = 0, n = checkboxes.length; i < n; i++) {
                 if (checkboxes[i].checked) {
-                    users.push({ id: checkboxes[i].value });
+                    users.push({id: checkboxes[i].value});
                 }
             }
 
@@ -96,10 +96,10 @@ define(
                 DocSpace.SDK.initSystem({
                     frameId: selectors.systemFrameId,
                     events: {
-                        onAppReady: async function () {
+                        onAppReady: async function() {
                             sendInvitations(users);
                         },
-                        onAppError: function () {
+                        onAppError: function() {
                             console.log("An error occured while initialising DocSpace Frame.");
                             DocSpace.SDK.frames[selectors.systemFrameId].destroyFrame();
                         }
@@ -109,7 +109,7 @@ define(
         };
 
         return {
-            init: async function (url) {
+            init: async function(url) {
                 await DocSpaceIntegrationSDK.initScript("oodsp-api-js", url);
                 const toggler = document.querySelector(selectors.selectAllUsers);
                 toggler.addEventListener("click", toggle);

@@ -19,15 +19,15 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  **/
 /* eslint-disable no-undef */
-define(['jquery', 'mod_onlyofficedocspace/docspace_integration_sdk', 'core/str'], function ($, DocSpaceIntegrationSDK, Str) {
-    const createFullScreenButtons = function () {
+define(['jquery', 'mod_onlyofficedocspace/docspace_integration_sdk', 'core/str'], function($, DocSpaceIntegrationSDK, Str) {
+    const createFullScreenButtons = function() {
         let enterFullScreenText = Str.getString('enterfullscreen', 'onlyofficedocspace');
         let exitFullScreenText = Str.getString('exitfullscreen', 'onlyofficedocspace');
         const navLeftButton = $('.drawertoggle')[1];
         const navRightButton = $('.drawertoggle')[2];
         const editorContainer = $('.ds-editor-container')[0];
 
-        $.when(enterFullScreenText).done(function (localized) {
+        $.when(enterFullScreenText).done(function(localized) {
             enterFullScreenText = localized;
             const enterButton = document.createElement('button');
             const enterIcon = document.createElement('i');
@@ -37,7 +37,7 @@ define(['jquery', 'mod_onlyofficedocspace/docspace_integration_sdk', 'core/str']
             enterButton.id = 'ds-editor-enter-fs-button';
             enterButton.innerHTML += enterFullScreenText;
 
-            enterButton.onclick = function () {
+            enterButton.onclick = function() {
                 $('header').hide();
                 $('footer').hide();
                 if (navLeftButton && navLeftButton.getAttribute('data-aria-hidden-tab-index') === null) {
@@ -57,7 +57,7 @@ define(['jquery', 'mod_onlyofficedocspace/docspace_integration_sdk', 'core/str']
             document.querySelector("#page-content h2").style.display = "inline-block";
             editorContainer.before(enterButton);
         });
-        $.when(exitFullScreenText).done(function (localized) {
+        $.when(exitFullScreenText).done(function(localized) {
             exitFullScreenText = localized;
             const exitButton = document.createElement('button');
             const exitIcon = document.createElement('i');
@@ -67,7 +67,7 @@ define(['jquery', 'mod_onlyofficedocspace/docspace_integration_sdk', 'core/str']
             exitButton.className = 'ds-editor-fs-button';
             exitButton.id = 'ds-editor-exit-fs-button';
 
-            exitButton.onclick = function () {
+            exitButton.onclick = function() {
                 $(editorContainer).removeClass('ds-editor-fullscreen');
                 $(editorContainer).removeClass('ds-editor-rightindent');
                 editorContainer.children[0].style.height = '95vh';
@@ -82,15 +82,15 @@ define(['jquery', 'mod_onlyofficedocspace/docspace_integration_sdk', 'core/str']
     };
 
     return {
-        init: async function (docspaceUrl, config, user) {
+        init: async function(docspaceUrl, config, user) {
             await DocSpaceIntegrationSDK.initScript('oodsp-api-js', docspaceUrl)
-                .then(async () => {
+                .then(async() => {
                     DocSpace.SDK.initSystem({
                         frameId: config.frameId,
                         width: config.width,
                         height: config.height,
                         events: {
-                            onAppReady: async function () {
+                            onAppReady: async function() {
                                 const docSpace = DocSpace.SDK.frames[config.frameId];
                                 const currentUser = await docSpace.getUserInfo();
 

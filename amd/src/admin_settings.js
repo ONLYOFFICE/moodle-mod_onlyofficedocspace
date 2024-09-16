@@ -27,12 +27,12 @@ define(
         'mod_onlyofficedocspace/notification',
         'core/str'
     ],
-    function ($, DocspaceIntegrationSdk, PasswordGenerator, Notification, Str) {
+    function($, DocspaceIntegrationSdk, PasswordGenerator, Notification, Str) {
         const systemFrameId = "oodsp-system-frame";
         const scriptId = 'oodsp-api-js';
         let submitButton;
 
-        const updateSettings = async function () {
+        const updateSettings = async function() {
             const url = document.getElementById("id_s_onlyofficedocspace_docspace_server_url").value;
             const email = document.getElementById("id_s_onlyofficedocspace_docspace_login").value;
             const password = document.getElementsByName("s_onlyofficedocspace_docspace_password")[0].value;
@@ -61,11 +61,11 @@ define(
                 url: updateSettingsUrl,
                 dataType: 'json',
                 data: data,
-            }).done(async function (response) {
+            }).done(async function(response) {
                 if (response.status === 201) {
                     window.location.reload();
                 }
-            }).fail(function (jqXHR) {
+            }).fail(function(jqXHR) {
                 submitButton.removeAttribute("disabled");
                 const status = jqXHR.status;
                 if (status === 500 || status === 422) {
@@ -77,7 +77,7 @@ define(
         };
 
         return {
-            init: async function (urls) {
+            init: async function(urls) {
                 const settingsForm = document.getElementById("adminsettings");
                 const warningMessage = await Str.getString("adminsettings:urlwarning", "onlyofficedocspace");
 
@@ -90,7 +90,7 @@ define(
                     systemFrameContainer.appendChild(systemFrame);
                     settingsForm.appendChild(systemFrameContainer);
 
-                    settingsForm.addEventListener("submit", async function (event) {
+                    settingsForm.addEventListener("submit", async function(event) {
                         event.preventDefault();
                         submitButton.setAttribute("disabled", "");
                         const url = document.getElementById("id_s_onlyofficedocspace_docspace_server_url").value;
@@ -113,7 +113,7 @@ define(
 
                         if (!script) {
                             await DocspaceIntegrationSdk.initScript(scriptId, url)
-                                .catch(async () => {
+                                .catch(async() => {
                                     Notification.display(await Str.getString('docspaceunreachable', 'onlyofficedocspace'), 'error');
                                 });
                         }
@@ -130,10 +130,10 @@ define(
                                 {
                                     frameId: systemFrameId,
                                     events: {
-                                        "onAppReady": async function () {
+                                        "onAppReady": async function() {
                                             updateSettings();
                                         },
-                                        "onAppError": function () {
+                                        "onAppError": function() {
                                             console.log("Something went wrong.");
                                         }
                                     }

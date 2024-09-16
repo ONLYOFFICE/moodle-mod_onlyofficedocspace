@@ -19,8 +19,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  **/
 
-define([], function () {
-    const generatePassword = function () {
+define([], function() {
+    const generatePassword = function() {
         var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
         var passwordLength = 24;
         var password = "";

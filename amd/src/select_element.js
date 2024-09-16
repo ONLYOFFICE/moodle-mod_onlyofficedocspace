@@ -28,7 +28,7 @@ define(
         'mod_onlyofficedocspace/login_modal',
         'core/str'
     ],
-    function ($, ModalEvents, DocspaceIntegrationSDK, DocSpaceSelectModal, DocSpaceLogInModal, Str) {
+    function($, ModalEvents, DocspaceIntegrationSDK, DocSpaceSelectModal, DocSpaceLogInModal, Str) {
         const frames = {
             system: "ds-system-frame",
             login: "ds-login-frame",
@@ -39,37 +39,37 @@ define(
         let user;
         let docspaceUrl;
 
-        const showLoginForm = function () {
+        const showLoginForm = function() {
             const loginForm = document.getElementById("ds-login-form");
             loginForm.classList.remove("d-none");
         };
 
-        const hideLoginForm = function () {
+        const hideLoginForm = function() {
             const loginForm = document.getElementById("ds-login-form");
             loginForm.classList.add("d-none");
         };
 
-        const showSelectButtons = function () {
+        const showSelectButtons = function() {
             const selectForm = document.getElementById("ds-select-buttons");
             selectForm.classList.remove("d-none");
         };
 
-        const hideSelectButtons = function () {
+        const hideSelectButtons = function() {
             const selectForm = document.getElementById("ds-select-buttons");
             selectForm.classList.add("d-none");
         };
 
-        const showSelectedItem = function () {
+        const showSelectedItem = function() {
             const loginForm = document.getElementById("ds-selected-item");
             loginForm.classList.remove("d-none");
         };
 
-        const hideSelectedItem = function () {
+        const hideSelectedItem = function() {
             const loginForm = document.getElementById("ds-selected-item");
             loginForm.classList.add("d-none");
         };
 
-        const selectItem = async function (id, type, requestToken, name, icon) {
+        const selectItem = async function(id, type, requestToken, name, icon) {
             document.getElementsByName("docspaceitemid")[0].value = id;
             document.getElementsByName("docspaceitemtype")[0].value = type;
             document.getElementsByName("docspacerequesttoken")[0].value = requestToken;
@@ -85,7 +85,7 @@ define(
             selectedItemInfo.querySelector("p").textContent = name;
         };
 
-        const setState = function (state = '') {
+        const setState = function(state = '') {
             if (state === 'login') {
                 showLoginForm();
                 hideSelectButtons();
@@ -105,7 +105,7 @@ define(
             }
         };
 
-        const displayLoginModal = async function () {
+        const displayLoginModal = async function() {
             await DocSpaceLogInModal.create({
                 templateContext: {
                     email: user.email,
@@ -114,7 +114,7 @@ define(
                 removeOnClose: true
             })
                 .then((modal) => {
-                    modal.getRoot().on(ModalEvents.hidden, async () => {
+                    modal.getRoot().on(ModalEvents.hidden, async() => {
                         await DocSpace.SDK.frames[frames.login].destroyFrame();
                     });
                     modal.getRoot().on(ModalEvents.cancel, () => {
@@ -129,14 +129,14 @@ define(
                         height: 0,
                     });
                     document.querySelector('button[data-action="ds-login-submit"]')
-                        .addEventListener("click", async function () {
+                        .addEventListener("click", async function() {
                             const password = document.getElementById("ds-login-password").value;
 
                             const hashSettings = await docSpace.getHashSettings();
                             const passwordHash = await docSpace.createHash(password.trim(), hashSettings);
 
                             docSpace.login(user.email, passwordHash)
-                                .then(async function (response) {
+                                .then(async function(response) {
                                     if (response.status && response.status !== 200) {
                                         document.getElementById("ds-login-error").style.display = "block";
                                     } else {
@@ -159,13 +159,13 @@ define(
                                 });
                         });
                     document.querySelector('button[data-action="ds-login-cancel"]')
-                        .addEventListener("click", function () {
+                        .addEventListener("click", function() {
                             modal.destroy();
                         });
                 });
         };
 
-        const displaySelectorModal = async function (event) {
+        const displaySelectorModal = async function(event) {
             const button = event.target;
             const selectorType = button.dataset.selectorType;
             const titleText = selectorType === "room"
@@ -181,7 +181,7 @@ define(
             modal.body[0].classList.add("p-0", "py-2");
             modal.modal[0].classList.add("modal-dialog-centered");
             modal.modal[0].querySelector(".modal-content").style = "width:480px;border-radius: 0";
-            modal.getRoot().on(ModalEvents.hidden, async () => {
+            modal.getRoot().on(ModalEvents.hidden, async() => {
                 await DocSpace.SDK.frames[frames.select].destroyFrame();
             });
             modal.show();
@@ -193,7 +193,7 @@ define(
                 showSelectorCancel: true,
                 roomType: 6,
                 events: {
-                    onSelectCallback: async function (event) {
+                    onSelectCallback: async function(event) {
                         const data = selectorType === "room" ? event[0] : event;
                         const name = selectorType === "room" ? data.label : data.title + data.fileExst;
                         const requestToken = data.requestTokens[0].requestToken;
@@ -201,7 +201,7 @@ define(
                         setState('item');
                         modal.destroy();
                     },
-                    onCloseCallback: function () {
+                    onCloseCallback: function() {
                         clearSelectedItem();
                         modal.destroy();
                     }
@@ -219,7 +219,7 @@ define(
             DocSpace.SDK.initFrame(config);
         };
 
-        const clearSelectedItem = function () {
+        const clearSelectedItem = function() {
             selectItem('', '', '', '', '');
             setState();
             if (logged) {
@@ -229,13 +229,13 @@ define(
             }
         };
 
-        const loginToDocSpace = async function () {
+        const loginToDocSpace = async function() {
             DocSpace.SDK.initSystem({
                 frameId: frames.system,
                 width: "100%",
                 height: "100%",
                 events: {
-                    onAppReady: async function () {
+                    onAppReady: async function() {
                         const docSpace = DocSpace.SDK.frames[frames.system];
                         const docSpaceUser = await docSpace.getUserInfo();
 
@@ -250,7 +250,7 @@ define(
 
                             if (user.hash) {
                                 await docSpace.login(user.email, user.hash)
-                                    .then(function (response) {
+                                    .then(function(response) {
                                         if (response.status && response.status !== 200) {
                                             setState('login');
                                         } else {
@@ -270,7 +270,7 @@ define(
         };
 
         return {
-            init: async function (url, currentUser, activity) {
+            init: async function(url, currentUser, activity) {
                 user = currentUser;
                 docspaceUrl = url;
 

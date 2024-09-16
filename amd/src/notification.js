@@ -24,9 +24,9 @@ define(
         'core/notification',
         'core/str',
     ],
-    function (Notification) {
+    function(Notification) {
         return {
-            display: async function (message, type) {
+            display: async function(message, type) {
                 Notification.addNotification({
                     message: message,
                     type: type

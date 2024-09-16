@@ -20,10 +20,10 @@
  **/
 
 /* eslint-disable no-undef, no-console */
-define([], function () {
+define([], function() {
     const DOCSPACE_API_URL = "static/scripts/sdk/1.0.1/api.js";
 
-    const initScript = async (id, url) => {
+    const initScript = async(id, url) => {
         return new Promise((resolve, reject) => {
             try {
                 // If DocSpace is defined return resolve.
@@ -94,16 +94,16 @@ define([], function () {
         return script;
     };
 
-    const checkInit = function () {
+    const checkInit = function() {
         return typeof DocSpace !== "undefined" && DocSpace !== null;
     };
 
-    const loginByPassword = function (frameId, email, password, onSuccessLogin, onUnSuccessLogin, onAppError) {
+    const loginByPassword = function(frameId, email, password, onSuccessLogin, onUnSuccessLogin, onAppError) {
         loginByPasswordHash(
             frameId,
             email,
             // eslint-disable-next-line no-unused-vars
-            async function (email) {
+            async function(email) {
                 const hashSettings = await DocSpace.SDK.frames[frameId].getHashSettings();
                 const passwordHash = await DocSpace.SDK.frames[frameId].createHash(password.trim(), hashSettings);
 
@@ -115,13 +115,13 @@ define([], function () {
         );
     };
 
-    const loginByPasswordHash = function (frameId, email, onRequestPasswordHash, onSuccessLogin, onUnSuccessLogin, onAppError) {
+    const loginByPasswordHash = function(frameId, email, onRequestPasswordHash, onSuccessLogin, onUnSuccessLogin, onAppError) {
         DocSpace.SDK.initSystem({
             frameId: frameId,
             width: "100%",
             height: "100%",
             events: {
-                onAppReady: async function () {
+                onAppReady: async function() {
                     const userInfo = await DocSpace.SDK.frames[frameId].getUserInfo();
 
                     if (userInfo && userInfo.email === email) {
@@ -136,7 +136,7 @@ define([], function () {
                         }
 
                         DocSpace.SDK.frames[frameId].login(email, passwordHash)
-                            .then(function (response) {
+                            .then(function(response) {
                                 if (response.status && response.status !== 200) {
                                     DocSpace.SDK.frames[frameId].destroyFrame();
                                     onUnSuccessLogin();
@@ -147,7 +147,7 @@ define([], function () {
                             });
                     }
                 },
-                onAppError: async function () {
+                onAppError: async function() {
                     if (onAppError) {
                         onAppError();
                     }
@@ -156,24 +156,24 @@ define([], function () {
         });
     };
 
-    const logout = function (frameId, onLogout, onAppError) {
+    const logout = function(frameId, onLogout, onAppError) {
         DocSpace.SDK.initSystem({
             frameId: frameId,
             width: "100%",
             height: "100%",
             events: {
-                onAppReady: async function () {
+                onAppReady: async function() {
                     const userInfo = await DocSpace.SDK.frames[frameId].getUserInfo();
 
                     if (userInfo) {
-                        DocSpace.SDK.frames[frameId].logout().then(function () {
+                        DocSpace.SDK.frames[frameId].logout().then(function() {
                             onLogout();
                         });
                     } else {
                         onLogout();
                     }
                 },
-                onAppError: async function () {
+                onAppError: async function() {
                     if (onAppError) {
                         onAppError();
                     }
