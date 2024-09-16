@@ -35,7 +35,7 @@ class docspace_user_manager {
 
     /**
      * Docspace user manager class constructor
-     * @param string $url,
+     * @param string $url
      * @param string $token
      * @return void
      */
