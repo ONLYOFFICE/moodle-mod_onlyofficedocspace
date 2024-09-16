@@ -53,7 +53,7 @@ if ($ADMIN->fulltree) {
             $defaulthost
         );
         $settings->add($docspaceurlconfigtext);
-    
+
         $docspaceloginconfigtext = new admin_setting_configtext(
             'onlyofficedocspace/docspace_login',
             get_string('docspacelogin', 'onlyofficedocspace'),
@@ -61,14 +61,14 @@ if ($ADMIN->fulltree) {
             ''
         );
         $settings->add($docspaceloginconfigtext);
-    
+
         $docspacepasswordconfigtext = new admin_setting_encryptedpassword(
             'onlyofficedocspace/docspace_password',
             get_string('docspacepassword', 'onlyofficedocspace'),
             '',
         );
         $settings->add($docspacepasswordconfigtext);
-    
+
         $PAGE->requires->js_call_amd('mod_onlyofficedocspace/admin_settings', 'init', [
             'urls' => [
                 'current' => $docspacesettings->url(),
