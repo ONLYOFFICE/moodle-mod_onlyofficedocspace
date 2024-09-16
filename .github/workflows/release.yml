@@ -1,0 +1,56 @@
+name: Release
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Get Info
+        run: |
+          echo "version=$(grep -Eo '[0-9]+(\.[0-9]+)+' CHANGELOG.md | head -n 1)" >> $GITHUB_OUTPUT
+        id: info
+      - name: Generate Changelog
+        run: |
+          awk '/## [0-9]/{p++} p; /## [0-9]/{if (p > 1) exit}' CHANGELOG.md | awk 'NR>2 {print last} {last=$0}' > RELEASE.md
+      - name: Prepare Plugin
+        run: |
+          cd ${{ github.workspace }}
+          mkdir -p ./onlyofficedocspace
+          rsync -av --exclude='onlyofficedocspace' ./ ./onlyofficedocspace
+          cd ./onlyofficedocspace
+          rm -rf ./.github/
+          rm -rf ./.git/
+      - name: Checkout Moodle
+        uses: actions/checkout@v3
+        with:
+          repository: moodle/moodle
+          path: ./moodle
+      - name: Copy Plugin
+        run: |
+          cp -r onlyofficedocspace ./moodle/mod/onlyofficedocspace
+      - name: Build Plugin
+        run: |
+          cd ./moodle
+          npm install
+          grunt
+      - name: Zip Artifact
+        run: |
+          cd moodle/mod/
+          mv onlyofficedocspace moodle-mod_onlyofficedocspace-${{ steps.info.outputs.version }}
+          zip -r moodle-mod_onlyofficedocspace-${{ steps.info.outputs.version }}.zip moodle-mod_onlyofficedocspace-${{ steps.info.outputs.version }}/
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        id: create_release
+        with:
+          artifacts: "moodle/mod/moodle-mod_onlyofficedocspace-${{ steps.info.outputs.version }}.zip"
+          bodyFile: RELEASE.md
+          tag: v${{ steps.info.outputs.version }}
