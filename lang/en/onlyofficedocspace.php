@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Languages configuration for the mod_[modname] plugin.
+ * Languages configuration for the mod_onlyofficedocspace plugin.
  *
  * @package   mod_onlyofficedocspace
- * @copyright Year, You Name <your@email.address>
+ * @copyright 2024 Ascensio System SIA <integration@onlyoffice.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -43,7 +43,6 @@ $string['docspacepassword'] = 'DocSpace Password';
 $string['docspaceuserscategory:title'] = 'DocSpace users';
 $string['docspaceunreachable'] = 'DocSpace is unavailable.';
 $string['onlyofficedocspace:addinstance'] = 'Add a new ONLYOFFICE DocSpace activity';
-$string['onlyofficedocspace:editdocument'] = 'Edit ONLYOFFICE DocSpace activity';
 $string['onlyofficedocspace:view'] = 'View ONLYOFFICE DocSpace activity';
 $string['selecteditemtype:room'] = 'Selected room';
 $string['selecteditemtype:file'] = 'Selected file';
@@ -52,7 +51,7 @@ $string['invitetodocspace'] = 'Invite to DocSpace';
 $string['docspaceusernotfound'] = 'The user was not found in ONLYOFFICE DocSpace. Please, contact the administrator.';
 $string['docspaceuserscategory:description'] = 'To add new users to ONLYOFFICE DocSpace and to start working with plugin, please press <b>{$a}</b>. <br/> All new users will be added with <b>Power user</b> role, you can change the role in Accounts settings in DocSpace. <b>Power user</b> role is paid!';
 $string['paramsmissingvalidationerror'] = 'Required params are missing';
-$string['docspacepermissiondenied'] = 'The user does not have permission.';
+$string['docspacepermissiondenied'] = 'The specified user is not a DocSpace administrator!';
 $string['docspaceautherror'] = 'The authentication process has failed.';
 $string['docspacefilenotfound'] = 'The required file was not found. Please check if the file still exist or contact the administrator.';
 $string['docspaceroomnotfound'] = 'The required room was not found. Please check if the room still exist or contact the administrator.';
@@ -63,4 +62,4 @@ $string['sentinvitations'] = 'Invitation successfully sent to {$a} user(s)';
 $string['failedinvitations'] = 'Invitation failed for {$a} user(s)';
 $string['docspaceuserinviteerror'] = 'Invitation process has failed.';
 $string['onlyofficedocspace:edit'] = 'Edit ONLYOFFICE DocSpace activity';
-$string['adminsettings:urlwarning'] = 'Changing the current server url will cause the current docspace users database to get deleted. Please, confirm your choice.';
+$string['adminsettings:urlwarning'] = 'Changing the current server URL will delete all data associated with docspace users. Please, confirm your choice.';
