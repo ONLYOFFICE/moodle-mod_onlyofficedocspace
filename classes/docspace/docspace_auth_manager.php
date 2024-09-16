@@ -35,7 +35,7 @@ class docspace_auth_manager {
     /**
      * __construct
      *
-     * @param  mixed $url
+     * @param string $url
      * @return void
      */
     public function __construct(
@@ -49,8 +49,8 @@ class docspace_auth_manager {
     /**
      * authenticate
      *
-     * @param  mixed $login
-     * @param  mixed $password
+     * @param string $login
+     * @param string $password
      * @return string
      */
     public function authenticate(string $login, string $password): string {

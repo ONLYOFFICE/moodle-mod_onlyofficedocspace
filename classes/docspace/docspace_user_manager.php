@@ -37,6 +37,7 @@ class docspace_user_manager {
      * Docspace user manager class constructor
      * @param string $url,
      * @param string $token
+     * @return void
      */
     public function __construct(
         /**
@@ -92,8 +93,8 @@ class docspace_user_manager {
     /**
      * get
      *
-     * @param mixed $email
-     * @return array
+     * @param string $email
+     * @return array | null
      */
     public function get(string $email): array | null {
         return $this->requestUser($email);
@@ -134,8 +135,8 @@ class docspace_user_manager {
     /**
      * requestuser
      *
-     * @param mixed $email
-     * @return array
+     * @param string $email
+     * @return array | null
      */
     private function requestuser(string $email): array|null {
         $url = "$this->url/api/2.0/people/email?email=$email";

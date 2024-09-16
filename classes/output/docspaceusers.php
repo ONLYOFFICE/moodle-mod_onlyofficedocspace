@@ -46,7 +46,7 @@ class docspaceusers implements renderable, templatable {
     /**
      * __construct
      *
-     * @param mixed $params
+     * @param stdClass $params
      * @return void
      */
     public function __construct(

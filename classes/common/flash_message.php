@@ -52,8 +52,8 @@ class flash_message {
     /**
      * get
      *
-     * @param mixed $name
-     * @return string
+     * @param string $name
+     * @return string | null
      */
     public function get(string $name): string | null {
         if (!isset($_SESSION[static::FLASH][$name])) {

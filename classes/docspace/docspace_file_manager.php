@@ -52,7 +52,7 @@ class docspace_file_manager {
     /**
      * getfile
      *
-     * @param mixed $id
+     * @param int $id
      * @return array
      */
     public function getfile(int $id): array {
@@ -76,7 +76,7 @@ class docspace_file_manager {
     /**
      * getroom
      *
-     * @param mixed $id
+     * @param int $id
      * @return array
      */
     public function getroom(int $id): array {

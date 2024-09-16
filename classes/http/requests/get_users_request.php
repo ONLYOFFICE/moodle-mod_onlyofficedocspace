@@ -53,10 +53,10 @@ class get_users_request {
     /**
      * __invoke
      *
-     * @param mixed $sort
-     * @param mixed $dir
-     * @param mixed $page
-     * @param mixed $perpage
+     * @param string $sort
+     * @param string $dir
+     * @param int $page
+     * @param int $perpage
      * @return array
      */
     public function __invoke(string $sort = 'id', string $dir = 'ASC', int $page = 0, int $perpage = 0): array {
