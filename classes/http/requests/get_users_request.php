@@ -49,7 +49,7 @@ class get_users_request {
     public function __construct() {
         $this->docspacesettings = new docspace_settings();
     }
- 
+
     /**
      * __invoke
      *

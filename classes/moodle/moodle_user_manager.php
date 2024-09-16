@@ -54,7 +54,7 @@ class moodle_user_manager {
      * @param string $dir
      * @param int $limitfrom
      * @param int $limitnum
-     * 
+     *
      * @return array
      */
     public function all(string $sort = 'id', string $dir = 'ASC', int $limitfrom = 0, int $limitnum = 0): array {
@@ -122,7 +122,7 @@ class moodle_user_manager {
     /**
      * Get a user by id.
      * @param string $userid
-     * 
+     *
      * @return mixed
      */
     public function get(string $userid): mixed {

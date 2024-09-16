@@ -69,7 +69,7 @@ class docspace_settings {
      * @var string $token docspace auth token
      */
     private string $token;
-    
+
     /**
      * __construct
      *

@@ -55,7 +55,7 @@ class backup_onlyofficedocspace_activity_task extends backup_activity_task {
      * Code the transformations to perform in the activity in
      * order to get transportable (encoded) links
      * @param mixed $content
-     * 
+     *
      * @return [type]
      */
     public static function encode_content_links($content) {
