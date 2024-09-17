@@ -199,8 +199,9 @@ define(
                     onSelectCallback: async function(event) {
                         const data = selectorType === "room" ? event[0] : event;
                         const name = selectorType === "room" ? data.label : data.title + data.fileExst;
+                        const icon = URL.parse(data.icon) ?? new URL(data.icon, docspaceUrl);
                         const requestToken = data.requestTokens[0].requestToken;
-                        selectItem(data.id, selectorType, requestToken, name, data.icon);
+                        selectItem(data.id, selectorType, requestToken, name, icon.href);
                         setState('item');
                         modal.destroy();
                     },
