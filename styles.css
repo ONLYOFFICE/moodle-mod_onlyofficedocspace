@@ -1,0 +1,80 @@
+#ds-login-form {
+    padding: 16px;
+    border-radius: 8px;
+    flex: 1;
+}
+
+#ds-login-form h4 {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+#docspace-login-header-icon {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#docspace-login-header-icon .icon {
+    max-width: none;
+    max-height: none;
+    width: auto;
+    height: auto;
+    margin: 0;
+}
+
+#docspace-login-header p {
+    text-align: center;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+#ds-select-buttons {
+    display: flex;
+    column-gap: 16px;
+    border-radius: 8px;
+    flex: 1;
+    padding: 16px;
+}
+
+#ds-selected-item {
+    border-radius: 8px;
+    flex: 1;
+}
+
+#ds-selected-item > div {
+    padding: 12px;
+}
+
+.ds-editor-container {
+    height: 95vh;
+    max-height: 60rem;
+}
+
+.ds-editor-container.ds-editor-rightindent {
+    margin-right: 43px;
+}
+
+.ds-editor-fs-button {
+    border: 1px solid rgb(15, 111, 197);
+    background: white;
+    color: rgb(15, 111, 197);
+    float: right;
+}
+
+#ds-editor-enter-fs-button {
+    padding: 5px;
+    margin-right: 10px;
+}
+
+#ds-editor-exit-fs-button {
+    margin: 12px;
+}
+
+.ds-editor-container.ds-editor-fullscreen {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    margin: 0 0 0 50px;
+    z-index: 100;
+}
