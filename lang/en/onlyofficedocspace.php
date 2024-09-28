@@ -80,3 +80,5 @@ $string['onlyofficedocspace:addinstance'] = 'Add a new ONLYOFFICE DocSpace activ
 $string['onlyofficedocspace:edit'] = 'Edit ONLYOFFICE DocSpace activity';
 $string['adminsettings:urlwarning'] = 'Are you sure you want to change the current DocSpace to another one? Connected user logins will be lost.';
 $string['docspaceconfigurationerror'] = 'Please configure the plugin first on the ONLYOFFICE DocSpace settings page';
+$string['cspwarning:head'] = 'Check the CSP settings.';
+$string['cspwarning:body'] = 'Before connecting here, please go to the <b>DocSpace Settings - Developer tools - JavaScript SDK</b> and add the Moodle portal address to the allow list';

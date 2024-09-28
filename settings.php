@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(dirname(__FILE__) . '/lib.php');
 
-global $DB, $PAGE;
+global $DB, $PAGE, $CFG;
 
 $docspacesettings = new docspace_settings();
 
@@ -50,6 +50,16 @@ if ($ADMIN->fulltree) {
     $section = $PAGE->url->get_param('section');
 
     if ($category === 'onlyoffice_docspace_settings' || $section === 'manageonlyofficedocspace') {
+        $url = $CFG->wwwroot;
+        $cspwarningtemplate = $OUTPUT->render_from_template('onlyofficedocspace/csp_warning', ['url' => $url]);
+        $settings->add(
+            new admin_setting_heading(
+                'onlyofficedocspace/docspace_csp_warning',
+                '',
+                $cspwarningtemplate
+            )
+        );
+
         $docspaceurlconfigtext = new admin_setting_configtext(
             'onlyofficedocspace/docspace_server_url',
             get_string('docspaceserverurl', 'onlyofficedocspace'),
