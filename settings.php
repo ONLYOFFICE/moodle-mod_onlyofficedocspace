@@ -129,7 +129,7 @@ if ($ADMIN->fulltree) {
                 new admin_setting_heading(
                     'onlyofficedocspace/docspace_users',
                     '',
-                    $OUTPUT->notification($e->getMessage(), 'error')
+                    $OUTPUT->notification(get_string('docspaceconfigurationerror', 'onlyofficedocspace'), 'error')
                 )
             );
         }
