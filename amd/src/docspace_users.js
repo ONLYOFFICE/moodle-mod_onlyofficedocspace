@@ -26,8 +26,9 @@ define(
         'mod_onlyofficedocspace/password_generator',
         'mod_onlyofficedocspace/notification',
         'core/str',
+        'core_form/changechecker'
     ],
-    function($, DocSpaceIntegrationSDK, PasswordGenerator, Notification, Str) {
+    function ($, DocSpaceIntegrationSDK, PasswordGenerator, Notification, Str, ChangeChecker) {
         const selectors = {
             inviteButton: "button[data-action='invite-to-docspace']",
             usersTable: "table[id='ds-invite-users-table']",
@@ -109,7 +110,8 @@ define(
         };
 
         return {
-            init: async function(url) {
+            init: async function (url) {
+                ChangeChecker.disableAllChecks();
                 await DocSpaceIntegrationSDK.initScript("oodsp-api-js", url);
                 const toggler = document.querySelector(selectors.selectAllUsers);
                 toggler.addEventListener("click", toggle);
