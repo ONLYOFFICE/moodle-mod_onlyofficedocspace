@@ -78,5 +78,5 @@ $string['modulename'] = 'ONLYOFFICE DocSpace';
 $string['modulenameplural'] = 'ONLYOFFICE DocSpace';
 $string['onlyofficedocspace:addinstance'] = 'Add a new ONLYOFFICE DocSpace activity';
 $string['onlyofficedocspace:edit'] = 'Edit ONLYOFFICE DocSpace activity';
-$string['adminsettings:urlwarning'] = 'Changing the current server URL will delete all data associated with docspace users. Please, confirm your choice.';
+$string['adminsettings:urlwarning'] = 'Are you sure you want to change the current DocSpace to another one? Connected user logins will be lost.';
 $string['docspaceconfigurationerror'] = 'Please configure the plugin first on the ONLYOFFICE DocSpace settings page';
