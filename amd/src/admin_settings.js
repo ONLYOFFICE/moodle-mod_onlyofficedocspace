@@ -93,10 +93,9 @@ define(
                     settingsForm.addEventListener("submit", async function(event) {
                         event.preventDefault();
                         submitButton.setAttribute("disabled", "");
-                        const url = document.getElementById("id_s_onlyofficedocspace_docspace_server_url").value;
+                        const url = document.getElementById("id_s_onlyofficedocspace_docspace_server_url").value.trim();
 
-                        // eslint-disable-next-line no-alert
-                        if (url !== urls.current && url !== urls.default && confirm(warningMessage) !== true) {
+                        if (urls.current && url !== urls.current && url !== urls.default && confirm(warningMessage) !== true) {
                             submitButton.removeAttribute("disabled");
                             return;
                         }
