@@ -24,7 +24,7 @@
 
 $string['activityname'] = 'Activity Name';
 $string['adminsettings:updated'] = 'ONLYOFFICE DocSpace settings has been updated.';
-$string['adminsettings:urldescription'] = "The DocSpace Service Address specifies the address of the server with the document services installed. <br/> Please replace 'https://docspaceserver.url' above with the correct server address";
+$string['adminsettings:urldescription'] = "Please enter the correct address of your ONLYOFFICE DocSpace.";
 $string['adminsettings:urlwarning'] = 'Changing the current server URL will delete all data associated with docspace users. Please, confirm your choice.';
 $string['docspaceautherror'] = 'The authentication process has failed.';
 $string['docspacefilenotfound'] = 'The required file was not found. Please check if the file still exist or contact the administrator.';
