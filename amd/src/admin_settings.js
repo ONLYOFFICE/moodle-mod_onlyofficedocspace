@@ -133,8 +133,12 @@ define(
                                         "onAppReady": async function() {
                                             updateSettings();
                                         },
-                                        "onAppError": function() {
-                                            console.log("Something went wrong.");
+                                        "onAppError": async function (error) {
+                                            console.log(error);
+                                            Notification.display(
+                                                await Str.getString('docspaceapperror', 'onlyofficedocspace'), 'error'
+                                            );
+                                            submitButton.removeAttribute("disabled");
                                         }
                                     }
                                 }

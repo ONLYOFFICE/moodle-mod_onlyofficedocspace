@@ -82,3 +82,4 @@ $string['adminsettings:urlwarning'] = 'Are you sure you want to change the curre
 $string['docspaceconfigurationerror'] = 'Please configure the plugin first on the ONLYOFFICE DocSpace settings page';
 $string['cspwarning:head'] = 'Check the CSP settings.';
 $string['cspwarning:body'] = 'Before connecting here, please go to the <b>DocSpace Settings - Developer tools - JavaScript SDK</b> and add the Moodle portal address to the allow list';
+$string['docspaceapperror'] = 'An error occurred while initializing the DocSpace instance. Please check your DocSpace settings.';
