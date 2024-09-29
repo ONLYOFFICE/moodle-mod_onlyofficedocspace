@@ -30,7 +30,7 @@ use mod_onlyofficedocspace\docspace\docspace_settings;
 use mod_onlyofficedocspace\errors\docspace_error;
 use mod_onlyofficedocspace\moodle\moodle_docspace_user_manager;
 
-global $USER;
+global $USER, $CFG;
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module ID.
 $n = optional_param('n', 0, PARAM_INT);  // Resource instance ID.
@@ -81,12 +81,19 @@ if (has_capability('mod/onlyofficedocspace:edit', $context)) {
     }
 }
 
+if (property_exists($USER, 'lang')) {
+    $lang = stristr($USER->lang, '_', true) !== false ? stristr($USER->lang, '_', true) : $USER->lang;
+} else {
+    $lang = $CFG->lang;
+}
+
 $editorconfig = [
     "frameId" => "ds-editor-frame",
     "width" => "100%",
     "height" => "100%",
     "id" => $onlyofficedocspace->docspaceitemid,
     "requestToken" => $onlyofficedocspace->docspacerequesttoken,
+    "locale" => $lang,
 ];
 
 if ($onlyofficedocspace->docspaceitemtype === 'file') {
