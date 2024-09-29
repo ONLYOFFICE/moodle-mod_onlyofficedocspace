@@ -107,7 +107,7 @@ if ($onlyofficedocspace->docspaceitemtype === 'file') {
     ];
 } else if ($onlyofficedocspace->docspaceitemtype === 'room') {
     $editorconfig['showFilter'] = true;
-    $editorconfig['rootPath'] = '/rooms/shared/';
+    $editorconfig['rootPath'] = '/rooms/share';
     $editorconfig['mode'] = 'manager';
     $editorconfig['viewTableColumns'] = "Name,Modified,Size";
 }
