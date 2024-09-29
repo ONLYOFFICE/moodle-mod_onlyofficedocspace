@@ -95,6 +95,7 @@ define(
                         submitButton.setAttribute("disabled", "");
                         const url = document.getElementById("id_s_onlyofficedocspace_docspace_server_url").value.trim();
 
+                        // eslint-disable-next-line no-alert
                         if (urls.current && url !== urls.current && url !== urls.default && confirm(warningMessage) !== true) {
                             submitButton.removeAttribute("disabled");
                             return;
@@ -133,7 +134,7 @@ define(
                                         "onAppReady": async function() {
                                             updateSettings();
                                         },
-                                        "onAppError": async function (error) {
+                                        "onAppError": async function(error) {
                                             console.log(error);
                                             Notification.display(
                                                 await Str.getString('docspaceapperror', 'onlyofficedocspace'), 'error'
