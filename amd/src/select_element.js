@@ -256,7 +256,7 @@ define(
                                 await docSpace.login(user.email, user.hash)
                                     .then(function(response) {
                                         // eslint-disable-next-line promise/always-return
-                                        if (response.status && response.status !== 200) {
+                                        if (response && response.status && response.status !== 200) {
                                             setState('login');
                                         } else {
                                             logged = true;
