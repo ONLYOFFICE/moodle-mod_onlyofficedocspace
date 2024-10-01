@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(dirname(__FILE__) . '/lib.php');
 
-global $DB, $PAGE;
+global $DB, $PAGE, $CFG;
 
 $docspacesettings = new docspace_settings();
 
@@ -46,14 +46,19 @@ $defaulthost = 'https://docspaceserver.url';
 $section = $PAGE->url->get_param('section');
 
 if ($ADMIN->fulltree) {
-    if ($section === 'manageonlyofficedocspace') {
-        $flash = new flash_message();
-        $success = $flash->get('success');
+    $category = $PAGE->url->get_param('category');
+    $section = $PAGE->url->get_param('section');
 
-        if ($success) {
-            $notification = $OUTPUT->notification($success, 'success');
-            $settings->add(new admin_setting_heading('onlyofficedocspace/docspace_settings_status', '', $notification));
-        }
+    if ($category === 'onlyoffice_docspace_settings' || $section === 'manageonlyofficedocspace') {
+        $url = $CFG->wwwroot;
+        $cspwarningtemplate = $OUTPUT->render_from_template('onlyofficedocspace/csp_warning', ['url' => $url]);
+        $settings->add(
+            new admin_setting_heading(
+                'onlyofficedocspace/docspace_csp_warning',
+                '',
+                $cspwarningtemplate
+            )
+        );
 
         $docspaceurlconfigtext = new admin_setting_configtext(
             'onlyofficedocspace/docspace_server_url',
@@ -129,7 +134,7 @@ if ($ADMIN->fulltree) {
                 new admin_setting_heading(
                     'onlyofficedocspace/docspace_users',
                     '',
-                    $OUTPUT->notification($e->getMessage(), 'error')
+                    $OUTPUT->notification(get_string('docspaceconfigurationerror', 'onlyofficedocspace'), 'error')
                 )
             );
         }
