@@ -79,7 +79,8 @@
     z-index: 100;
 }
 
-.csp-warning h4, .csp-warning p {
+.csp-warning h4,
+.csp-warning p {
     margin: 0;
     font-size: 15px;
     line-height: 22.5px;
@@ -88,8 +89,8 @@
 .csp-warning {
     padding: 12px 16px;
     color: #691911;
-    background-color: #FCEFDC;
-    border: #FBE8CD 1px solid;
+    background-color: #fcefdc;
+    border: #fbe8cd 1px solid;
     border-radius: 8px;
     margin-bottom: 16px;
 }
