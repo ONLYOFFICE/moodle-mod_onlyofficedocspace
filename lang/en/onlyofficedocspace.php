@@ -52,6 +52,7 @@ $string['loginmodal:description'] = 'Please enter your DocSpace password';
 $string['loginmodal:title'] = 'Moodle requests access to your ONLYOFFICE DocSpace';
 $string['logintodocspace'] = "Log in to ONLYOFFICE DocSpace";
 $string['modulename'] = 'ONLYOFFICE DocSpace';
+$string['modulename_help'] = 'This module enables users to connect ONLYOFFICE DocSpace rooms or files as activities in Moodle for collaboration.';
 $string['modulenameplural'] = 'ONLYOFFICE DocSpace';
 $string['onlyofficedocspace:addinstance'] = 'Add a new ONLYOFFICE DocSpace activity';
 $string['onlyofficedocspace:edit'] = 'Edit ONLYOFFICE DocSpace activity';
