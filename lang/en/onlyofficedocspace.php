@@ -30,6 +30,7 @@ $string['cspwarning:body'] = 'Before connecting here, please go to the <b>DocSpa
 $string['cspwarning:head'] = 'Check the CSP settings.';
 $string['docspaceapperror'] = 'Error during initialization. Please check your DocSpace CSP settings.';
 $string['docspaceautherror'] = 'The authentication process has failed.';
+$string['docspaceauthinvalidcredentials'] = 'Authentication failed. Incorrect login/password';
 $string['docspaceconfigurationerror'] = 'Please configure the plugin first on the ONLYOFFICE DocSpace settings page';
 $string['docspacefilenotfound'] = 'The required file was not found. Please check if the file still exist or contact the administrator.';
 $string['docspacelogin'] = 'DocSpace Login';
