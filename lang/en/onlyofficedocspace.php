@@ -62,7 +62,7 @@ $string['pluginadministration'] = 'ONLYOFFICE DocSpace activity administration';
 $string['pluginname'] = 'ONLYOFFICE DocSpace';
 $string['selecteditemtype:file'] = 'Selected file';
 $string['selecteditemtype:room'] = 'Selected room';
-$string['selectelement'] = 'Connect existing DocSpace room or file';
+$string['selectelement'] = 'Connect existing DocSpace room <span class="text-nowrap">or file<span>';
 $string['selectfile'] = 'Select file';
 $string['selectroom'] = 'Select room';
 $string['sentinvitations'] = 'Invitation successfully sent to {$a} user(s)';
