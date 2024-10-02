@@ -23,7 +23,7 @@
  */
 
 $string['activityname'] = 'Activity Name';
-$string['adminsettings:updated'] = 'ONLYOFFICE DocSpace settings has been updated.';
+$string['adminsettings:updated'] = 'Settings saved successfully';
 $string['adminsettings:urldescription'] = "Please enter the correct address of your ONLYOFFICE DocSpace.";
 $string['adminsettings:urlwarning'] = 'Are you sure you want to change the current DocSpace to another one? Connected user logins will be lost.';
 $string['cspwarning:body'] = 'Before connecting here, please go to the <b>DocSpace Settings - Developer tools - JavaScript SDK</b> and add the Moodle portal address to the allow list';

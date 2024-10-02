@@ -50,6 +50,14 @@ if ($ADMIN->fulltree) {
     $section = $PAGE->url->get_param('section');
 
     if ($category === 'onlyoffice_docspace_settings' || $section === 'manageonlyofficedocspace') {
+        $flash = new flash_message();
+        $success = $flash->get('success');
+
+        if ($success) {
+            $notification = $OUTPUT->notification($success, 'success');
+            $settings->add(new admin_setting_heading('onlyofficedocspace/docspace_settings_status', '', $notification));
+        }
+
         $url = $CFG->wwwroot;
         $cspwarningtemplate = $OUTPUT->render_from_template('onlyofficedocspace/csp_warning', ['url' => $url]);
         $settings->add(
