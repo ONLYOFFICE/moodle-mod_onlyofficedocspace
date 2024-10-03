@@ -23,13 +23,14 @@
  */
 
 $string['activityname'] = 'Activity Name';
-$string['adminsettings:updated'] = 'ONLYOFFICE DocSpace settings has been updated.';
+$string['adminsettings:updated'] = 'Settings saved successfully';
 $string['adminsettings:urldescription'] = "Please enter the correct address of your ONLYOFFICE DocSpace.";
 $string['adminsettings:urlwarning'] = 'Are you sure you want to change the current DocSpace to another one? Connected user logins will be lost.';
 $string['cspwarning:body'] = 'Before connecting here, please go to the <b>DocSpace Settings - Developer tools - JavaScript SDK</b> and add the Moodle portal address to the allow list';
 $string['cspwarning:head'] = 'Check the CSP settings.';
-$string['docspaceapperror'] = 'An error occurred while initializing the DocSpace instance. Please check your DocSpace settings.';
+$string['docspaceapperror'] = 'Error during initialization. Please check your DocSpace CSP settings.';
 $string['docspaceautherror'] = 'The authentication process has failed.';
+$string['docspaceauthinvalidcredentials'] = 'Authentication failed. Incorrect login/password';
 $string['docspaceconfigurationerror'] = 'Please configure the plugin first on the ONLYOFFICE DocSpace settings page';
 $string['docspacefilenotfound'] = 'The required file was not found. Please check if the file still exist or contact the administrator.';
 $string['docspacelogin'] = 'DocSpace Login';
@@ -41,7 +42,7 @@ $string['docspaceserverurl'] = 'DocSpace Service Address';
 $string['docspaceunreachable'] = 'DocSpace is unavailable.';
 $string['docspaceuserinviteerror'] = 'Invitation process has failed.';
 $string['docspaceusernotfound'] = 'The user was not found in ONLYOFFICE DocSpace. Please, contact the administrator.';
-$string['docspaceuserscategory:description'] = 'To add new users to ONLYOFFICE DocSpace and to start working with the plugin, please press <b>{$a}</b>. Only users with the roles of Manager, Teacher, and Course creator from Moodle can be invited to DocSpace. <br/> All new users will be added with <b>Power user</b> role. You can change the role type in the Accounts settings in DocSpace. Please note: <b>Power user</b> role is paid.';
+$string['docspaceuserscategory:description'] = 'To add new users to ONLYOFFICE DocSpace and start working with the plugin, please press <b>{$a}</b>. Only users with the roles of Manager, Teacher, and Course creator from Moodle can be invited to DocSpace. <br/> All new users will be added with <b>Power user</b> role. You can change the role type in the Accounts settings in DocSpace. Please note: <b>Power user</b> role is paid.';
 $string['docspaceuserscategory:title'] = 'DocSpace users';
 $string['documentserverurldescription'] = 'The DocSpace Service Address specifies the address of the server ';
 $string['enterfullscreen'] = 'Open full screen';
@@ -62,7 +63,7 @@ $string['pluginadministration'] = 'ONLYOFFICE DocSpace activity administration';
 $string['pluginname'] = 'ONLYOFFICE DocSpace';
 $string['selecteditemtype:file'] = 'Selected file';
 $string['selecteditemtype:room'] = 'Selected room';
-$string['selectelement'] = 'Connect existing DocSpace room or file';
+$string['selectelement'] = 'Connect existing DocSpace room <span class="text-nowrap">or file<span>';
 $string['selectfile'] = 'Select file';
 $string['selectroom'] = 'Select room';
 $string['sentinvitations'] = 'Invitation successfully sent to {$a} user(s)';

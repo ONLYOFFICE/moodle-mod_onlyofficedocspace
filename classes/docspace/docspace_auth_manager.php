@@ -71,6 +71,10 @@ class docspace_auth_manager {
 
         $response = http_request::post($url, $data, $options);
 
+        if ($response->status() === 401) {
+            throw new docspace_error(get_string('docspaceauthinvalidcredentials', 'onlyofficedocspace'));
+        }
+
         if ($response->hasErrors() || $response->status() !== 200) {
             throw new docspace_error(get_string('docspaceautherror', 'onlyofficedocspace'));
         }
