@@ -18,7 +18,7 @@
  * @copyright  2024 Ascensio System SIA <integration@onlyoffice.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  **/
-/* eslint-disable no-undef */
+/* eslint-disable no-undef, capitalized-comments */
 define(
     [
         'jquery',
@@ -295,15 +295,15 @@ define(
                 }
 
                 const selectRoomButton = document.getElementById("ds-select-room");
-                const selectFileButton = document.getElementById("ds-select-file");
+                // const selectFileButton = document.getElementById("ds-select-file");
                 const removeSelectedItemButton = document.getElementById("remove-selected-item");
                 const loginButton = document.getElementById("ds-login-button");
 
                 selectRoomButton.addEventListener("click", displaySelectorModal);
-                selectFileButton.addEventListener("click", displaySelectorModal);
+                // selectFileButton.addEventListener("click", displaySelectorModal);
                 removeSelectedItemButton.addEventListener("click", clearSelectedItem);
                 loginButton.addEventListener("click", displayLoginModal);
             }
         };
     });
-/* eslint-enable no-undef */
+/* eslint-enable no-undef, capitalized-comments */

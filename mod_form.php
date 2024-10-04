@@ -153,7 +153,7 @@ class mod_onlyofficedocspace_mod_form extends moodleform_mod {
         $mform->addGroup(
             $selectelements,
             'select_element',
-            get_string('selectelement', 'onlyofficedocspace'),
+            get_string('selectelement:room', 'onlyofficedocspace'),
             '',
             false
         );
