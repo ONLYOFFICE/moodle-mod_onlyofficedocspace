@@ -72,6 +72,21 @@ class update_admin_settings_request {
         $this->docspaceemail = $_POST['email'];
         $this->docspacepassword = $_POST['password'];
         $this->randompassword = $_POST['randomPassword'];
+
+        $this->sanitize();
+    }
+
+    /**
+     * Sanitize data
+     *
+     * @return void
+     */
+    private function sanitize(): void {
+        $this->docspaceurl = filter_var(trim($this->docspaceurl), FILTER_SANITIZE_URL);
+        $this->docspaceurl = rtrim($this->docspaceurl, "/");
+        $this->docspaceemail = filter_var(trim($this->docspaceemail), FILTER_SANITIZE_EMAIL);
+        $this->docspacepassword = trim($this->docspacepassword);
+        $this->randompassword = trim($this->randompassword);
     }
 
     /**

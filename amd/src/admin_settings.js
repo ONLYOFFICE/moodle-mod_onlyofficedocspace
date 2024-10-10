@@ -33,7 +33,10 @@ define(
         let submitButton;
 
         const updateSettings = async function() {
-            const url = document.getElementById("id_s_onlyofficedocspace_docspace_server_url").value;
+            const url = document.getElementById("id_s_onlyofficedocspace_docspace_server_url")
+                .value
+                .trim()
+                .replace(/\/+$/g, '');
             const email = document.getElementById("id_s_onlyofficedocspace_docspace_login").value;
             const password = document.getElementsByName("s_onlyofficedocspace_docspace_password")[0].value;
             const hashSettings = await DocSpace.SDK.frames[systemFrameId].getHashSettings();
@@ -93,7 +96,10 @@ define(
                     settingsForm.addEventListener("submit", async function(event) {
                         event.preventDefault();
                         submitButton.setAttribute("disabled", "");
-                        const url = document.getElementById("id_s_onlyofficedocspace_docspace_server_url").value.trim();
+                        const url = document.getElementById("id_s_onlyofficedocspace_docspace_server_url")
+                            .value
+                            .trim()
+                            .replace(/\/+$/g, '');
 
                         // eslint-disable-next-line no-alert
                         if (urls.current && url !== urls.current && url !== urls.default && confirm(warningMessage) !== true) {
