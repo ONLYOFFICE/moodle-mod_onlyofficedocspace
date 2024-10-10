@@ -32,7 +32,12 @@
     {
     }
 }}
-<div class="csp-warning">
-  <h4>{{#str}} cspwarning:head, onlyofficedocspace {{/str}}</h4>
-  <p>{{#str}} cspwarning:body, onlyofficedocspace {{/str}} - <span>{{url}}</span></p>
+<div style="padding-right:16px;" class="alert alert-dismissible fade show warning-banner d-flex align-items-center justify-content-between" role="alert">
+  <div class="csp-warning">
+    <h4>{{#str}} cspwarning:head, onlyofficedocspace {{/str}}</h4>
+    <p>{{#str}} cspwarning:body, onlyofficedocspace {{/str}} - <span>{{url}}</span></p>
+  </div>
+  <button type="button" style="position:static;" class="close p-0" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
 </div>
