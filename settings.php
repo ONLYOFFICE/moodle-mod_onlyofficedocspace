@@ -39,28 +39,29 @@ $ADMIN->add('modsettings', new admin_category('onlyoffice_docspace_settings', ge
 
 // Define docspace settings page.
 
-$settings = new admin_settingpage('manageonlyofficedocspace', get_string('settings', 'onlyofficedocspace'), 'moodle/site:config');
+$managedocspacesettings = new admin_settingpage($section, get_string('settings', 'onlyofficedocspace'), 'moodle/site:config');
 
 $defaulthost = 'https://docspaceserver.url';
-
-$section = $PAGE->url->get_param('section');
+$sectionparam = null;
 
 if ($ADMIN->fulltree) {
-    $category = $PAGE->url->get_param('category');
-    $section = $PAGE->url->get_param('section');
+    $sectionparam = $PAGE->url->get_param('section');
+    $categoryparam = $PAGE->url->get_param('category');
 
-    if ($category === 'onlyoffice_docspace_settings' || $section === 'manageonlyofficedocspace') {
+    if ($categoryparam === 'onlyoffice_docspace_settings' || $sectionparam === $section) {
         $flash = new flash_message();
         $success = $flash->get('success');
 
         if ($success) {
             $notification = $OUTPUT->notification($success, 'success');
-            $settings->add(new admin_setting_heading('onlyofficedocspace/docspace_settings_status', '', $notification));
+            $managedocspacesettings->add(
+                new admin_setting_heading('onlyofficedocspace/docspace_settings_status', '', $notification)
+            );
         }
 
         $url = $CFG->wwwroot;
         $cspwarningtemplate = $OUTPUT->render_from_template('onlyofficedocspace/csp_warning', ['url' => $url]);
-        $settings->add(
+        $managedocspacesettings->add(
             new admin_setting_heading(
                 'onlyofficedocspace/docspace_csp_warning',
                 '',
@@ -74,7 +75,7 @@ if ($ADMIN->fulltree) {
             get_string('adminsettings:urldescription', 'onlyofficedocspace'),
             $defaulthost
         );
-        $settings->add($docspaceurlconfigtext);
+        $managedocspacesettings->add($docspaceurlconfigtext);
 
         $docspaceloginconfigtext = new admin_setting_configtext(
             'onlyofficedocspace/docspace_login',
@@ -82,14 +83,14 @@ if ($ADMIN->fulltree) {
             '',
             ''
         );
-        $settings->add($docspaceloginconfigtext);
+        $managedocspacesettings->add($docspaceloginconfigtext);
 
         $docspacepasswordconfigtext = new admin_setting_encryptedpassword(
             'onlyofficedocspace/docspace_password',
             get_string('docspacepassword', 'onlyofficedocspace'),
             '',
         );
-        $settings->add($docspacepasswordconfigtext);
+        $managedocspacesettings->add($docspacepasswordconfigtext);
 
         $PAGE->requires->js_call_amd('mod_onlyofficedocspace/admin_settings', 'init', [
             'urls' => [
@@ -100,19 +101,18 @@ if ($ADMIN->fulltree) {
     }
 }
 
-$ADMIN->add('onlyoffice_docspace_settings', $settings);
-$settings = null;
+$ADMIN->add('onlyoffice_docspace_settings', $managedocspacesettings);
 
 // Define docspace users page.
 
-$settings = new admin_settingpage(
+$managedocspaceuserssettings = new admin_settingpage(
     'manageonlyofficedocspaceusers',
     get_string('docspaceuserscategory:title', 'onlyofficedocspace'),
     'moodle/site:config'
 );
 
 if ($ADMIN->fulltree) {
-    if ($section && $section === 'manageonlyofficedocspaceusers') {
+    if ($sectionparam && $sectionparam === 'manageonlyofficedocspaceusers') {
         try {
             $sort = optional_param('sort', 'firstname', PARAM_ALPHANUMEXT);
             $dir = optional_param('dir', 'ASC', PARAM_ALPHA);
@@ -128,7 +128,7 @@ if ($ADMIN->fulltree) {
             $docspaceusersrenderable = new docspaceusers($params);
             $docspaceusersrenderer = $PAGE->get_renderer('mod_onlyofficedocspace');
 
-            $settings->add(
+            $managedocspaceuserssettings->add(
                 new admin_setting_heading(
                     'onlyofficedocspace/docspace_users',
                     '',
@@ -138,7 +138,7 @@ if ($ADMIN->fulltree) {
 
             $PAGE->requires->js_call_amd('mod_onlyofficedocspace/docspace_users', 'init', [$docspacesettings->url()]);
         } catch (docspace_error $e) {
-            $settings->add(
+            $managedocspaceuserssettings->add(
                 new admin_setting_heading(
                     'onlyofficedocspace/docspace_users',
                     '',
@@ -149,9 +149,11 @@ if ($ADMIN->fulltree) {
     } else {
         $url = new moodle_url('/admin/settings.php', ['section' => 'manageonlyofficedocspaceusers']);
         $docspaceusersplaceholder = $OUTPUT->render_from_template('onlyofficedocspace/docspace_users_category', ['url' => $url]);
-        $settings->add(new admin_setting_heading('onlyofficedocspace/docspace_users', '', $docspaceusersplaceholder));
+        $managedocspaceuserssettings->add(
+            new admin_setting_heading('onlyofficedocspace/docspace_users', '', $docspaceusersplaceholder)
+        );
     }
 }
 
-$ADMIN->add('onlyoffice_docspace_settings', $settings);
+$ADMIN->add('onlyoffice_docspace_settings', $managedocspaceuserssettings);
 $settings = null;
