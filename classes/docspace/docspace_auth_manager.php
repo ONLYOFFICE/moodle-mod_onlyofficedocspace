@@ -26,6 +26,7 @@ namespace mod_onlyofficedocspace\docspace;
 
 use mod_onlyofficedocspace\common\http_request;
 use mod_onlyofficedocspace\errors\docspace_error;
+use mod_onlyofficedocspace\errors\invalid_credentials_error;
 
 /**
  * Docspace auth manager
@@ -72,7 +73,7 @@ class docspace_auth_manager {
         $response = http_request::post($url, $data, $options);
 
         if ($response->status() === 401) {
-            throw new docspace_error(get_string('docspaceauthinvalidcredentials', 'onlyofficedocspace'));
+            throw new invalid_credentials_error();
         }
 
         if ($response->hasErrors() || $response->status() !== 200) {

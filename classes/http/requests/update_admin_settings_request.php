@@ -28,6 +28,7 @@ use Exception;
 use mod_onlyofficedocspace\docspace\docspace_settings;
 use mod_onlyofficedocspace\docspace\docspace_user_manager;
 use mod_onlyofficedocspace\docspace\enums\docspace_user_type;
+use mod_onlyofficedocspace\errors\invalid_credentials_error;
 use mod_onlyofficedocspace\errors\validation_error;
 use mod_onlyofficedocspace\moodle\moodle_docspace_user_manager;
 
@@ -105,7 +106,11 @@ class update_admin_settings_request {
             $this->docspacepassword,
         );
 
-        $settings->ensureIntegrity();
+        try {
+            $settings->ensureIntegrity();
+        } catch (invalid_credentials_error $e) {
+            throw new validation_error($e->getMessage());
+        }
 
         $moodledocspaceusermanager = new moodle_docspace_user_manager();
 
