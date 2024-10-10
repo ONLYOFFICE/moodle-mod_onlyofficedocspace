@@ -70,4 +70,5 @@ $string['selectroom'] = 'Select room';
 $string['sentinvitations'] = 'Invitation successfully sent to {$a} user(s)';
 $string['settings'] = 'ONLYOFFICE DocSpace Settings';
 $string['skippedinvitations'] = 'Invitation skipped for {$a} user(s). User(s) with the indicated email(s) may already exist in DocSpace.';
+$string['rolewarning'] = 'The current Moodle user will be added to DocSpace with the <b>Room admin</b> role';
 $string['validationerror:password'] = 'Password you entered is incorrect';

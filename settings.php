@@ -69,6 +69,15 @@ if ($ADMIN->fulltree) {
             )
         );
 
+        $rolewarningtemplate = $OUTPUT->render_from_template('onlyofficedocspace/role_warning', []);
+        $managedocspacesettings->add(
+            new admin_setting_heading(
+                'onlyofficedocspace/docspace_room_admin_warning',
+                '',
+                $rolewarningtemplate,
+            )
+        );
+
         $docspaceurlconfigtext = new admin_setting_configtext(
             'onlyofficedocspace/docspace_server_url',
             get_string('docspaceserverurl', 'onlyofficedocspace'),
