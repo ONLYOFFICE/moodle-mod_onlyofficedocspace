@@ -70,4 +70,4 @@ $string['selectroom'] = 'Выбрать комнату';
 $string['sentinvitations'] = 'Приглашение успешно отправлено пользователю(ям) {$a}';
 $string['settings'] = 'Настройки ONLYOFFICE DocSpace';
 $string['skippedinvitations'] = 'Пропущено приглашение для пользователя(ей) {$a}. Пользователь(и) с указанным(и) адресом(ами) электронной почты могут уже существовать в DocSpace';
-$string['validationerror:password'] = 'Введен неверный пароль'
+$string['validationerror:password'] = 'Введен неверный пароль';
