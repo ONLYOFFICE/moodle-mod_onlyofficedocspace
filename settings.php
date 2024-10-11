@@ -51,11 +51,39 @@ if ($ADMIN->fulltree) {
     if ($categoryparam === 'onlyoffice_docspace_settings' || $sectionparam === $section) {
         $flash = new flash_message();
         $success = $flash->get('success');
+        $warning = $flash->get('warning');
+        $error = $flash->get('error');
 
         if ($success) {
             $notification = $OUTPUT->notification($success, 'success');
             $managedocspacesettings->add(
-                new admin_setting_heading('onlyofficedocspace/docspace_settings_status', '', $notification)
+                new admin_setting_heading(
+                    'onlyofficedocspace/docspace_settings_success_status',
+                    '',
+                    $notification
+                )
+            );
+        }
+
+        if ($warning) {
+            $notification = $OUTPUT->notification($warning, 'warning');
+            $managedocspacesettings->add(
+                new admin_setting_heading(
+                    'onlyofficedocspace/docspace_settings_warning_status',
+                    '',
+                    $notification
+                )
+            );
+        }
+
+        if ($error) {
+            $notification = $OUTPUT->notification($error, 'error');
+            $managedocspacesettings->add(
+                new admin_setting_heading(
+                    'onlyofficedocspace/docspace_settings_error_status',
+                    '',
+                    $notification
+                )
             );
         }
 

@@ -82,7 +82,7 @@ class docspace_user_manager {
         $response = http_request::post($url, $data, $options);
 
         if ($response->hasErrors()) {
-            throw new docspace_error(get_string('docspaceuserinviteerror', 'onlyofficedocspace'));
+            throw new docspace_error(get_string('docspaceuserinviteerror', 'onlyofficedocspace', $email));
         }
 
         $body = $response->jsonResponse();
