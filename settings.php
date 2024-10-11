@@ -88,21 +88,19 @@ if ($ADMIN->fulltree) {
         }
 
         $url = $CFG->wwwroot;
-        $cspwarningtemplate = $OUTPUT->render_from_template('onlyofficedocspace/csp_warning', ['url' => $url]);
         $managedocspacesettings->add(
             new admin_setting_heading(
                 'onlyofficedocspace/docspace_csp_warning',
                 '',
-                $cspwarningtemplate
+                $OUTPUT->notification(get_string('cspwarning', 'onlyofficedocspace', $url), 'warning'),
             )
         );
 
-        $rolewarningtemplate = $OUTPUT->render_from_template('onlyofficedocspace/role_warning', []);
         $managedocspacesettings->add(
             new admin_setting_heading(
                 'onlyofficedocspace/docspace_room_admin_warning',
                 '',
-                $rolewarningtemplate,
+                $OUTPUT->notification(get_string('rolewarning', 'onlyofficedocspace', $url), 'warning'),
             )
         );
 
