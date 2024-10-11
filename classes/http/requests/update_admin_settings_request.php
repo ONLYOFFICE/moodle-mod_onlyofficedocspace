@@ -25,9 +25,12 @@
 namespace mod_onlyofficedocspace\http\requests;
 
 use Exception;
+use mod_onlyofficedocspace\common\flash_message;
 use mod_onlyofficedocspace\docspace\docspace_settings;
 use mod_onlyofficedocspace\docspace\docspace_user_manager;
 use mod_onlyofficedocspace\docspace\enums\docspace_user_type;
+use mod_onlyofficedocspace\errors\docspace_error;
+use mod_onlyofficedocspace\errors\invalid_credentials_error;
 use mod_onlyofficedocspace\errors\validation_error;
 use mod_onlyofficedocspace\moodle\moodle_docspace_user_manager;
 
@@ -72,6 +75,21 @@ class update_admin_settings_request {
         $this->docspaceemail = $_POST['email'];
         $this->docspacepassword = $_POST['password'];
         $this->randompassword = $_POST['randomPassword'];
+
+        $this->sanitize();
+    }
+
+    /**
+     * Sanitize data
+     *
+     * @return void
+     */
+    private function sanitize(): void {
+        $this->docspaceurl = filter_var(trim($this->docspaceurl), FILTER_SANITIZE_URL);
+        $this->docspaceurl = rtrim($this->docspaceurl, "/");
+        $this->docspaceemail = filter_var(trim($this->docspaceemail), FILTER_SANITIZE_EMAIL);
+        $this->docspacepassword = trim($this->docspacepassword);
+        $this->randompassword = trim($this->randompassword);
     }
 
     /**
@@ -82,6 +100,8 @@ class update_admin_settings_request {
     public function __invoke() {
         global $USER;
 
+        $flashmessage = new flash_message();
+
         $oldurl = get_config('onlyofficedocspace', docspace_settings::DOCSPACE_URL);
 
         $settings = new docspace_settings(
@@ -90,7 +110,11 @@ class update_admin_settings_request {
             $this->docspacepassword,
         );
 
-        $settings->ensureIntegrity();
+        try {
+            $settings->ensureIntegrity();
+        } catch (invalid_credentials_error $e) {
+            throw new validation_error($e->getMessage());
+        }
 
         $moodledocspaceusermanager = new moodle_docspace_user_manager();
 
@@ -112,9 +136,11 @@ class update_admin_settings_request {
                     docspace_user_type::ROOM_ADMIN
                 );
                 $moodledocspaceusermanager->create_or_update($USER->email, $this->randompassword);
-            } catch (Exception $e) {
-                throw new Exception($e->getMessage());
+            } catch (docspace_error $e) {
+                $flashmessage->add('error', $e->getMessage());
             }
+        } else {
+            $flashmessage->add('warning', get_string('docspaceuseralreadyexists', 'onlyofficedocspace', $USER->email));
         }
     }
 }
