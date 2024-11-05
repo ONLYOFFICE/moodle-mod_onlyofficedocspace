@@ -122,9 +122,9 @@ class docspaceusers implements renderable, templatable {
             }
 
             if ($user['type'] === docspace_user_type::ROOM_ADMIN) {
-                $user['type'] = "Room admin";
+                $user['type'] = get_string('docspaceuserrole:admin', 'onlyofficedocspace');
             } else {
-                $user['type'] = "Power user";
+                $user['type'] = get_string('docspaceuserrole:power', 'onlyofficedocspace');
             }
         }
 
