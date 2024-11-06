@@ -33,7 +33,7 @@
     }
 }}
 <div class="d-flex flex-column" style="row-gap: 16px;">
-  <p class="m-0">{{#str}} docspaceuserscategory:description, mod_onlyofficedocspace, Invite to DocSpace {{/str}}</p>
+  <p class="m-0">{{#str}} docspaceuserscategory:description, mod_onlyofficedocspace, {{#str}} invitetodocspace, mod_onlyofficedocspace {{/str}} {{/str}}</p>
   {{#invitations}} {{{.}}} {{/invitations}}
   <table id="ds-invite-users-table" class="table table-striped m-0">
     <thead>
@@ -41,15 +41,15 @@
         <th scope="col"><input data-action="select-all-users" id="select-all" type="checkbox"></th>
         <th scope="col">
           <div class="d-flex align-items-center">
-            <a href="{{urls.firstname}}">Firstname</a>
+            <a href="{{urls.firstname}}">{{#str}} firstname {{/str}}</a>
             /
-            <a href="{{urls.lastname}}">Lastname</a>
+            <a href="{{urls.lastname}}">{{#str}} lastname {{/str}}</a>
           </div>
         </th>
-        <th scope="col"><a href="{{urls.email}}">Email address</a></th>
-        <th scope="col">Role</th>
-        <th scope="col">DocSpace user status</th>
-        <th scope="col">DocSpace user type</th>
+        <th scope="col"><a href="{{urls.email}}">{{#str}} email {{/str}}</a></th>
+        <th scope="col">{{#str}} role {{/str}}</th>
+        <th scope="col">{{#str}} docspaceuserstatus, mod_onlyofficedocspace {{/str}}</th>
+        <th scope="col">{{#str}} docspaceusertype, mod_onlyofficedocspace {{/str}}</th>
       </tr>
     </thead>
     <tbody>
