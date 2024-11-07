@@ -15,17 +15,19 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version metadata for the mod_onlyofficedocspace plugin.
+ * Upgrade code for the onlyoffice.
  *
- * @package   mod_onlyofficedocspace
- * @copyright 2024 Ascensio System SIA <integration@onlyoffice.com>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     mod_onlyofficedocspace
+ * @copyright   2024 Ascensio System SIA <integration@onlyoffice.com>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->component = 'mod_onlyofficedocspace';
-$plugin->version = 2024110700;
-$plugin->release = 'v1.0.0';
-$plugin->requires = 2023100905;
-$plugin->maturity = MATURITY_STABLE;
+/**
+ * Execute ONLYOFFICE DocSpace upgrade from the given old version
+ *
+ * @param int $oldversion
+ * @return bool
+ */
+function xmldb_onlyofficedocspace_upgrade($oldversion) {
+    return true;
+}
