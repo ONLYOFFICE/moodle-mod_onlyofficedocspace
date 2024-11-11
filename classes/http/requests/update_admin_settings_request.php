@@ -33,6 +33,7 @@ use mod_onlyofficedocspace\errors\docspace_error;
 use mod_onlyofficedocspace\errors\invalid_credentials_error;
 use mod_onlyofficedocspace\errors\validation_error;
 use mod_onlyofficedocspace\moodle\moodle_docspace_user_manager;
+use moodle_exception;
 
 /**
  * update_admin_settings_request
@@ -62,19 +63,14 @@ class update_admin_settings_request {
      * @return void
      */
     public function __construct() {
-        if (
-            ! (isset($_POST['url']) && !empty($_POST['url'])
-                && isset($_POST['email']) && !empty($_POST['email'])
-                && isset($_POST['password']) && !empty($_POST['password'])
-                && isset($_POST['randomPassword']) && !empty($_POST['randomPassword']))
-        ) {
+        try {
+            $this->docspaceurl = required_param('url', PARAM_URL);
+            $this->docspaceemail = required_param('email', PARAM_EMAIL);
+            $this->docspacepassword = required_param('password', PARAM_RAW);
+            $this->randompassword = required_param('randomPassword', PARAM_RAW);
+        } catch(moodle_exception) {
             throw new validation_error(get_string('paramsmissingvalidationerror', 'onlyofficedocspace'));
         }
-
-        $this->docspaceurl = $_POST['url'];
-        $this->docspaceemail = $_POST['email'];
-        $this->docspacepassword = $_POST['password'];
-        $this->randompassword = $_POST['randomPassword'];
 
         $this->sanitize();
     }
