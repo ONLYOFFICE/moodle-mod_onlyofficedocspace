@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="mod/onlyofficedocspace/db" VERSION="20240909" COMMENT="XMLDB file for onlyofficedocspace module"
+<XMLDB PATH="mod/onlyofficedocspace/db" VERSION="20241111" COMMENT="XMLDB file for onlyofficedocspace module"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -28,7 +28,7 @@
         <INDEX NAME="course" UNIQUE="false" FIELDS="course"/>
       </INDEXES>
     </TABLE>
-    <TABLE NAME="onlyofficedocspace_docspaceuser" COMMENT="Table for storing docspace user info">
+    <TABLE NAME="onlyofficedocspace_dsuser" COMMENT="Table for storing docspace user info">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="email" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>

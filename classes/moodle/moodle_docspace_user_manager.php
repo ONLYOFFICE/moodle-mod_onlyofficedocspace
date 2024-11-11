@@ -35,7 +35,7 @@ class moodle_docspace_user_manager {
     /**
      * @var $table table name
      */
-    private $table = 'onlyofficedocspace_docspaceuser';
+    private $table = 'onlyofficedocspace_dsuser';
 
     /**
      * Moodle docspace user manager constructor.
