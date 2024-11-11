@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-use mod_onlyofficedocspace\docspace\docspace_file_manager;
 /**
  * Display DocSpace element
  *
@@ -23,12 +22,13 @@ use mod_onlyofficedocspace\docspace\docspace_file_manager;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_onlyofficedocspace\local\docspace\docspace_file_manager;
+use mod_onlyofficedocspace\local\docspace\docspace_settings;
+use mod_onlyofficedocspace\local\errors\docspace_error;
+use mod_onlyofficedocspace\local\moodle\moodle_docspace_user_manager;
+
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 require_once(dirname(__FILE__) . '/lib.php');
-
-use mod_onlyofficedocspace\docspace\docspace_settings;
-use mod_onlyofficedocspace\errors\docspace_error;
-use mod_onlyofficedocspace\moodle\moodle_docspace_user_manager;
 
 global $USER, $CFG;
 

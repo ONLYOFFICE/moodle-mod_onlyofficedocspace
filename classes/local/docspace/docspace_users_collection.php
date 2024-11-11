@@ -15,19 +15,47 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Define docspace user status enum
+ * Define docspace users collection class
  *
  * @package    mod_onlyofficedocspace
  * @copyright   2024 Ascensio System SIA <integration@onlyoffice.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_onlyofficedocspace\docspace\enums;
-// phpcs:disable
-enum docspace_user_status: int {
+namespace mod_onlyofficedocspace\local\docspace;
 
-    case ACTIVE = 1;
-    case EXIST = 2;
-    case NOT_FOUND = 3;
+/**
+ * DocSpace users collection
+ */
+class docspace_users_collection {
+
+    /**
+     * __construct
+     *
+     * @param array $users
+     * @return void
+     */
+    public function __construct(
+        /**
+         * @var array $users
+         */
+        private array $users
+    ) {
+    }
+
+    /**
+     * get
+     *
+     * @param string $email
+     * @return array | null
+     */
+    public function get(string $email): array|null {
+        foreach ($this->users as $user) {
+            if ($user['email'] === $email) {
+                return $user;
+            }
+        }
+
+        return null;
+    }
 }
-// phpcs:enable

@@ -22,11 +22,11 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
+use mod_onlyofficedocspace\local\errors\docspace_error;
+use mod_onlyofficedocspace\local\errors\validation_error;
+use mod_onlyofficedocspace\local\http\requests\update_password_request;
 
-use mod_onlyofficedocspace\errors\docspace_error;
-use mod_onlyofficedocspace\errors\validation_error;
-use mod_onlyofficedocspace\http\requests\update_password_request;
+require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
 
 defined('AJAX_SCRIPT') || define('AJAX_SCRIPT', true);
 

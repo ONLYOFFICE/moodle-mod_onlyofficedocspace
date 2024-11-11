@@ -22,7 +22,7 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_onlyofficedocspace\moodle;
+namespace mod_onlyofficedocspace\local\moodle;
 
 /**
  * Class for managing moodle docspace users

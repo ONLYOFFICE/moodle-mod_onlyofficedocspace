@@ -22,14 +22,14 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_onlyofficedocspace\http\requests;
+namespace mod_onlyofficedocspace\local\http\requests;
 
-use mod_onlyofficedocspace\docspace\enums\docspace_user_status;
-use mod_onlyofficedocspace\moodle\moodle_docspace_user_manager;
-use mod_onlyofficedocspace\moodle\moodle_user_manager;
-use mod_onlyofficedocspace\docspace\docspace_settings;
-use mod_onlyofficedocspace\docspace\docspace_user_manager;
-use mod_onlyofficedocspace\docspace\enums\docspace_user_type;
+use mod_onlyofficedocspace\local\docspace\docspace_settings;
+use mod_onlyofficedocspace\local\docspace\docspace_user_manager;
+use mod_onlyofficedocspace\local\docspace\enums\docspace_user_status;
+use mod_onlyofficedocspace\local\docspace\enums\docspace_user_type;
+use mod_onlyofficedocspace\local\moodle\moodle_docspace_user_manager;
+use mod_onlyofficedocspace\local\moodle\moodle_user_manager;
 
 /**
  * get_users_request

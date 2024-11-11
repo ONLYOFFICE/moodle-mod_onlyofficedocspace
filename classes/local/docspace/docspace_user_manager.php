@@ -22,11 +22,11 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_onlyofficedocspace\docspace;
+namespace mod_onlyofficedocspace\local\docspace;
 
-use mod_onlyofficedocspace\common\http_request;
-use mod_onlyofficedocspace\docspace\enums\docspace_user_type;
-use mod_onlyofficedocspace\errors\docspace_error;
+use mod_onlyofficedocspace\local\common\http_request;
+use mod_onlyofficedocspace\local\docspace\enums\docspace_user_type;
+use mod_onlyofficedocspace\local\errors\docspace_error;
 
 /**
  * Docspace user manager class
