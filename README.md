@@ -8,6 +8,12 @@ Moodle admins can install the plugin following the usual Moodle plugin installat
 
 ## Plugin configuration
 
+### If you are new to ONLYOFFICE DocSpace
+
+You can register a free account on the official website: [onlyoffice.com/docspace-registration.aspx](https://www.onlyoffice.com/docspace-registration.aspx).
+
+The STARTUP plan of ONLYOFFICE DocSpace is absolutely free to use. If you want to check other tariff plans, visit [this page](https://www.onlyoffice.com/docspace-prices.aspx).
+
 ### General settings
 
 At first, go to your ONLYOFFICE DocSpace ([sign up](https://www.onlyoffice.com/docspace-registration.aspx) / [sign in](https://www.onlyoffice.com/docspace-signin.aspx)) -> Developer Tools -> JavaScript SDK. Add the address of your Moodle in the section *Enter the address of DocSpace to embed*.
