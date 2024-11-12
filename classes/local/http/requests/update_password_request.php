@@ -59,7 +59,7 @@ class update_password_request {
         try {
             $email = required_param('email', PARAM_EMAIL);
             $password = required_param('password', PARAM_RAW);
-        } catch(moodle_exception) {
+        } catch (moodle_exception) {
             throw new validation_error(get_string('paramsmissingvalidationerror', 'onlyofficedocspace'));
         }
 

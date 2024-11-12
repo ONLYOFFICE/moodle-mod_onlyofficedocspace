@@ -67,7 +67,7 @@ class update_admin_settings_request {
             $this->docspaceemail = required_param('email', PARAM_EMAIL);
             $this->docspacepassword = required_param('password', PARAM_RAW);
             $this->randompassword = required_param('randomPassword', PARAM_RAW);
-        } catch(moodle_exception) {
+        } catch (moodle_exception) {
             throw new validation_error(get_string('paramsmissingvalidationerror', 'onlyofficedocspace'));
         }
 
