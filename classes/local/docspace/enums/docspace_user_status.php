@@ -15,19 +15,19 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Define docspace user type
+ * Define docspace user status enum
  *
  * @package    mod_onlyofficedocspace
  * @copyright   2024 Ascensio System SIA <integration@onlyoffice.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_onlyofficedocspace\docspace\enums;
+namespace mod_onlyofficedocspace\local\docspace\enums;
 // phpcs:disable
-enum docspace_user_type: int {
+enum docspace_user_status: int {
 
-    case ROOM_ADMIN = 1;
-    case POWER_USER = 4;
+    case ACTIVE = 1;
+    case EXIST = 2;
     case NOT_FOUND = 3;
 }
 // phpcs:enable

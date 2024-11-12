@@ -22,17 +22,17 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_onlyofficedocspace\http\requests;
+namespace mod_onlyofficedocspace\local\http\requests;
 
-use Exception;
-use mod_onlyofficedocspace\common\flash_message;
-use mod_onlyofficedocspace\docspace\docspace_settings;
-use mod_onlyofficedocspace\docspace\docspace_user_manager;
-use mod_onlyofficedocspace\docspace\enums\docspace_user_type;
-use mod_onlyofficedocspace\errors\docspace_error;
-use mod_onlyofficedocspace\errors\invalid_credentials_error;
-use mod_onlyofficedocspace\errors\validation_error;
-use mod_onlyofficedocspace\moodle\moodle_docspace_user_manager;
+use mod_onlyofficedocspace\local\common\flash_message;
+use mod_onlyofficedocspace\local\docspace\docspace_settings;
+use mod_onlyofficedocspace\local\docspace\docspace_user_manager;
+use mod_onlyofficedocspace\local\docspace\enums\docspace_user_type;
+use mod_onlyofficedocspace\local\errors\docspace_error;
+use mod_onlyofficedocspace\local\errors\invalid_credentials_error;
+use mod_onlyofficedocspace\local\errors\validation_error;
+use mod_onlyofficedocspace\local\moodle\moodle_docspace_user_manager;
+use moodle_exception;
 
 /**
  * update_admin_settings_request
@@ -62,19 +62,14 @@ class update_admin_settings_request {
      * @return void
      */
     public function __construct() {
-        if (
-            ! (isset($_POST['url']) && !empty($_POST['url'])
-                && isset($_POST['email']) && !empty($_POST['email'])
-                && isset($_POST['password']) && !empty($_POST['password'])
-                && isset($_POST['randomPassword']) && !empty($_POST['randomPassword']))
-        ) {
+        try {
+            $this->docspaceurl = required_param('url', PARAM_URL);
+            $this->docspaceemail = required_param('email', PARAM_EMAIL);
+            $this->docspacepassword = required_param('password', PARAM_RAW);
+            $this->randompassword = required_param('randomPassword', PARAM_RAW);
+        } catch (moodle_exception) {
             throw new validation_error(get_string('paramsmissingvalidationerror', 'onlyofficedocspace'));
         }
-
-        $this->docspaceurl = $_POST['url'];
-        $this->docspaceemail = $_POST['email'];
-        $this->docspacepassword = $_POST['password'];
-        $this->randompassword = $_POST['randomPassword'];
 
         $this->sanitize();
     }

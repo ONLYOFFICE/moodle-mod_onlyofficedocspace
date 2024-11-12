@@ -14,7 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-use mod_onlyofficedocspace\common\flash_message;
+use mod_onlyofficedocspace\local\common\flash_message;
+use mod_onlyofficedocspace\local\errors\docspace_error;
+use mod_onlyofficedocspace\local\errors\validation_error;
+use mod_onlyofficedocspace\local\http\requests\update_admin_settings_request;
+
 /**
  * Return json-encoded response.
  *
@@ -24,10 +28,6 @@ use mod_onlyofficedocspace\common\flash_message;
  */
 
 require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
-
-use mod_onlyofficedocspace\errors\docspace_error;
-use mod_onlyofficedocspace\errors\validation_error;
-use mod_onlyofficedocspace\http\requests\update_admin_settings_request;
 
 defined('AJAX_SCRIPT') || define('AJAX_SCRIPT', true);
 
