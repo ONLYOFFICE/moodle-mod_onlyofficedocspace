@@ -84,6 +84,18 @@ class moodle_docspace_user_manager {
     }
 
     /**
+     * Delete multiple users from database table.
+     * @param array $emails user emails.
+     */
+    public function delete(array $emails): void {
+        $this->persistence->delete_records_select(
+            $this->table,
+            "email IN ('" . implode("','", $emails) . "')",
+            []
+        );
+    }
+
+    /**
      * Delete all users from database table.
      */
     public function clear(): void {
