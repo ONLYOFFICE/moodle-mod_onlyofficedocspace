@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.1
+## Changed
+- fixes according to markets code checks
+
 ## 1.0.0
 ## Added
 - ONLYOFFICE DocSpace activity room element creation
