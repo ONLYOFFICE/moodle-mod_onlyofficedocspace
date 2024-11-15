@@ -22,12 +22,13 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_onlyofficedocspace\http\requests;
+namespace mod_onlyofficedocspace\local\http\requests;
 
-use mod_onlyofficedocspace\docspace\docspace_settings;
-use mod_onlyofficedocspace\docspace\docspace_auth_manager;
-use mod_onlyofficedocspace\errors\validation_error;
-use mod_onlyofficedocspace\moodle\moodle_docspace_user_manager;
+use mod_onlyofficedocspace\local\docspace\docspace_auth_manager;
+use mod_onlyofficedocspace\local\docspace\docspace_settings;
+use mod_onlyofficedocspace\local\errors\validation_error;
+use mod_onlyofficedocspace\local\moodle\moodle_docspace_user_manager;
+use moodle_exception;
 
 /**
  * update_password_request
@@ -55,19 +56,19 @@ class update_password_request {
     public function __construct() {
         global $USER;
 
-        if (
-            ! (isset($_POST['email']) && !empty($_POST['email'])
-                && isset($_POST['password']) && !empty($_POST['password']))
-        ) {
+        try {
+            $email = required_param('email', PARAM_EMAIL);
+            $password = required_param('password', PARAM_RAW);
+        } catch (moodle_exception) {
             throw new validation_error(get_string('paramsmissingvalidationerror', 'onlyofficedocspace'));
         }
 
-        if ($USER->email !== $_POST['email']) {
+        if ($USER->email !== $email) {
             throw new validation_error(get_string('invalidparamsvalidationerror', 'onlyofficedocspace'));
         }
 
-        $this->docspaceemail = $_POST['email'];
-        $this->docspacepassword = $_POST['password'];
+        $this->docspaceemail = $email;
+        $this->docspacepassword = $password;
     }
 
     /**

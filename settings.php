@@ -22,9 +22,9 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use mod_onlyofficedocspace\common\flash_message;
-use mod_onlyofficedocspace\docspace\docspace_settings;
-use mod_onlyofficedocspace\errors\docspace_error;
+use mod_onlyofficedocspace\local\common\flash_message;
+use mod_onlyofficedocspace\local\docspace\docspace_settings;
+use mod_onlyofficedocspace\local\errors\docspace_error;
 use mod_onlyofficedocspace\output\docspaceusers;
 
 defined('MOODLE_INTERNAL') || die();

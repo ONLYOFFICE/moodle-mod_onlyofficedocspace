@@ -24,11 +24,11 @@
 
 namespace mod_onlyofficedocspace\output;
 
-use mod_onlyofficedocspace\common\flash_message;
-use mod_onlyofficedocspace\docspace\enums\docspace_user_status;
-use mod_onlyofficedocspace\docspace\enums\docspace_user_type;
-use mod_onlyofficedocspace\http\requests\get_users_request;
-use mod_onlyofficedocspace\moodle\moodle_user_manager;
+use mod_onlyofficedocspace\local\common\flash_message;
+use mod_onlyofficedocspace\local\docspace\enums\docspace_user_status;
+use mod_onlyofficedocspace\local\docspace\enums\docspace_user_type;
+use mod_onlyofficedocspace\local\http\requests\get_users_request;
+use mod_onlyofficedocspace\local\moodle\moodle_user_manager;
 use renderable;
 use templatable;
 use renderer_base;

@@ -15,18 +15,18 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Define a docspace error class
+ * Define validation error class
  *
  * @package    mod_onlyofficedocspace
  * @copyright   2024 Ascensio System SIA <integration@onlyoffice.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_onlyofficedocspace\errors;
+namespace mod_onlyofficedocspace\local\errors;
 use Exception;
 
 /**
- * docspace_error
+ * validation_error
  */
-class docspace_error extends Exception {
+class validation_error extends Exception {
 }

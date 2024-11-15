@@ -22,7 +22,7 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_onlyofficedocspace\moodle;
+namespace mod_onlyofficedocspace\local\moodle;
 
 /**
  * Class for managing moodle docspace users
@@ -35,7 +35,7 @@ class moodle_docspace_user_manager {
     /**
      * @var $table table name
      */
-    private $table = 'onlyofficedocspace_docspaceuser';
+    private $table = 'onlyofficedocspace_dsuser';
 
     /**
      * Moodle docspace user manager constructor.
@@ -81,6 +81,18 @@ class moodle_docspace_user_manager {
                 'password' => $password,
             ]);
         }
+    }
+
+    /**
+     * Delete multiple users from database table.
+     * @param array $emails user emails.
+     */
+    public function delete(array $emails): void {
+        $this->persistence->delete_records_select(
+            $this->table,
+            "email IN ('" . implode("','", $emails) . "')",
+            []
+        );
     }
 
     /**

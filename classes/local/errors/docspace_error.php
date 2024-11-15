@@ -15,25 +15,18 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Define a invalid credentials error error class
+ * Define a docspace error class
  *
  * @package    mod_onlyofficedocspace
  * @copyright   2024 Ascensio System SIA <integration@onlyoffice.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_onlyofficedocspace\errors;
+namespace mod_onlyofficedocspace\local\errors;
+use Exception;
 
 /**
- * invalid_credentials_error
+ * docspace_error
  */
-class invalid_credentials_error extends docspace_error {
-    /**
-     * Invalid credentials error constructor
-     *
-     * @return void
-     */
-    public function __construct() {
-        parent::__construct(get_string('docspaceauthinvalidcredentials', 'onlyofficedocspace'));
-    }
+class docspace_error extends Exception {
 }
