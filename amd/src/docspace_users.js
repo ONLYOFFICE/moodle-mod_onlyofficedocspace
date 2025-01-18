@@ -67,7 +67,7 @@ define(
                 type: 'POST',
                 url: inviteUsersUrl,
                 dataType: 'json',
-                data: {users: users},
+                data: {users: JSON.stringify(users)},
             }).done(function() {
                 window.location.reload();
             }).fail(function() {
