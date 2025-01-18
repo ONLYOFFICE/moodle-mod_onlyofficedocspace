@@ -24,6 +24,7 @@
 
 namespace mod_onlyofficedocspace\local\http\requests;
 
+use JsonException;
 use mod_onlyofficedocspace\local\common\flash_message;
 use mod_onlyofficedocspace\local\docspace\docspace_settings;
 use mod_onlyofficedocspace\local\docspace\docspace_user_manager;
@@ -32,6 +33,7 @@ use mod_onlyofficedocspace\local\errors\docspace_error;
 use mod_onlyofficedocspace\local\errors\validation_error;
 use mod_onlyofficedocspace\local\moodle\moodle_docspace_user_manager;
 use mod_onlyofficedocspace\local\moodle\moodle_user_manager;
+use moodle_exception;
 
 /**
  * invite_users_request
@@ -49,11 +51,16 @@ class invite_users_request {
      * @return void
      */
     public function __construct() {
-        if (! (isset($_POST['users']) && is_array($_POST['users']))) {
+        try {
+            $usersparam = required_param('users', PARAM_RAW);
+            $users = json_decode($usersparam, true, flags: JSON_THROW_ON_ERROR);
+        } catch (moodle_exception | JsonException) {
             throw new validation_error(get_string('paramsmissingvalidationerror', 'onlyofficedocspace'));
         }
 
-        $users = $_POST['users'];
+        if (! is_array($users)) {
+            throw new validation_error(get_string('paramsmissingvalidationerror', 'onlyofficedocspace'));
+        }
 
         foreach ($users as $user) {
             if (! (
