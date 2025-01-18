@@ -2,23 +2,23 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-#ds-login-form {
+.path-mod-onlyofficedocspace #ds-login-form {
     padding: 16px;
     border-radius: 8px;
     flex: 1;
 }
 
-#ds-login-form h4 {
+.path-mod-onlyofficedocspace #ds-login-form h4 {
     font-size: 16px;
     font-weight: 400;
 }
 
-#docspace-login-header-icon {
+.path-mod-onlyofficedocspace #docspace-login-header-icon {
     text-align: center;
     margin-bottom: 20px;
 }
 
-#docspace-login-header-icon .icon {
+.path-mod-onlyofficedocspace #docspace-login-header-icon .icon {
     max-width: none;
     max-height: none;
     width: auto;
@@ -26,13 +26,13 @@
     margin: 0;
 }
 
-#docspace-login-header p {
+.path-mod-onlyofficedocspace #docspace-login-header p {
     text-align: center;
     font-weight: 700;
     font-size: 18px;
 }
 
-#ds-select-buttons {
+.path-mod-onlyofficedocspace #ds-select-buttons {
     display: flex;
     column-gap: 16px;
     border-radius: 8px;
@@ -40,41 +40,41 @@
     padding: 16px;
 }
 
-#ds-selected-item {
+.path-mod-onlyofficedocspace #ds-selected-item {
     border-radius: 8px;
     flex: 1;
 }
 
-#ds-selected-item > div {
+.path-mod-onlyofficedocspace #ds-selected-item > div {
     padding: 12px;
 }
 
-.ds-editor-container {
+.path-mod-onlyofficedocspace .ds-editor-container {
     height: 95vh;
     max-height: 60rem;
 }
 
-.ds-editor-container.ds-editor-rightindent {
+.path-mod-onlyofficedocspace .ds-editor-container.ds-editor-rightindent {
     margin-right: 43px;
 }
 
-.ds-editor-fs-button {
+.path-mod-onlyofficedocspace .ds-editor-fs-button {
     border: 1px solid rgb(15, 111, 197);
     background: white;
     color: rgb(15, 111, 197);
     float: right;
 }
 
-#ds-editor-enter-fs-button {
+.path-mod-onlyofficedocspace #ds-editor-enter-fs-button {
     padding: 5px;
     margin-right: 10px;
 }
 
-#ds-editor-exit-fs-button {
+.path-mod-onlyofficedocspace #ds-editor-exit-fs-button {
     margin: 12px;
 }
 
-.ds-editor-container.ds-editor-fullscreen {
+.path-mod-onlyofficedocspace .ds-editor-container.ds-editor-fullscreen {
     position: absolute;
     left: 0;
     right: 0;
