@@ -24,7 +24,8 @@
 
 namespace mod_onlyofficedocspace\local\docspace;
 
-use mod_onlyofficedocspace\local\common\http_request;
+use core\http_client;
+use GuzzleHttp\Exception\RequestException;
 use mod_onlyofficedocspace\local\errors\docspace_error;
 
 /**
@@ -142,9 +143,10 @@ class docspace_settings {
      * @throws docspace_error
      */
     public function healthcheck(): void {
-        $response = http_request::head($this->url);
-
-        if ($response->hasErrors() || $response->status() !== 200) {
+        try {
+            $client = new http_client();
+            $client->head($this->url);
+        } catch (RequestException) {
             throw new docspace_error(get_string('docspaceunreachable', 'onlyofficedocspace'));
         }
     }

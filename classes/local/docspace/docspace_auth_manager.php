@@ -24,7 +24,8 @@
 
 namespace mod_onlyofficedocspace\local\docspace;
 
-use mod_onlyofficedocspace\local\common\http_request;
+use core\http_client;
+use GuzzleHttp\Exception\RequestException;
 use mod_onlyofficedocspace\local\errors\docspace_error;
 use mod_onlyofficedocspace\local\errors\invalid_credentials_error;
 
@@ -61,26 +62,25 @@ class docspace_auth_manager {
         ];
 
         $url = "$this->url/api/2.0/authentication";
-        $data = json_encode($usercredentials);
 
-        $options = [
-            CURLOPT_HTTPHEADER => [
-                'Content-Type: application/json; charset=utf-8',
-                'Accept: application/json',
-            ],
-            ];
+        $client = new http_client();
 
-        $response = http_request::post($url, $data, $options);
+        try {
+            $response = $client->post($url, [
+                'headers' => [
+                    'Accept' => 'application/json',
+                ],
+                'json' => $usercredentials,
+            ]);
 
-        if ($response->status() === 401) {
-            throw new invalid_credentials_error();
-        }
+            $body = json_decode($response->getBody(), true, flags: JSON_THROW_ON_ERROR);
+        } catch (RequestException $e) {
+            if ($e->hasResponse() && $e->getResponse()->getStatusCode() === 401) {
+                throw new invalid_credentials_error();
+            }
 
-        if ($response->hasErrors() || $response->status() !== 200) {
             throw new docspace_error(get_string('docspaceautherror', 'onlyofficedocspace'));
         }
-
-        $body = $response->jsonResponse();
 
         return $body['response']['token'];
     }
