@@ -25,9 +25,10 @@ define(
         'mod_onlyofficedocspace/docspace_integration_sdk',
         'mod_onlyofficedocspace/password_generator',
         'mod_onlyofficedocspace/notification',
-        'core/str'
+        'core/str',
+        'mod_onlyofficedocspace/repository'
     ],
-    function($, DocspaceIntegrationSdk, PasswordGenerator, Notification, Str) {
+    function($, DocspaceIntegrationSdk, PasswordGenerator, Notification, Str, Repository) {
         const systemFrameId = "oodsp-system-frame";
         const scriptId = 'oodsp-api-js';
         let submitButton;
@@ -48,35 +49,32 @@ define(
                 .SDK
                 .frames[systemFrameId]
                 .createHash(PasswordGenerator.generate(), hashSettings);
-            const updateSettingsUrl = M.cfg.wwwroot +
-                '/mod/onlyofficedocspace/api/updateadminsettings.php';
-            let data = {
-                url: url,
-                email: email,
-                password: passwordHash,
-                randomPassword: randomPasswordHash
-            };
-            await $.ajax({
-                headers: {
-                    Accept: "application/json",
-                },
-                type: 'POST',
-                url: updateSettingsUrl,
-                dataType: 'json',
-                data: data,
-            }).done(async function(response) {
-                if (response.status === 201) {
+
+            await Repository.updateAdminSettings(
+                url,
+                email,
+                passwordHash,
+                randomPasswordHash
+            )
+            .then((response) => { // eslint-disable-next-line promise/always-return
+                if (response.status === false) {
+                    for (const warning of response.warnings) {
+                        Notification.display(warning.message, 'error');
+                    }
+                } else {
                     window.location.reload();
                 }
-            }).fail(function(jqXHR) {
-                submitButton.removeAttribute("disabled");
-                const status = jqXHR.status;
-                if (status === 500 || status === 422) {
-                    const error = jqXHR.responseJSON.error;
-                    Notification.display(error, 'error');
+            }).catch(async(error) => {
+                if (error.errorcode === "invalidparameter") {
+                    Notification.display(await Str.getString("paramsmissingvalidationerror", "onlyofficedocspace"), 'error');
+                } else {
+                    console.log(error);
                 }
+            })
+            // eslint-disable-next-line promise/always-return
+            .then(() => {
+                submitButton.removeAttribute("disabled");
             });
-            submitButton.removeAttribute("disabled");
         };
 
         return {
