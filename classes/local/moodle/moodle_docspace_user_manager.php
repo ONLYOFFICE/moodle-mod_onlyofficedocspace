@@ -84,6 +84,20 @@ class moodle_docspace_user_manager {
     }
 
     /**
+     * Update a moodle docspace user.
+     * @param string $id user id.
+     * @param string $email user email.
+     * @param string $password user password hash.
+     */
+    public function update(int $id, string $email, string $password): void {
+        $this->persistence->update_record($this->table, [
+            'id' => $id,
+            'email' => $email,
+            'password' => $password,
+        ]);
+    }
+
+    /**
      * Delete multiple users from database table.
      * @param array $emails user emails.
      */
