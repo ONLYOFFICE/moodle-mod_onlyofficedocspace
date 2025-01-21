@@ -33,4 +33,12 @@ $functions = [
         'capabilities'  => 'moodle/site:config',
         'services' => [],
     ],
+    'mod_onlyofficedocspace_update_admin_settings' => [
+        'classname' => 'mod_onlyofficedocspace\external\update_admin_settings',
+        'description' => 'Update DocSpace settings for the admin',
+        'type' => 'write',
+        'ajax' => true,
+        'capabilities'  => 'moodle/site:config',
+        'services' => [],
+    ],
 ];
