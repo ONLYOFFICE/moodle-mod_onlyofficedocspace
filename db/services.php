@@ -41,4 +41,11 @@ $functions = [
         'capabilities'  => 'moodle/site:config',
         'services' => [],
     ],
+    'mod_onlyofficedocspace_update_user_password' => [
+        'classname' => 'mod_onlyofficedocspace\external\update_user_password',
+        'description' => 'Update DocSpace user password',
+        'type' => 'write',
+        'ajax' => true,
+        'services' => [],
+    ],
 ];
