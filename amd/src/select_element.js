@@ -26,9 +26,10 @@ define(
         'mod_onlyofficedocspace/docspace_integration_sdk',
         'mod_onlyofficedocspace/select_modal',
         'mod_onlyofficedocspace/login_modal',
-        'core/str'
+        'core/str',
+        'mod_onlyofficedocspace/repository'
     ],
-    function($, ModalEvents, DocspaceIntegrationSDK, DocSpaceSelectModal, DocSpaceLogInModal, Str) {
+    function($, ModalEvents, DocspaceIntegrationSDK, DocSpaceSelectModal, DocSpaceLogInModal, Str, Repository) {
         const frames = {
             system: "ds-system-frame",
             login: "ds-login-frame",
@@ -143,18 +144,12 @@ define(
                                     if (response.status && response.status !== 200) {
                                         document.getElementById("ds-login-error").style.display = "block";
                                     } else {
-                                        const updatePasswordUrl = M.cfg.wwwroot +
-                                            '/mod/onlyofficedocspace/api/updateuserpassword.php';
-                                        let data = {
-                                            email: user.email,
-                                            password: passwordHash,
-                                        };
-                                        $.ajax({
-                                            type: 'POST',
-                                            url: updatePasswordUrl,
-                                            dataType: 'json',
-                                            data: data,
-                                        });
+                                        // eslint-disable-next-line promise/no-nesting
+                                        await Repository.updateUserPassword(user.email, passwordHash)
+                                            .catch((error) => {
+                                                // eslint-disable-next-line no-console
+                                                console.log(error);
+                                            });
 
                                         modal.destroy();
                                         setState('selectors');
