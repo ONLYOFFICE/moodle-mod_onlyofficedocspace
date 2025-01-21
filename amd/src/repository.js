@@ -61,3 +61,22 @@ export const updateAdminSettings = (
 
     return fetchMany([{methodname: 'mod_onlyofficedocspace_update_admin_settings', args}])[0];
 };
+
+/**
+ * Update DocSpace user password
+ *
+ * @param   {string} email DocSpace admin email
+ * @param   {string} password DocSpace admin password hash
+ * @returns {Promise}
+ */
+export const updateUserPassword = (
+    email,
+    password,
+) => {
+    const args = {
+        email,
+        password,
+    };
+
+    return fetchMany([{methodname: 'mod_onlyofficedocspace_update_user_password', args}])[0];
+};
