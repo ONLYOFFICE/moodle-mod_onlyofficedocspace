@@ -23,6 +23,7 @@
  */
 
 use mod_onlyofficedocspace\local\common\flash_message;
+use mod_onlyofficedocspace\local\common\url_parser;
 use mod_onlyofficedocspace\local\docspace\docspace_settings;
 use mod_onlyofficedocspace\local\errors\docspace_error;
 use mod_onlyofficedocspace\output\docspaceusers;
@@ -87,7 +88,7 @@ if ($ADMIN->fulltree) {
             );
         }
 
-        $url = $CFG->wwwroot;
+        $url = url_parser::get_base($CFG->wwwroot);
         $managedocspacesettings->add(
             new admin_setting_heading(
                 'onlyofficedocspace/docspace_csp_warning',
