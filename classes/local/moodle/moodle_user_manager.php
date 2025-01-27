@@ -83,8 +83,8 @@ class moodle_user_manager {
         );
 
         foreach ($users as &$user) {
-            $roles = $this->persistence->get_records('role_assignments', ['userid' => $user->id], fields: 'roleid');
-            $roles = array_map(fn($role) => $role->roleid, $roles);
+            $roles = $this->persistence->get_records('role_assignments', ['userid' => $user->id], fields: 'id,roleid');
+            $roles = array_unique(array_map(fn($role) => $role->roleid, $roles));
             $user->role = implode(',', array_intersect_key($archetypes, $roles));
         }
 
