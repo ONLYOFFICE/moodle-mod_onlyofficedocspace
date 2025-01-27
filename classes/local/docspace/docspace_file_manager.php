@@ -53,10 +53,10 @@ class docspace_file_manager {
     /**
      * getfile
      *
-     * @param int $id
+     * @param string $id
      * @return array
      */
-    public function getfile(int $id): array {
+    public function getfile(string $id): array {
         $url = "$this->url/api/2.0/files/file/$id";
 
         $jar = CookieJar::fromArray([
@@ -81,10 +81,10 @@ class docspace_file_manager {
     /**
      * getroom
      *
-     * @param int $id
+     * @param string $id
      * @return array
      */
-    public function getroom(int $id): array {
+    public function getroom(string $id): array {
         $url = "$this->url/api/2.0/files/rooms/$id";
 
         $jar = CookieJar::fromArray([

@@ -29,5 +29,22 @@
  * @return bool
  */
 function xmldb_onlyofficedocspace_upgrade($oldversion) {
+    global $DB;
+    $dbman = $DB->get_manager();
+    if ($oldversion < 2024111201) {
+        // Change docspaceitemid field type and precision.
+        $table1 = new xmldb_table('onlyofficedocspace');
+        $field1 = new xmldb_field('docspaceitemid');
+
+        $field1->set_attributes(XMLDB_TYPE_CHAR, 255, null, XMLDB_NOTNULL, null);
+        $dbman->change_field_type($table1, $field1);
+        $dbman->change_field_precision($table1, $field1);
+        $dbman->change_field_notnull($table1, $field1);
+
+        // No settings to migrate.
+        // Update db version tag.
+        upgrade_mod_savepoint(true, 2024111201, 'onlyofficedocspace');
+    }
+
     return true;
 }
