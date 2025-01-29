@@ -18,13 +18,15 @@
  * Define docspace user manager class
  *
  * @package    mod_onlyofficedocspace
- * @copyright   2024 Ascensio System SIA <integration@onlyoffice.com>
+ * @copyright   2025 Ascensio System SIA <integration@onlyoffice.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace mod_onlyofficedocspace\local\docspace;
 
-use mod_onlyofficedocspace\local\common\http_request;
+use core\http_client;
+use GuzzleHttp\Cookie\CookieJar;
+use GuzzleHttp\Exception\RequestException;
 use mod_onlyofficedocspace\local\docspace\enums\docspace_user_type;
 use mod_onlyofficedocspace\local\errors\docspace_error;
 
@@ -64,10 +66,9 @@ class docspace_user_manager {
     public function invite(string $email, string $password, string $firstname, string $lastname, docspace_user_type $type) {
         $url = "$this->url/api/2.0/people/active";
 
-        $options = [
-            CURLOPT_HTTPHEADER => ['Content-Type: application/json; charset=utf-8'],
-            CURLOPT_COOKIE => "asc_auth_key=$this->token",
-        ];
+        $jar = CookieJar::fromArray([
+            'asc_auth_key' => $this->token,
+        ], parse_url($this->url, PHP_URL_HOST));
 
         $user = [
             'email'        => $email,
@@ -77,15 +78,21 @@ class docspace_user_manager {
             'type'         => $type->value,
         ];
 
-        $data = json_encode($user);
+        $client = new http_client();
 
-        $response = http_request::post($url, $data, $options);
+        try {
+            $response = $client->post($url, [
+                'cookies' => $jar,
+                'headers' => [
+                    'Accept' => 'application/json',
+                ],
+                'json' => $user,
+            ]);
 
-        if ($response->hasErrors()) {
+            $body = json_decode($response->getBody(), true, flags: JSON_THROW_ON_ERROR);
+        } catch (RequestException) {
             throw new docspace_error(get_string('docspaceuserinviteerror', 'onlyofficedocspace', $email));
         }
-
-        $body = $response->jsonResponse();
 
         return $body['response'];
     }
@@ -117,17 +124,24 @@ class docspace_user_manager {
     private function requestusers(): array {
         $url = "$this->url/api/2.0/people";
 
-        $options = [
-            CURLOPT_COOKIE => "asc_auth_key=$this->token",
-        ];
+        $jar = CookieJar::fromArray([
+            'asc_auth_key' => $this->token,
+        ], parse_url($this->url, PHP_URL_HOST));
 
-        $response = http_request::get($url, $options);
+        $client = new http_client();
 
-        if ($response->hasErrors() || $response->status() !== 200) {
+        try {
+            $response = $client->get($url, [
+                'cookies' => $jar,
+                'headers' => [
+                    'Accept' => 'application/json',
+                ],
+            ]);
+
+            $body = json_decode($response->getBody(), true, flags: JSON_THROW_ON_ERROR);
+        } catch (RequestException) {
             throw new docspace_error(get_string('docspacerequestuserserror', 'onlyofficedocspace'));
         }
-
-        $body = $response->jsonResponse();
 
         return $body['response'];
     }
@@ -141,21 +155,28 @@ class docspace_user_manager {
     private function requestuser(string $email): array|null {
         $url = "$this->url/api/2.0/people/email?email=$email";
 
-        $options = [
-            CURLOPT_COOKIE => "asc_auth_key=$this->token",
-        ];
+        $jar = CookieJar::fromArray([
+            'asc_auth_key' => $this->token,
+        ], parse_url($this->url, PHP_URL_HOST));
 
-        $response = http_request::get($url, $options);
+        $client = new http_client();
 
-        if ($response->hasErrors() && $response->status() !== 404) {
-            throw new docspace_error(get_string('docspacerequestusererror', 'onlyofficedocspace'));
+        try {
+            $response = $client->get($url, [
+                'cookies' => $jar,
+                'headers' => [
+                    'Accept' => 'application/json',
+                ],
+            ]);
+
+            $body = json_decode($response->getBody(), true, flags: JSON_THROW_ON_ERROR);
+        } catch (RequestException $e) {
+            if ($e->hasResponse() && $e->getResponse()->getStatusCode() === 404) {
+                return null;
+            }
+
+            throw new docspace_error(get_string('docspacerequestuserserror', 'onlyofficedocspace'));
         }
-
-        if ($response->status() === 404) {
-            return null;
-        }
-
-        $body = $response->jsonResponse();
 
         return $body['response'];
     }

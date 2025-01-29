@@ -18,7 +18,7 @@
  * Define a class for managing moodle docspace users
  *
  * @package    mod_onlyofficedocspace
- * @copyright   2024 Ascensio System SIA <integration@onlyoffice.com>
+ * @copyright   2025 Ascensio System SIA <integration@onlyoffice.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -81,6 +81,20 @@ class moodle_docspace_user_manager {
                 'password' => $password,
             ]);
         }
+    }
+
+    /**
+     * Update a moodle docspace user.
+     * @param int $id user id.
+     * @param string $email user email.
+     * @param string $password user password hash.
+     */
+    public function update(int $id, string $email, string $password): void {
+        $this->persistence->update_record($this->table, [
+            'id' => $id,
+            'email' => $email,
+            'password' => $password,
+        ]);
     }
 
     /**

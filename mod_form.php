@@ -21,7 +21,7 @@
  * visit: http://docs.moodle.org/en/Development:lib/formslib.php
  *
  * @package    mod_onlyofficedocspace
- * @copyright  2024 Ascensio System SIA <integration@onlyoffice.com>
+ * @copyright  2025 Ascensio System SIA <integration@onlyoffice.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -39,7 +39,7 @@ require_once($CFG->dirroot . '/course/moodleform_mod.php');
  * visit: http://docs.moodle.org/en/Development:lib/formslib.php
  *
  * @package    mod_onlyofficedocspace
- * @copyright  2024 Ascensio System SIA <integration@onlyoffice.com>
+ * @copyright  2025 Ascensio System SIA <integration@onlyoffice.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_onlyofficedocspace_mod_form extends moodleform_mod {

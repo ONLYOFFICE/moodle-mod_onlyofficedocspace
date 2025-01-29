@@ -18,7 +18,7 @@
  * Languages configuration for the mod_onlyofficedocspace plugin.
  *
  * @package   mod_onlyofficedocspace
- * @copyright 2024 Ascensio System SIA <integration@onlyoffice.com>
+ * @copyright 2025 Ascensio System SIA <integration@onlyoffice.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -67,14 +67,14 @@ $string['onlyofficedocspace:view'] = 'View ONLYOFFICE DocSpace activity';
 $string['paramsmissingvalidationerror'] = 'Required credentials are missing';
 $string['pluginadministration'] = 'ONLYOFFICE DocSpace activity administration';
 $string['pluginname'] = 'ONLYOFFICE DocSpace';
-$string['privacy:metadata:onlyofficedocspace_admin'] = 'Information about DocSpace admin.';
-$string['privacy:metadata:onlyofficedocspace_admin:login'] = 'DocSpace admin login.';
-$string['privacy:metadata:onlyofficedocspace_admin:password'] = 'DocSpace admin password.';
-$string['privacy:metadata:onlyofficedocspace_dsuser'] = 'Information about DocSpace user stored in database.';
-$string['privacy:metadata:onlyofficedocspace_dsuser:email'] = 'DocSpace user\'s email.';
-$string['privacy:metadata:onlyofficedocspace_dsuser:password'] = 'DocSpace user\'s password hash.';
-$string['privacy:metadata:onlyofficedocspace_users'] = 'User information used for account creation in DocSpace.';
-$string['privacy:metadata:onlyofficedocspace_users:email'] = 'Moodle user\'s email.';
+$string['privacy:metadata:onlyofficedocspace_admin'] = 'This plugin sends DocSpace admin credentials to the external service ONLYOFFICE DocSpace for authentication.';
+$string['privacy:metadata:onlyofficedocspace_admin:login'] = 'The administrator’s username is sent to the external service to authenticate API requests.';
+$string['privacy:metadata:onlyofficedocspace_admin:password'] = 'The administrator’s password is sent to the third-party service for authentication. This is never stored within Moodle and is only used during secure API communication.';
+$string['privacy:metadata:onlyofficedocspace_dsuser'] = 'This plugin stores ONLYOFFICE DocSpace user credentials in the Moodle database for authentication purposes.';
+$string['privacy:metadata:onlyofficedocspace_dsuser:email'] = 'The email of a DocSpace user as registered in the third-party service.';
+$string['privacy:metadata:onlyofficedocspace_dsuser:password'] = 'The hashed password of a DocSpace user as registered in the third-party service.';
+$string['privacy:metadata:onlyofficedocspace_users'] = 'This plugin sends user emails to the external service ONLYOFFICE DocSpace for registration and synchronization purposes.';
+$string['privacy:metadata:onlyofficedocspace_users:email'] = 'The user’s email address is sent to the external service ONLYOFFICE DocSpace for account creation and synchronization.';
 $string['rolewarning'] = 'The current Moodle user will be added to DocSpace with the <b>Room admin</b> role';
 $string['selecteditemtype:file'] = 'Selected file';
 $string['selecteditemtype:room'] = 'Selected room';

@@ -18,7 +18,7 @@
  * Define a class for managing moodle users
  *
  * @package    mod_onlyofficedocspace
- * @copyright   2024 Ascensio System SIA <integration@onlyoffice.com>
+ * @copyright   2025 Ascensio System SIA <integration@onlyoffice.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -83,8 +83,8 @@ class moodle_user_manager {
         );
 
         foreach ($users as &$user) {
-            $roles = $this->persistence->get_records('role_assignments', ['userid' => $user->id], fields: 'roleid');
-            $roles = array_map(fn($role) => $role->roleid, $roles);
+            $roles = $this->persistence->get_records('role_assignments', ['userid' => $user->id], fields: 'id,roleid');
+            $roles = array_unique(array_map(fn($role) => $role->roleid, $roles));
             $user->role = implode(',', array_intersect_key($archetypes, $roles));
         }
 
