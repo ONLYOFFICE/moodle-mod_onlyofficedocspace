@@ -85,7 +85,7 @@ class moodle_docspace_user_manager {
 
     /**
      * Update a moodle docspace user.
-     * @param string $id user id.
+     * @param int $id user id.
      * @param string $email user email.
      * @param string $password user password hash.
      */
