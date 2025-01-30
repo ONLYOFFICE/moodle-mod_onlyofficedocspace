@@ -110,10 +110,10 @@ class update_admin_settings extends \core_external\external_api {
 
         try {
             $settings->ensureIntegrity();
-        } catch (invalid_credentials_error $e) {
+        } catch (docspace_error $e) {
             return self::return_errors(
                 0,
-                'invalidcredentialserror',
+                'docspaceerror',
                 $e->getMessage()
             );
         }
