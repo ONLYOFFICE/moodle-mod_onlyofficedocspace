@@ -61,6 +61,7 @@ jobs:
           - php: 8.1
             moodle-branch: MOODLE_405_STABLE
             database: mariadb
+            port: 3306
 
     steps:
       - name: Check out repository code
