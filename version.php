@@ -18,14 +18,14 @@
  * Version metadata for the mod_onlyofficedocspace plugin.
  *
  * @package   mod_onlyofficedocspace
- * @copyright 2024 Ascensio System SIA <integration@onlyoffice.com>
+ * @copyright 2025 Ascensio System SIA <integration@onlyoffice.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'mod_onlyofficedocspace';
-$plugin->version = 2024111200;
-$plugin->release = 'v1.0.1';
+$plugin->version = 2025012900;
+$plugin->release = 'v1.0.2';
 $plugin->requires = 2023100905;
 $plugin->maturity = MATURITY_STABLE;

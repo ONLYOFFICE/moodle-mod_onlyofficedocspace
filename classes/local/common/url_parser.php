@@ -15,18 +15,38 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Define a docspace error class
+ * Define a simple url parser class
  *
  * @package    mod_onlyofficedocspace
  * @copyright   2025 Ascensio System SIA <integration@onlyoffice.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_onlyofficedocspace\local\errors;
-use Exception;
+namespace mod_onlyofficedocspace\local\common;
 
 /**
- * docspace_error
+ * url_parser
  */
-class docspace_error extends Exception {
+class url_parser {
+
+
+    /**
+     * get the base of the url
+     *
+     * @param string $url
+     * @return string
+     */
+    public static function get_base(string $url): string {
+        $scheme = parse_url($url, PHP_URL_SCHEME);
+        $host   = parse_url($url, PHP_URL_HOST);
+        $port   = parse_url($url, PHP_URL_PORT);
+
+        $baseurl = $scheme . '://' . $host;
+
+        if ($port) {
+            $baseurl .= ':' . $port;
+        }
+
+        return $baseurl;
+    }
 }

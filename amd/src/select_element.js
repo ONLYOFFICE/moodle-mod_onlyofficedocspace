@@ -15,7 +15,7 @@
 
 /**
  * @module mod_onlyofficedocspace/select_element
- * @copyright  2024 Ascensio System SIA <integration@onlyoffice.com>
+ * @copyright  2025 Ascensio System SIA <integration@onlyoffice.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  **/
 /* eslint-disable no-undef, capitalized-comments */
@@ -26,9 +26,10 @@ define(
         'mod_onlyofficedocspace/docspace_integration_sdk',
         'mod_onlyofficedocspace/select_modal',
         'mod_onlyofficedocspace/login_modal',
-        'core/str'
+        'core/str',
+        'mod_onlyofficedocspace/repository'
     ],
-    function($, ModalEvents, DocspaceIntegrationSDK, DocSpaceSelectModal, DocSpaceLogInModal, Str) {
+    function($, ModalEvents, DocspaceIntegrationSDK, DocSpaceSelectModal, DocSpaceLogInModal, Str, Repository) {
         const frames = {
             system: "ds-system-frame",
             login: "ds-login-frame",
@@ -143,18 +144,12 @@ define(
                                     if (response.status && response.status !== 200) {
                                         document.getElementById("ds-login-error").style.display = "block";
                                     } else {
-                                        const updatePasswordUrl = M.cfg.wwwroot +
-                                            '/mod/onlyofficedocspace/api/updateuserpassword.php';
-                                        let data = {
-                                            email: user.email,
-                                            password: passwordHash,
-                                        };
-                                        $.ajax({
-                                            type: 'POST',
-                                            url: updatePasswordUrl,
-                                            dataType: 'json',
-                                            data: data,
-                                        });
+                                        // eslint-disable-next-line promise/no-nesting
+                                        await Repository.updateUserPassword(user.email, passwordHash)
+                                            .catch((error) => {
+                                                // eslint-disable-next-line no-console
+                                                console.log(error);
+                                            });
 
                                         modal.destroy();
                                         setState('selectors');

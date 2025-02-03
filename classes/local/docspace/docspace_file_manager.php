@@ -18,13 +18,14 @@
  * Define docspace file manager class
  *
  * @package    mod_onlyofficedocspace
- * @copyright   2024 Ascensio System SIA <integration@onlyoffice.com>
+ * @copyright   2025 Ascensio System SIA <integration@onlyoffice.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace mod_onlyofficedocspace\local\docspace;
 
-use mod_onlyofficedocspace\local\common\http_request;
+use core\http_client;
+use GuzzleHttp\Cookie\CookieJar;
 use mod_onlyofficedocspace\local\errors\docspace_error;
 
 /**
@@ -52,23 +53,27 @@ class docspace_file_manager {
     /**
      * getfile
      *
-     * @param int $id
+     * @param string $id
      * @return array
      */
-    public function getfile(int $id): array {
+    public function getfile(string $id): array {
         $url = "$this->url/api/2.0/files/file/$id";
 
-        $options = [
-            CURLOPT_COOKIE => "asc_auth_key=$this->token",
-        ];
+        $jar = CookieJar::fromArray([
+            'asc_auth_key' => $this->token,
+        ], parse_url($this->url, PHP_URL_HOST));
 
-        $response = http_request::get($url, $options);
+        $client = new http_client();
 
-        if ($response->hasErrors() || $response->status() !== 200) {
+        $response = $client->get($url, [
+            'cookies' => $jar,
+        ]);
+
+        if ($response->getStatusCode() !== 200) {
             throw new docspace_error(get_string('docspacefilenotfound', 'onlyofficedocspace'));
         }
 
-        $body = $response->jsonResponse();
+        $body = json_decode($response->getBody(), true);
 
         return $body['response'];
     }
@@ -76,23 +81,27 @@ class docspace_file_manager {
     /**
      * getroom
      *
-     * @param int $id
+     * @param string $id
      * @return array
      */
-    public function getroom(int $id): array {
+    public function getroom(string $id): array {
         $url = "$this->url/api/2.0/files/rooms/$id";
 
-        $options = [
-            CURLOPT_COOKIE => "asc_auth_key=$this->token",
-        ];
+        $jar = CookieJar::fromArray([
+            'asc_auth_key' => $this->token,
+        ], parse_url($this->url, PHP_URL_HOST));
 
-        $response = http_request::get($url, $options);
+        $client = new http_client();
 
-        if ($response->hasErrors() || $response->status() !== 200) {
+        $response = $client->get($url, [
+            'cookies' => $jar,
+        ]);
+
+        if ($response->getStatusCode() !== 200) {
             throw new docspace_error(get_string('docspaceroomnotfound', 'onlyofficedocspace'));
         }
 
-        $body = $response->jsonResponse();
+        $body = json_decode($response->getBody(), true, flags: JSON_THROW_ON_ERROR);
 
         return $body['response'];
     }

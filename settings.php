@@ -18,11 +18,12 @@
  * Adds admin settings for the plugin.
  *
  * @package     mod_onlyofficedocspace
- * @copyright   2024 Ascensio System SIA <integration@onlyoffice.com>
+ * @copyright   2025 Ascensio System SIA <integration@onlyoffice.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 use mod_onlyofficedocspace\local\common\flash_message;
+use mod_onlyofficedocspace\local\common\url_parser;
 use mod_onlyofficedocspace\local\docspace\docspace_settings;
 use mod_onlyofficedocspace\local\errors\docspace_error;
 use mod_onlyofficedocspace\output\docspaceusers;
@@ -87,7 +88,7 @@ if ($ADMIN->fulltree) {
             );
         }
 
-        $url = $CFG->wwwroot;
+        $url = url_parser::get_base($CFG->wwwroot);
         $managedocspacesettings->add(
             new admin_setting_heading(
                 'onlyofficedocspace/docspace_csp_warning',

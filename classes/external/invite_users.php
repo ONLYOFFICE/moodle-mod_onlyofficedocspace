@@ -15,64 +15,77 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Define a class for handling invite users request
+ * External function class for inviting users to OnlyOffice DocSpace
  *
  * @package    mod_onlyofficedocspace
- * @copyright   2024 Ascensio System SIA <integration@onlyoffice.com>
+ * @copyright   2025 Ascensio System SIA <integration@onlyoffice.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_onlyofficedocspace\local\http\requests;
+namespace mod_onlyofficedocspace\external;
 
+use context_system;
+use core_external\external_function_parameters;
+use core_external\external_multiple_structure;
+use core_external\external_single_structure;
+use core_external\external_value;
+use invalid_parameter_exception;
 use mod_onlyofficedocspace\local\common\flash_message;
 use mod_onlyofficedocspace\local\docspace\docspace_settings;
 use mod_onlyofficedocspace\local\docspace\docspace_user_manager;
 use mod_onlyofficedocspace\local\docspace\enums\docspace_user_type;
 use mod_onlyofficedocspace\local\errors\docspace_error;
-use mod_onlyofficedocspace\local\errors\validation_error;
 use mod_onlyofficedocspace\local\moodle\moodle_docspace_user_manager;
 use mod_onlyofficedocspace\local\moodle\moodle_user_manager;
 
 /**
- * invite_users_request
+ * invite_users external function class
  */
-class invite_users_request {
+class invite_users extends \core_external\external_api {
 
     /**
-     * @var array
-     */
-    private array $users;
-
-    /**
-     * __construct
+     * Returns description of method parameters
      *
-     * @return void
+     * @return external_function_parameters
      */
-    public function __construct() {
-        if (! (isset($_POST['users']) && is_array($_POST['users']))) {
-            throw new validation_error(get_string('paramsmissingvalidationerror', 'onlyofficedocspace'));
-        }
-
-        $users = $_POST['users'];
-
-        foreach ($users as $user) {
-            if (! (
-                (array_key_exists('id', $user) && array_key_exists('hash', $user))
-                && (!empty($user['id']) && !empty($user['hash']))
-            )) {
-                throw new validation_error(get_string('paramsmissingvalidationerror', 'onlyofficedocspace'));
-            }
-        }
-
-        $this->users = $users;
+    public static function execute_parameters() {
+        return new external_function_parameters([
+            'users' => new external_multiple_structure(
+                new external_single_structure([
+                    'id' => new external_value(PARAM_INT, 'user\'s id'),
+                    'hash' => new external_value(PARAM_RAW, 'generated hash'),
+                ])
+            ),
+        ]);
     }
 
     /**
-     * __invoke
-     *
-     * @return void
+     * Invite users to OnlyOffice DocSpace
+     * @param array $users users array (with ids and hash strings)
+     * @return array
      */
-    public function __invoke() {
+    public static function execute($users) {
+        $contextsystem = context_system::instance();
+        self::validate_context($contextsystem);
+        require_capability('moodle/site:config', $contextsystem);
+
+        [
+            'users' => $users
+        ] = self::validate_parameters(self::execute_parameters(), [
+            'users' => $users,
+        ]);
+
+        if (empty($users)) {
+            throw new invalid_parameter_exception(get_string('paramsmissingvalidationerror', 'onlyofficedocspace'));
+        }
+
+        foreach ($users as $user) {
+            $user = (object)$user;
+            if (trim($user->hash) == '') {
+                throw new invalid_parameter_exception(get_string('paramsmissingvalidationerror', 'onlyofficedocspace'));
+            }
+        }
+
         $settings = new docspace_settings();
         $settings->ensureIntegrity();
 
@@ -86,7 +99,7 @@ class invite_users_request {
         $moodleusermanager = new moodle_user_manager();
         $moodledocspaceusermanager = new moodle_docspace_user_manager();
 
-        foreach ($this->users as $useritem) {
+        foreach ($users as $useritem) {
             $user = $moodleusermanager->get($useritem['id']);
 
             if ($user === null) {
@@ -114,7 +127,7 @@ class invite_users_request {
             }
         }
 
-        $userscount = count($this->users);
+        $userscount = count($users);
 
         $flash = new flash_message();
 
@@ -136,5 +149,16 @@ class invite_users_request {
                 get_string('failedinvitations', 'onlyofficedocspace', "$failedinvitations / $userscount")
             );
         }
+
+        return [];
+    }
+
+    /**
+     * Describe the return structure of the external service.
+     *
+     * @return external_single_structure
+     */
+    public static function execute_returns(): external_single_structure {
+        return new external_single_structure([]);
     }
 }

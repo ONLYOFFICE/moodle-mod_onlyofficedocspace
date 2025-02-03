@@ -15,7 +15,7 @@
 
 /**
  * @module mod_onlyofficedocspace/docspace_users
- * @copyright  2024 Ascensio System SIA <integration@onlyoffice.com>
+ * @copyright  2025 Ascensio System SIA <integration@onlyoffice.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  **/
 /* eslint-disable no-undef, no-console */
@@ -26,9 +26,10 @@ define(
         'mod_onlyofficedocspace/password_generator',
         'mod_onlyofficedocspace/notification',
         'core/str',
-        'core_form/changechecker'
+        'core_form/changechecker',
+        'mod_onlyofficedocspace/repository'
     ],
-    function($, DocSpaceIntegrationSDK, PasswordGenerator, Notification, Str, ChangeChecker) {
+    function($, DocSpaceIntegrationSDK, PasswordGenerator, Notification, Str, ChangeChecker, Repository) {
         const selectors = {
             inviteButton: "button[data-action='invite-to-docspace']",
             usersTable: "table[id='ds-invite-users-table']",
@@ -61,18 +62,15 @@ define(
                 user.hash = hash;
             }
 
-            const inviteUsersUrl = M.cfg.wwwroot + '/mod/onlyofficedocspace/api/inviteusers.php';
-
-            $.ajax({
-                type: 'POST',
-                url: inviteUsersUrl,
-                dataType: 'json',
-                data: {users: users},
-            }).done(function() {
-                window.location.reload();
-            }).fail(function() {
-                enableInviteButton();
-            });
+            await Repository.inviteUsers(users)
+                // eslint-disable-next-line promise/always-return
+                .then(() => {
+                    window.location.reload();
+                })
+                .catch((error) => {
+                    console.log(error);
+                    enableInviteButton();
+                });
         };
 
         const inviteUsers = async function() {
