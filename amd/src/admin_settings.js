@@ -14,144 +14,49 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @module mod_onlyofficedocspace/admin_settings
+ * @module     mod_onlyofficedocspace/admin_settings
  * @copyright  2025 Ascensio System SIA <integration@onlyoffice.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  **/
-/* eslint-disable no-undef, no-console */
-define(
-    [
-        'jquery',
-        'mod_onlyofficedocspace/docspace_integration_sdk',
-        'mod_onlyofficedocspace/password_generator',
-        'mod_onlyofficedocspace/notification',
-        'core/str',
-        'mod_onlyofficedocspace/repository'
-    ],
-    function($, DocspaceIntegrationSdk, PasswordGenerator, Notification, Str, Repository) {
-        const systemFrameId = "oodsp-system-frame";
-        const scriptId = 'oodsp-api-js';
-        let submitButton;
+define(['core/str', 'core/notification'], function(Str, Notification) {
+    return {
+        init: async function(urls) {
+            const settingsForm = document.getElementById("adminsettings");
+            const warningMessage = await Str.getString("adminsettings:urlwarning", "onlyofficedocspace");
+            const confirmStr = await Str.getString("confirm", "onlyofficedocspace");
+            const confirmchangesStr = await Str.getString("confirmchanges", "onlyofficedocspace");
 
-        const updateSettings = async function() {
-            const url = document.getElementById("id_s_onlyofficedocspace_docspace_server_url")
-                .value
-                .trim()
-                .replace(/\/+$/g, '');
-            const email = document.getElementById("id_s_onlyofficedocspace_docspace_login").value;
-            const password = document.getElementsByName("s_onlyofficedocspace_docspace_password")[0].value;
-            const hashSettings = await DocSpace.SDK.frames[systemFrameId].getHashSettings();
-            const passwordHash = await DocSpace
-                .SDK
-                .frames[systemFrameId]
-                .createHash(password.trim(), hashSettings);
-            const randomPasswordHash = await DocSpace
-                .SDK
-                .frames[systemFrameId]
-                .createHash(PasswordGenerator.generate(), hashSettings);
+            if (settingsForm) {
+                settingsForm.addEventListener("submit", async function(event) {
+                    event.preventDefault();
 
-            await Repository.updateAdminSettings(
-                url,
-                email,
-                passwordHash,
-                randomPasswordHash
-            )
-            .then((response) => { // eslint-disable-next-line promise/always-return
-                if (response.status === false) {
-                    for (const warning of response.warnings) {
-                        Notification.display(warning.message, 'error');
+                    const url = document.getElementById("id_s_onlyofficedocspace_docspace_server_url")
+                        .value
+                        .trim()
+                        .replace(/\/+$/g, '');
+
+                    if (urls.current && url !== urls.current && url !== urls.default) {
+                        const clearUsers = document.getElementById("id_s_onlyofficedocspace_clear_users");
+
+                        await Notification.saveCancelPromise(
+                            confirmchangesStr,
+                            warningMessage,
+                            confirmStr,
+                        ).then(() => {
+                            clearUsers.checked = true;
+                            return;
+                        }).catch(() => {
+                            clearUsers.checked = false;
+                        });
+
+                        if (!clearUsers.checked) {
+                            return;
+                        }
                     }
-                } else {
-                    window.location.reload();
-                }
-            }).catch(async(error) => {
-                if (error.errorcode === "invalidparameter") {
-                    Notification.display(await Str.getString("paramsmissingvalidationerror", "onlyofficedocspace"), 'error');
-                } else {
-                    console.log(error);
-                }
-            })
-            // eslint-disable-next-line promise/always-return
-            .then(() => {
-                submitButton.removeAttribute("disabled");
-            });
-        };
 
-        return {
-            init: async function(urls) {
-                const settingsForm = document.getElementById("adminsettings");
-                const warningMessage = await Str.getString("adminsettings:urlwarning", "onlyofficedocspace");
-
-                if (settingsForm) {
-                    submitButton = settingsForm.querySelector("[type='submit']");
-                    const systemFrameContainer = document.createElement("div");
-                    systemFrameContainer.classList.add("d-none");
-                    const systemFrame = document.createElement("div");
-                    systemFrame.id = systemFrameId;
-                    systemFrameContainer.appendChild(systemFrame);
-                    settingsForm.appendChild(systemFrameContainer);
-
-                    settingsForm.addEventListener("submit", async function(event) {
-                        event.preventDefault();
-                        submitButton.setAttribute("disabled", "");
-                        const url = document.getElementById("id_s_onlyofficedocspace_docspace_server_url")
-                            .value
-                            .trim()
-                            .replace(/\/+$/g, '');
-
-                        // eslint-disable-next-line no-alert
-                        if (urls.current && url !== urls.current && url !== urls.default && confirm(warningMessage) !== true) {
-                            submitButton.removeAttribute("disabled");
-                            return;
-                        }
-
-                        let script = document.getElementById(scriptId);
-
-                        if (script && script.src !== url + "/" + DocspaceIntegrationSdk.apiUrl) {
-                            if (typeof DocSpace !== "undefined" && DocSpace !== null) {
-                                await DocSpace.SDK.frames[systemFrameId].destroyFrame();
-                            }
-                            script.remove();
-                            script = null;
-                            window.DocSpace = null;
-                        }
-
-                        if (!script) {
-                            await DocspaceIntegrationSdk.initScript(scriptId, url)
-                                .catch(async() => {
-                                    Notification.display(await Str.getString('docspaceunreachable', 'onlyofficedocspace'), 'error');
-                                });
-                        }
-
-                        if (typeof DocSpace === "undefined" || DocSpace === null) {
-                            submitButton.removeAttribute("disabled");
-                            return;
-                        }
-
-                        if (DocSpace.SDK.frames[systemFrameId]) {
-                            updateSettings();
-                        } else {
-                            DocSpace.SDK.initSystem(
-                                {
-                                    frameId: systemFrameId,
-                                    events: {
-                                        "onAppReady": async function() {
-                                            updateSettings();
-                                        },
-                                        "onAppError": async function(error) {
-                                            console.log(error);
-                                            Notification.display(
-                                                await Str.getString('docspaceapperror', 'onlyofficedocspace'), 'error'
-                                            );
-                                            submitButton.removeAttribute("disabled");
-                                        }
-                                    }
-                                }
-                            );
-                        }
-                    });
-                }
+                    event.target.submit();
+                });
             }
-        };
-    });
-/* eslint-enable no-undef, no-console */
+        }
+    };
+});
