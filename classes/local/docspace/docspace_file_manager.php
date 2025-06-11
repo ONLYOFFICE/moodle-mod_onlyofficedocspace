@@ -39,7 +39,7 @@ class docspace_file_manager {
      * @param string $id
      * @return array
      */
-    public function getfile(string $id): array {
+    public static function getfile(string $id): array {
         $url = docspace_settings::url() . "/api/2.0/files/file/$id";
         $apikey = docspace_settings::api_key();
 
@@ -75,7 +75,7 @@ class docspace_file_manager {
      * @param string $id
      * @return array
      */
-    public function getroom(string $id): array {
+    public static function getroom(string $id): array {
         $url = docspace_settings::url() . "/api/2.0/files/rooms/$id";
         $apikey = docspace_settings::api_key();
 

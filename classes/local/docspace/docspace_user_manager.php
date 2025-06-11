@@ -43,7 +43,7 @@ class docspace_user_manager {
      * @param docspace_user_type $type
      * @return mixed
      */
-    public function invite(string $email, string $password, string $firstname, string $lastname, docspace_user_type $type) {
+    public static function invite(string $email, string $password, string $firstname, string $lastname, docspace_user_type $type) {
         $url = docspace_settings::url() .  "/api/2.0/people/active";
         $apikey = docspace_settings::api_key();
 
@@ -88,8 +88,8 @@ class docspace_user_manager {
      * @param string $email
      * @return array | null
      */
-    public function get(string $email): array | null {
-        return $this->requestUser($email);
+    public static function get(string $email): array | null {
+        return static::requestUser($email);
     }
 
     /**
@@ -97,8 +97,8 @@ class docspace_user_manager {
      *
      * @return docspace_users_collection
      */
-    public function all(): docspace_users_collection {
-        return new docspace_users_collection($this->requestUsers());
+    public static function all(): docspace_users_collection {
+        return new docspace_users_collection(static::requestusers());
     }
 
     /**
@@ -106,7 +106,7 @@ class docspace_user_manager {
      *
      * @return array
      */
-    private function requestusers(): array {
+    private static function requestusers(): array {
         $url = docspace_settings::url() . "/api/2.0/people";
         $apikey = docspace_settings::api_key();
 
@@ -142,7 +142,7 @@ class docspace_user_manager {
      * @param string $email
      * @return array | null
      */
-    private function requestuser(string $email): array|null {
+    private static function requestuser(string $email): array|null {
         $url = docspace_settings::url() . "/api/2.0/people/email?email=$email";
         $apikey = docspace_settings::api_key();
 
