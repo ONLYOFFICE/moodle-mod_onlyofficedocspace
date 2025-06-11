@@ -46,5 +46,15 @@ function xmldb_onlyofficedocspace_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2024111201, 'onlyofficedocspace');
     }
 
+    if ($oldversion < 2025012901) {
+        // Remove deprecated settings that are no longer used.
+        unset_config('docspace_login', 'onlyofficedocspace');
+        unset_config('docspace_password', 'onlyofficedocspace');
+        unset_config('docspace_token', 'onlyofficedocspace');
+
+        // Update db version tag.
+        upgrade_mod_savepoint(true, 2025012901, 'onlyofficedocspace');
+    }
+
     return true;
 }
