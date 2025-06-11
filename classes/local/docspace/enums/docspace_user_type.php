@@ -27,7 +27,7 @@ namespace mod_onlyofficedocspace\local\docspace\enums;
 enum docspace_user_type: int {
 
     case ROOM_ADMIN = 1;
-    case POWER_USER = 4;
-    case NOT_FOUND = 3;
+    case USER = 4;
+    case NOT_FOUND = 5;
 }
 // phpcs:enable
