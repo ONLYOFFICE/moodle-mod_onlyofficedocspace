@@ -52,15 +52,14 @@ require_login($course, true, $cm);
 $context = CONTEXT_MODULE::instance($cm->id);
 require_capability('mod/onlyofficedocspace:view', $context);
 
-$docspacefilemanager = new docspace_file_manager($docspacesettings->url(), $docspacesettings->token());
 $docspacefile = null;
 $docspaceurl = docspace_settings::url();
 
 try {
     if ($onlyofficedocspace->docspaceitemtype === 'file') {
-        $docspacefile = $docspacefilemanager->getFile($onlyofficedocspace->docspaceitemid);
+        $docspacefile = docspace_file_manager::getfile($onlyofficedocspace->docspaceitemid);
     } else if ($onlyofficedocspace->docspaceitemtype === 'room') {
-        $docspacefile = $docspacefilemanager->getRoom($onlyofficedocspace->docspaceitemid);
+        $docspacefile = docspace_file_manager::getroom($onlyofficedocspace->docspaceitemid);
     }
 } catch (docspace_error $e) {
     $filenotfoundmessage = $e->getMessage();
