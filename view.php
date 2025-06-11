@@ -89,6 +89,7 @@ if (property_exists($USER, 'lang')) {
 
 $editorconfig = [
     "frameId" => "ds-editor-frame",
+    "src" => $docspacesettings->url(),
     "width" => "100%",
     "height" => "100%",
     "id" => $onlyofficedocspace->docspaceitemid,

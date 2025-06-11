@@ -126,6 +126,7 @@ define(
                     modal.modal[0].style = "width: 440px;";
                     modal.show();
                     const docSpace = DocSpace.SDK.initSystem({
+                        src: docspaceUrl,
                         frameId: frames.login,
                         width: 0,
                         height: 0,
@@ -185,6 +186,7 @@ define(
             modal.show();
 
             const config = {
+                src: docspaceUrl,
                 frameId: frames.select,
                 width: "100%",
                 height: "538px",
@@ -230,6 +232,7 @@ define(
 
         const loginToDocSpace = async function() {
             DocSpace.SDK.initSystem({
+                src: docspaceUrl,
                 frameId: frames.system,
                 width: "100%",
                 height: "100%",

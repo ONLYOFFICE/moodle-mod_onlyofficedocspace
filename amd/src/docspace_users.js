@@ -36,6 +36,7 @@ define(
             selectAllUsers: "input[data-action='select-all-users']",
             systemFrameId: "ds-system-frame",
         };
+        let docspaceUrl;
 
         const disableInviteButton = function() {
             document.querySelector(selectors.inviteButton).setAttribute("disabled", "");
@@ -93,6 +94,7 @@ define(
                 sendInvitations(users);
             } else {
                 DocSpace.SDK.initSystem({
+                    src: docspaceUrl,
                     frameId: selectors.systemFrameId,
                     events: {
                         onAppReady: async function() {
@@ -109,6 +111,7 @@ define(
 
         return {
             init: async function(url) {
+                docspaceUrl = url;
                 ChangeChecker.disableAllChecks();
                 await DocSpaceIntegrationSDK.initScript("oodsp-api-js", url);
                 const toggler = document.querySelector(selectors.selectAllUsers);
