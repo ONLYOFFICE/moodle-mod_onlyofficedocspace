@@ -65,7 +65,7 @@ class docspace_auth_manager {
                 throw new invalid_credentials_error();
             }
 
-            throw new docspace_error(get_string('docspaceautherror', 'onlyofficedocspace'));
+            throw new docspace_error(get_string('docspacerequesterror', 'onlyofficedocspace'));
         }
 
         return $body['response']['token'];
