@@ -31,7 +31,6 @@ use core_external\external_single_structure;
 use core_external\external_value;
 use invalid_parameter_exception;
 use mod_onlyofficedocspace\local\common\flash_message;
-use mod_onlyofficedocspace\local\docspace\docspace_settings;
 use mod_onlyofficedocspace\local\docspace\docspace_user_manager;
 use mod_onlyofficedocspace\local\docspace\enums\docspace_user_type;
 use mod_onlyofficedocspace\local\errors\docspace_error;
@@ -86,15 +85,11 @@ class invite_users extends \core_external\external_api {
             }
         }
 
-        $settings = new docspace_settings();
-        $settings->ensureIntegrity();
-
         $skippedinvitations = 0;
         $failedinvitations = 0;
         $sentinvitations = 0;
 
-        $docspaceusermanager = new docspace_user_manager($settings->url(), $settings->token());
-        $docspaceusers = $docspaceusermanager->all();
+        $docspaceusers = docspace_user_manager::all();
 
         $moodleusermanager = new moodle_user_manager();
         $moodledocspaceusermanager = new moodle_docspace_user_manager();
@@ -109,7 +104,7 @@ class invite_users extends \core_external\external_api {
 
             if ($docspaceusers->get($user->email) === null) {
                 try {
-                    $docspaceusermanager->invite(
+                    docspace_user_manager::invite(
                         $user->email,
                         $useritem['hash'],
                         $user->firstname,
