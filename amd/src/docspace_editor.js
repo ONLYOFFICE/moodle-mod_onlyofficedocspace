@@ -100,7 +100,7 @@ define(['jquery', 'mod_onlyofficedocspace/docspace_integration_sdk', 'core/str']
                                     await docSpace.logout();
                                 }
 
-                                if (user && user.hash) {
+                                if (!currentUser && user && user.hash) {
                                     await docSpace.login(user.email, user.hash);
                                 }
 
