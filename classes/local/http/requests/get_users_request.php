@@ -90,7 +90,7 @@ class get_users_request {
 
                 $type = $docspaceuser['isRoomAdmin']
                     ? docspace_user_type::ROOM_ADMIN
-                    : docspace_user_type::POWER_USER;
+                    : docspace_user_type::USER;
             }
 
             $users[] = [

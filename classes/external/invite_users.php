@@ -114,7 +114,7 @@ class invite_users extends \core_external\external_api {
                         $useritem['hash'],
                         $user->firstname,
                         $user->lastname,
-                        docspace_user_type::POWER_USER,
+                        docspace_user_type::USER,
                     );
                     $sentinvitations++;
                 } catch (docspace_error $e) {
