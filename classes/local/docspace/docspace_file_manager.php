@@ -25,7 +25,7 @@
 namespace mod_onlyofficedocspace\local\docspace;
 
 use core\http_client;
-use GuzzleHttp\Cookie\CookieJar;
+use GuzzleHttp\Exception\RequestException;
 use mod_onlyofficedocspace\local\errors\docspace_error;
 
 /**
@@ -34,42 +34,33 @@ use mod_onlyofficedocspace\local\errors\docspace_error;
 class docspace_file_manager {
 
     /**
-     * DocSpace file manager constructor
-     * @param string $url
-     * @param string $token
-     */
-    public function __construct(
-        /**
-         * @var string $url
-         */
-        private string $url,
-        /**
-         * @var string $token
-         */
-        private string $token
-    ) {
-    }
-
-    /**
      * getfile
      *
      * @param string $id
      * @return array
      */
     public function getfile(string $id): array {
-        $url = "$this->url/api/2.0/files/file/$id";
-
-        $jar = CookieJar::fromArray([
-            'asc_auth_key' => $this->token,
-        ], parse_url($this->url, PHP_URL_HOST));
+        $url = docspace_settings::url() . "/api/2.0/files/file/$id";
+        $apikey = docspace_settings::api_key();
 
         $client = new http_client();
 
-        $response = $client->get($url, [
-            'cookies' => $jar,
-        ]);
+        try {
+            $response = $client->get($url, [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $apikey,
+                ],
+            ]);
+        } catch (RequestException $e) {
+            $statuscode = $e->hasResponse() ? $e->getResponse()->getStatusCode() : null;
 
-        if ($response->getStatusCode() !== 200) {
+            if ($statuscode === 401 || $statuscode === 403) {
+                // Unauthorized access, throw an error.
+                throw new docspace_error(get_string('docspaceunauthorized', 'onlyofficedocspace'));
+            }
+
             throw new docspace_error(get_string('docspacefilenotfound', 'onlyofficedocspace'));
         }
 
@@ -85,19 +76,27 @@ class docspace_file_manager {
      * @return array
      */
     public function getroom(string $id): array {
-        $url = "$this->url/api/2.0/files/rooms/$id";
-
-        $jar = CookieJar::fromArray([
-            'asc_auth_key' => $this->token,
-        ], parse_url($this->url, PHP_URL_HOST));
+        $url = docspace_settings::url() . "/api/2.0/files/rooms/$id";
+        $apikey = docspace_settings::api_key();
 
         $client = new http_client();
 
-        $response = $client->get($url, [
-            'cookies' => $jar,
-        ]);
+        try {
+            $response = $client->get($url, [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $apikey,
+                ],
+            ]);
+        } catch (RequestException $e) {
+            $statuscode = $e->hasResponse() ? $e->getResponse()->getStatusCode() : null;
 
-        if ($response->getStatusCode() !== 200) {
+            if ($statuscode === 401 || $statuscode === 403) {
+                // Unauthorized access, throw an error.
+                throw new docspace_error(get_string('docspaceunauthorized', 'onlyofficedocspace'));
+            }
+
             throw new docspace_error(get_string('docspaceroomnotfound', 'onlyofficedocspace'));
         }
 

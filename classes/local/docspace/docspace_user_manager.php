@@ -25,7 +25,6 @@
 namespace mod_onlyofficedocspace\local\docspace;
 
 use core\http_client;
-use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Exception\RequestException;
 use mod_onlyofficedocspace\local\docspace\enums\docspace_user_type;
 use mod_onlyofficedocspace\local\errors\docspace_error;
@@ -34,25 +33,6 @@ use mod_onlyofficedocspace\local\errors\docspace_error;
  * Docspace user manager class
  */
 class docspace_user_manager {
-
-    /**
-     * Docspace user manager class constructor
-     * @param string $url
-     * @param string $token
-     * @return void
-     */
-    public function __construct(
-        /**
-         * @var string $url
-         */
-        private string $url,
-
-        /**
-         * @var string $token
-         */
-        private string $token
-    ) {
-    }
 
     /**
      * Invite user to docspace
@@ -64,11 +44,8 @@ class docspace_user_manager {
      * @return mixed
      */
     public function invite(string $email, string $password, string $firstname, string $lastname, docspace_user_type $type) {
-        $url = "$this->url/api/2.0/people/active";
-
-        $jar = CookieJar::fromArray([
-            'asc_auth_key' => $this->token,
-        ], parse_url($this->url, PHP_URL_HOST));
+        $url = docspace_settings::url() .  "/api/2.0/people/active";
+        $apikey = docspace_settings::api_key();
 
         $user = [
             'email'        => $email,
@@ -82,15 +59,23 @@ class docspace_user_manager {
 
         try {
             $response = $client->post($url, [
-                'cookies' => $jar,
                 'headers' => [
                     'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $apikey,
                 ],
                 'json' => $user,
             ]);
 
             $body = json_decode($response->getBody(), true, flags: JSON_THROW_ON_ERROR);
-        } catch (RequestException) {
+        } catch (RequestException $e) {
+            $statuscode = $e->hasResponse() ? $e->getResponse()->getStatusCode() : null;
+
+            if ($statuscode === 401 || $statuscode === 403) {
+                // Unauthorized access, throw an error.
+                throw new docspace_error(get_string('docspaceunauthorized', 'onlyofficedocspace'));
+            }
+
             throw new docspace_error(get_string('docspaceuserinviteerror', 'onlyofficedocspace', $email));
         }
 
@@ -122,25 +107,30 @@ class docspace_user_manager {
      * @return array
      */
     private function requestusers(): array {
-        $url = "$this->url/api/2.0/people";
-
-        $jar = CookieJar::fromArray([
-            'asc_auth_key' => $this->token,
-        ], parse_url($this->url, PHP_URL_HOST));
+        $url = docspace_settings::url() . "/api/2.0/people";
+        $apikey = docspace_settings::api_key();
 
         $client = new http_client();
 
         try {
             $response = $client->get($url, [
-                'cookies' => $jar,
                 'headers' => [
                     'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $apikey,
                 ],
             ]);
 
             $body = json_decode($response->getBody(), true, flags: JSON_THROW_ON_ERROR);
-        } catch (RequestException) {
-            throw new docspace_error(get_string('docspacerequestuserserror', 'onlyofficedocspace'));
+        } catch (RequestException $e) {
+            $statuscode = $e->hasResponse() ? $e->getResponse()->getStatusCode() : null;
+
+            if ($statuscode === 401 || $statuscode === 403) {
+                // Unauthorized access, throw an error.
+                throw new docspace_error(get_string('docspaceunauthorized', 'onlyofficedocspace'));
+            }
+
+            throw new docspace_error(get_string('docspacerequesterror', 'onlyofficedocspace'));
         }
 
         return $body['response'];
@@ -153,29 +143,34 @@ class docspace_user_manager {
      * @return array | null
      */
     private function requestuser(string $email): array|null {
-        $url = "$this->url/api/2.0/people/email?email=$email";
-
-        $jar = CookieJar::fromArray([
-            'asc_auth_key' => $this->token,
-        ], parse_url($this->url, PHP_URL_HOST));
+        $url = docspace_settings::url() . "/api/2.0/people/email?email=$email";
+        $apikey = docspace_settings::api_key();
 
         $client = new http_client();
 
         try {
             $response = $client->get($url, [
-                'cookies' => $jar,
                 'headers' => [
                     'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $apikey,
                 ],
             ]);
 
             $body = json_decode($response->getBody(), true, flags: JSON_THROW_ON_ERROR);
         } catch (RequestException $e) {
-            if ($e->hasResponse() && $e->getResponse()->getStatusCode() === 404) {
+            $statuscode = $e->hasResponse() ? $e->getResponse()->getStatusCode() : null;
+            if ($statuscode === 404) {
+                // User not found, return null.
                 return null;
             }
 
-            throw new docspace_error(get_string('docspacerequestuserserror', 'onlyofficedocspace'));
+            if ($statuscode === 401 || $statuscode === 403) {
+                // Unauthorized access, throw an error.
+                throw new docspace_error(get_string('docspaceunauthorized', 'onlyofficedocspace'));
+            }
+
+            throw new docspace_error(get_string('docspacerequesterror', 'onlyofficedocspace'));
         }
 
         return $body['response'];
