@@ -35,33 +35,19 @@ use mod_onlyofficedocspace\local\errors\invalid_credentials_error;
 class docspace_auth_manager {
 
     /**
-     * __construct
-     *
-     * @param string $url
-     * @return void
-     */
-    public function __construct(
-        /**
-         * @var string $url
-         */
-        private string $url
-    ) {
-    }
-
-    /**
      * authenticate
      *
      * @param string $login
      * @param string $password
      * @return string
      */
-    public function authenticate(string $login, string $password): string {
+    public static function authenticate(string $login, string $password): string {
         $usercredentials = [
             'UserName' => $login,
             'PasswordHash' => $password,
         ];
 
-        $url = "$this->url/api/2.0/authentication";
+        $url = docspace_settings::url() . "/api/2.0/authentication";
 
         $client = new http_client();
 
