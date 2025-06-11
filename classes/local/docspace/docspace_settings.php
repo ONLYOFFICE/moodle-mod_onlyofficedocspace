@@ -26,7 +26,6 @@ namespace mod_onlyofficedocspace\local\docspace;
 
 use core\http_client;
 use GuzzleHttp\Exception\RequestException;
-use mod_onlyofficedocspace\local\errors\docspace_error;
 
 /**
  * Docspace settings class
@@ -38,69 +37,13 @@ class docspace_settings {
      */
     const DOCSPACE_DEFAULT_URL = 'https://docspaceserver.url';
     /**
-     * Docspace url setting key
+     * Docspace url setting parameter
      */
     const DOCSPACE_URL = 'docspace_server_url';
     /**
-     * Docspace admin login setting key
+     * Docspace api key parameter
      */
-    const DOCSPACE_LOGIN = 'docspace_login';
-    /**
-     * Docspace admin password hash setting key
-     */
-    const DOCSPACE_PASSWORD = 'docspace_password';
-    /**
-     * Docspace admin auth token setting key
-     */
-    const DOCSPACE_TOKEN = 'docspace_token';
-
-    /**
-     * @var string $url docspace url
-     */
-    private string $url;
-    /**
-     * @var string $login docspace admin login
-     */
-    private string $login;
-    /**
-     * @var string $password docspace admin password hash
-     */
-    private string $password;
-    /**
-     * @var string $token docspace auth token
-     */
-    private string $token;
-
-    /**
-     * __construct
-     *
-     * @param ?string $url
-     * @param ?string $login
-     * @param ?string $password
-     * @param ?string $token
-     * @return void
-     */
-    public function __construct(
-        ?string $url = null,
-        ?string $login = null,
-        ?string $password = null,
-        ?string $token = null
-    ) {
-        $this->url = $url ?? $this->get(self::DOCSPACE_URL);
-        $this->login = $login ?? $this->get(self::DOCSPACE_LOGIN);
-        $this->password = $password ?? $this->get(self::DOCSPACE_PASSWORD);
-        $this->token = $token ?? $this->get(self::DOCSPACE_TOKEN);
-    }
-
-    /**
-     * Update docspace settings
-     */
-    public function update(): void {
-        $this->set(self::DOCSPACE_URL, $this->url);
-        $this->set(self::DOCSPACE_LOGIN, $this->login);
-        $this->set(self::DOCSPACE_PASSWORD, $this->password);
-        $this->set(self::DOCSPACE_TOKEN, $this->token);
-    }
+    const DOCSPACE_API_KEY = 'docspace_api_key';
 
     /**
      * Return docspace url
@@ -110,90 +53,10 @@ class docspace_settings {
     }
 
     /**
-     * Return docspace login
+     * Return docspace api key
      */
-    public function login(): string {
-        return $this->login;
-    }
-
-    /**
-     * Return docspace password hash
-     */
-    public function password(): string {
-        return $this->password;
-    }
-
-    /**
-     * Return docspace auth token
-     */
-    public function token(): string {
-        return $this->token;
-    }
-
-    /**
-     * Replace auth token
-     * @param string $token auth token
-     */
-    public function replacetoken(string $token): void {
-        $this->token = $token;
-    }
-
-    /**
-     * Health check docspace
-     * @throws docspace_error
-     */
-    public function healthcheck(): void {
-        try {
-            $client = new http_client();
-            $client->head($this->url);
-        } catch (RequestException) {
-            throw new docspace_error(get_string('docspaceunreachable', 'onlyofficedocspace'));
-        }
-    }
-
-    /**
-     * Ensure integrity of docspace settings
-     * @throws docspace_error
-     */
-    public function ensureintegrity(): void {
-        $this->checkIntegrity();
-        $this->update();
-    }
-
-    /**
-     * Check integrity of docspace settings
-     * @throws docspace_error
-     */
-    public function checkintegrity(): void {
-        $this->healthCheck();
-        $this->authenticate();
-        $this->ensureIsAdmin();
-    }
-
-    /**
-     * Login to docspace with credentials
-     * @throws docspace_error
-     */
-    private function authenticate(): void {
-        $docspaceauthmanager = new docspace_auth_manager($this->url);
-
-        $token = $docspaceauthmanager->authenticate($this->login, $this->password);
-
-        $this->replaceToken($token);
-    }
-
-    /**
-     * Ensure the user is docspace admin
-     * @throws docspace_error
-     */
-    private function ensureisadmin(): void {
-        $docspaceusermanager = new docspace_user_manager($this->url, $this->token);
-
-        $user = $docspaceusermanager->get($this->login);
-
-        if (!$user['isAdmin']) {
-            throw new docspace_error(get_string('docspacepermissiondenied', 'onlyofficedocspace'));
-        }
+    public static function api_key(): string {
+        return static::get(static::DOCSPACE_API_KEY, '');
     }
 
     /**
