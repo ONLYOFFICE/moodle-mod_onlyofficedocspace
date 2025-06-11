@@ -105,8 +105,8 @@ class docspace_settings {
     /**
      * Return docspace url
      */
-    public function url(): string {
-        return $this->url;
+    public static function url(): string {
+        return static::get(static::DOCSPACE_URL, static::DOCSPACE_DEFAULT_URL);
     }
 
     /**
@@ -202,7 +202,7 @@ class docspace_settings {
      * @param string $def default value
      * @return string setting value
      */
-    private function get(string $key, string $def = ''): string {
+    public static function get(string $key, string $def = ''): string {
         $option = get_config('onlyofficedocspace', $key);
 
         if ($option !== false) {
@@ -217,7 +217,7 @@ class docspace_settings {
      * @param string $key setting key
      * @param mixed $value setting value
      */
-    private function set(string $key, mixed $value): void {
+    public static function set(string $key, mixed $value): void {
         set_config($key, $value, 'onlyofficedocspace');
     }
 }
