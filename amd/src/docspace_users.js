@@ -100,9 +100,10 @@ define(
                         onAppReady: async function() {
                             sendInvitations(users);
                         },
-                        onAppError: function() {
-                            console.log("An error occured while initialising DocSpace Frame.");
+                        onAppError: function(error) {
+                            console.error(error);
                             DocSpace.SDK.frames[selectors.systemFrameId].destroyFrame();
+                            enableInviteButton();
                         }
                     }
                 });
