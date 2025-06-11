@@ -24,7 +24,6 @@
 
 namespace mod_onlyofficedocspace\local\http\requests;
 
-use mod_onlyofficedocspace\local\docspace\docspace_settings;
 use mod_onlyofficedocspace\local\docspace\docspace_user_manager;
 use mod_onlyofficedocspace\local\docspace\enums\docspace_user_status;
 use mod_onlyofficedocspace\local\docspace\enums\docspace_user_type;
@@ -37,20 +36,6 @@ use mod_onlyofficedocspace\local\moodle\moodle_user_manager;
 class get_users_request {
 
     /**
-     * @var docspace_settings
-     */
-    private docspace_settings $docspacesettings;
-
-    /**
-     * __construct
-     *
-     * @return void
-     */
-    public function __construct() {
-        $this->docspacesettings = new docspace_settings();
-    }
-
-    /**
      * __invoke
      *
      * @param string $sort
@@ -61,14 +46,13 @@ class get_users_request {
      */
     public function __invoke(string $sort = 'id', string $dir = 'ASC', int $page = 0, int $perpage = 0): array {
         $moodleusermanager = new moodle_user_manager();
-        $docspaceusermanager = new docspace_user_manager($this->docspacesettings->url(), $this->docspacesettings->token());
         $moodledocspaceusermanager = new moodle_docspace_user_manager();
 
         $moodleusers = in_array($sort, ['firstname', 'email', 'lastname'])
             ? $moodleusermanager->all($sort, $dir, $perpage * ($page - 1), $perpage)
             : $moodleusermanager->all(limitfrom: $perpage * ($page - 1), limitnum: $perpage);
 
-        $docspaceusers = $docspaceusermanager->all();
+        $docspaceusers = docspace_user_manager::all();
         $users = [];
 
         foreach ($moodleusers as $user) {
