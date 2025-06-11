@@ -53,6 +53,11 @@ if ($ADMIN->fulltree) {
             get_string('adminsettings:urldescription', 'onlyofficedocspace'),
             $defaulthost
         );
+        $docspaceurlconfigtext->set_updatedcallback(function () {
+            $docspaceurl = get_config('onlyofficedocspace', 'docspace_server_url');
+            $docspaceurl = rtrim($docspaceurl, '/');
+            set_config('docspace_server_url', $docspaceurl, 'onlyofficedocspace');
+        });
         $managedocspacesettings->add($docspaceurlconfigtext);
 
         $docspaceapikeyconfigtext = new admin_setting_configpasswordunmask(
