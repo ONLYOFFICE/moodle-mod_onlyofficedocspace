@@ -38,31 +38,6 @@ export const inviteUsers = (users) => {
 };
 
 /**
- * Update DocSpace admin settings
- *
- * @param   {string} url DocSpace url
- * @param   {string} email DocSpace admin email
- * @param   {string} password DocSpace admin password hash
- * @param   {string} randompassword Random password hash
- * @returns {Promise}
- */
-export const updateAdminSettings = (
-    url,
-    email,
-    password,
-    randompassword
-) => {
-    const args = {
-        url,
-        email,
-        password,
-        randompassword
-    };
-
-    return fetchMany([{methodname: 'mod_onlyofficedocspace_update_admin_settings', args}])[0];
-};
-
-/**
  * Update DocSpace user password
  *
  * @param   {string} email DocSpace admin email
