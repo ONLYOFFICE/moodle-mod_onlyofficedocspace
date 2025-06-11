@@ -83,4 +83,26 @@ class docspace_settings {
     public static function set(string $key, mixed $value): void {
         set_config($key, $value, 'onlyofficedocspace');
     }
+
+    /**
+     * Check if DocSpace is reachable
+     *
+     * @return bool True if reachable, false otherwise
+     */
+    public static function healthcheck(): bool {
+        $url = static::url();
+
+        if (empty($url)) {
+            return false;
+        }
+
+        try {
+            $client = new http_client();
+            $client->head($url);
+        } catch (RequestException) {
+            return false;
+        }
+
+        return true;
+    }
 }
