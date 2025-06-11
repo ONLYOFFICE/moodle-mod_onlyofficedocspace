@@ -22,8 +22,7 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use mod_onlyofficedocspace\local\common\flash_message;
-use mod_onlyofficedocspace\local\common\url_parser;
+use mod_onlyofficedocspace\local\admin\settings\post_submit_admin_setting;
 use mod_onlyofficedocspace\local\docspace\docspace_settings;
 use mod_onlyofficedocspace\local\errors\docspace_error;
 use mod_onlyofficedocspace\output\docspaceusers;
@@ -33,8 +32,6 @@ defined('MOODLE_INTERNAL') || die();
 require_once(dirname(__FILE__) . '/lib.php');
 
 global $DB, $PAGE, $CFG;
-
-$docspacesettings = new docspace_settings();
 
 $ADMIN->add('modsettings', new admin_category('onlyoffice_docspace_settings', get_string('pluginname', 'onlyofficedocspace')));
 
@@ -50,61 +47,6 @@ if ($ADMIN->fulltree) {
     $categoryparam = $PAGE->url->get_param('category');
 
     if ($categoryparam === 'onlyoffice_docspace_settings' || $sectionparam === $section) {
-        $flash = new flash_message();
-        $success = $flash->get('success');
-        $warning = $flash->get('warning');
-        $error = $flash->get('error');
-
-        if ($success) {
-            $notification = $OUTPUT->notification($success, 'success');
-            $managedocspacesettings->add(
-                new admin_setting_heading(
-                    'onlyofficedocspace/docspace_settings_success_status',
-                    '',
-                    $notification
-                )
-            );
-        }
-
-        if ($warning) {
-            $notification = $OUTPUT->notification($warning, 'warning');
-            $managedocspacesettings->add(
-                new admin_setting_heading(
-                    'onlyofficedocspace/docspace_settings_warning_status',
-                    '',
-                    $notification
-                )
-            );
-        }
-
-        if ($error) {
-            $notification = $OUTPUT->notification($error, 'error');
-            $managedocspacesettings->add(
-                new admin_setting_heading(
-                    'onlyofficedocspace/docspace_settings_error_status',
-                    '',
-                    $notification
-                )
-            );
-        }
-
-        $url = url_parser::get_base($CFG->wwwroot);
-        $managedocspacesettings->add(
-            new admin_setting_heading(
-                'onlyofficedocspace/docspace_csp_warning',
-                '',
-                $OUTPUT->notification(get_string('cspwarning', 'onlyofficedocspace', $url), 'warning'),
-            )
-        );
-
-        $managedocspacesettings->add(
-            new admin_setting_heading(
-                'onlyofficedocspace/docspace_room_admin_warning',
-                '',
-                $OUTPUT->notification(get_string('rolewarning', 'onlyofficedocspace', $url), 'warning'),
-            )
-        );
-
         $docspaceurlconfigtext = new admin_setting_configtext(
             'onlyofficedocspace/docspace_server_url',
             get_string('docspaceserverurl', 'onlyofficedocspace'),
@@ -113,24 +55,36 @@ if ($ADMIN->fulltree) {
         );
         $managedocspacesettings->add($docspaceurlconfigtext);
 
-        $docspaceloginconfigtext = new admin_setting_configtext(
-            'onlyofficedocspace/docspace_login',
-            get_string('docspacelogin', 'onlyofficedocspace'),
-            '',
+        $docspaceapikeyconfigtext = new admin_setting_configpasswordunmask(
+            'onlyofficedocspace/docspace_api_key',
+            get_string('settingsfield:apikey', 'onlyofficedocspace'),
+            get_string('settingsdescription:apikey', 'onlyofficedocspace'),
             ''
         );
-        $managedocspacesettings->add($docspaceloginconfigtext);
+        $managedocspacesettings->add($docspaceapikeyconfigtext);
 
-        $docspacepasswordconfigtext = new admin_setting_encryptedpassword(
-            'onlyofficedocspace/docspace_password',
-            get_string('docspacepassword', 'onlyofficedocspace'),
+        $clearusersflag = new admin_setting_configcheckbox(
+            'onlyofficedocspace/clear_users',
             '',
+            '',
+            false
         );
-        $managedocspacesettings->add($docspacepasswordconfigtext);
+        $clearusersflag->nosave = true;
+        $managedocspacesettings->add($clearusersflag);
+
+        $clearusersflagvalue = false;
+        $submitteddata = data_submitted();
+        if (($submitteddata && confirm_sesskey())) {
+            $clearusersflagvalue = isset($submitteddata->s_onlyofficedocspace_clear_users)
+                ? boolval($submitteddata->s_onlyofficedocspace_clear_users)
+                : false;
+        }
+
+        $managedocspacesettings->add(new post_submit_admin_setting($clearusersflagvalue));
 
         $PAGE->requires->js_call_amd('mod_onlyofficedocspace/admin_settings', 'init', [
             'urls' => [
-                'current' => $docspacesettings->url(),
+                'current' => docspace_settings::url(),
                 'default' => docspace_settings::DOCSPACE_DEFAULT_URL,
             ],
         ]);
@@ -172,7 +126,7 @@ if ($ADMIN->fulltree) {
                     )
             );
 
-            $PAGE->requires->js_call_amd('mod_onlyofficedocspace/docspace_users', 'init', [$docspacesettings->url()]);
+            $PAGE->requires->js_call_amd('mod_onlyofficedocspace/docspace_users', 'init', [docspace_settings::url()]);
         } catch (docspace_error $e) {
             $managedocspaceuserssettings->add(
                 new admin_setting_heading(
