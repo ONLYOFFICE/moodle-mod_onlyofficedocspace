@@ -35,8 +35,6 @@ global $USER, $CFG;
 $id = optional_param('id', 0, PARAM_INT); // Course_module ID.
 $n = optional_param('n', 0, PARAM_INT);  // Resource instance ID.
 $redirect = optional_param('redirect', 0, PARAM_BOOL);
-$docspacesettings = new docspace_settings();
-$docspacesettings->ensureIntegrity();
 
 if ($id) {
     $cm = get_coursemodule_from_id('onlyofficedocspace', $id, 0, false, MUST_EXIST);
@@ -56,6 +54,7 @@ require_capability('mod/onlyofficedocspace:view', $context);
 
 $docspacefilemanager = new docspace_file_manager($docspacesettings->url(), $docspacesettings->token());
 $docspacefile = null;
+$docspaceurl = docspace_settings::url();
 
 try {
     if ($onlyofficedocspace->docspaceitemtype === 'file') {
@@ -89,6 +88,7 @@ if (property_exists($USER, 'lang')) {
 
 $editorconfig = [
     "frameId" => "ds-editor-frame",
+    "src" => $docspaceurl,
     "width" => "100%",
     "height" => "100%",
     "id" => $onlyofficedocspace->docspaceitemid,
@@ -126,7 +126,7 @@ if ($docspacefile) {
         'mod_onlyofficedocspace/docspace_editor',
         'init',
         [
-            'docspaceUrl' => $docspacesettings->url(),
+            'docspaceUrl' => $docspaceurl,
             'config' => $editorconfig,
             'user' => $user,
         ],

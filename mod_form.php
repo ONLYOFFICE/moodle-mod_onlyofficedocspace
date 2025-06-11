@@ -52,6 +52,7 @@ class mod_onlyofficedocspace_mod_form extends moodleform_mod {
         global $CFG, $PAGE, $OUTPUT, $USER, $DB;
 
         $mform = $this->_form;
+        $docspaceurl = docspace_settings::url();
 
         $docspacesettings = new docspace_settings();
 
@@ -139,13 +140,13 @@ class mod_onlyofficedocspace_mod_form extends moodleform_mod {
         $mform->setType('docspaceitemicon', PARAM_TEXT);
 
         $selectelements[] = &$mform->createElement('html', $OUTPUT->render_from_template('onlyofficedocspace/select_element', [
-            'docspaceurl' => $docspacesettings->url(),
+            'docspaceurl' => $docspaceurl,
         ]));
         $PAGE->requires->js_call_amd(
             'mod_onlyofficedocspace/select_element',
             'init',
             [
-                'docspaceUrl' => $docspacesettings->url(),
+                'docspaceUrl' => $docspaceurl,
                 'user' => ['email' => $docspaceuser->email, 'hash' => $docspaceuser->password],
                 'activity' => $onlyofficedocspaceactivity,
             ],
