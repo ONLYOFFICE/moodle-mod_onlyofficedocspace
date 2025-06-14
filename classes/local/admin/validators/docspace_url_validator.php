@@ -36,22 +36,6 @@ use mod_onlyofficedocspace\local\docspace\docspace_settings;
 class docspace_url_validator extends validator {
 
     /**
-     * DocSpace URL.
-     *
-     * @var string
-     */
-    private string $url;
-
-    /**
-     * Constructor.
-     *
-     * @var string $url DocSpace url
-     */
-    public function __construct(string $url) {
-        $this->url = $url;
-    }
-
-    /**
      * Validate DocSpace settings.
      *
      * @return void
