@@ -68,8 +68,6 @@ class docspace_api_key_validator extends validator {
      */
     public function validate() {
         try {
-            $this->ensure_api_key_exists($this->apikey);
-
             $currentapikey = $this->fetch_current_api_key();
 
             $this->ensure_api_key_is_valid($currentapikey);
@@ -163,18 +161,6 @@ class docspace_api_key_validator extends validator {
         }
 
         return $owner;
-    }
-
-    /**
-     * Ensure the API key is present.
-     *
-     * @var string $apikey API key to check
-     * @return void
-     */
-    private function ensure_api_key_exists(string $apikey): void {
-        if (empty($apikey)) {
-            throw new validation_error(get_string('docspaceapikeyrequired', 'onlyofficedocspace'));
-        }
     }
 
     /**

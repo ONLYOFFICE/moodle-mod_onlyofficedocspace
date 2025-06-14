@@ -57,11 +57,6 @@ class docspace_url_validator extends validator {
      * @return void
      */
     public function validate() {
-        if (empty($this->url)) {
-            $this->errors[] = get_string('docspaceurlrequired', 'onlyofficedocspace');
-            return;
-        }
-
         if (docspace_settings::healthcheck() === false) {
             $this->errors[] = get_string('docspaceunreachable', 'onlyofficedocspace');
             return;
