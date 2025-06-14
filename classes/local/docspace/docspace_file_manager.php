@@ -27,6 +27,7 @@ namespace mod_onlyofficedocspace\local\docspace;
 use core\http_client;
 use GuzzleHttp\Exception\RequestException;
 use mod_onlyofficedocspace\local\errors\docspace_error;
+use mod_onlyofficedocspace\local\errors\docspace_item_not_found_error;
 
 /**
  * DocSpace file manager
@@ -61,7 +62,7 @@ class docspace_file_manager {
                 throw new docspace_error(get_string('docspaceunauthorized', 'onlyofficedocspace'));
             }
 
-            throw new docspace_error(get_string('docspacefilenotfound', 'onlyofficedocspace'));
+            throw new docspace_item_not_found_error(get_string('docspacefilenotfound', 'onlyofficedocspace'));
         }
 
         $body = json_decode($response->getBody(), true);
@@ -97,7 +98,7 @@ class docspace_file_manager {
                 throw new docspace_error(get_string('docspaceunauthorized', 'onlyofficedocspace'));
             }
 
-            throw new docspace_error(get_string('docspaceroomnotfound', 'onlyofficedocspace'));
+            throw new docspace_item_not_found_error(get_string('docspaceroomnotfound', 'onlyofficedocspace'));
         }
 
         $body = json_decode($response->getBody(), true, flags: JSON_THROW_ON_ERROR);
