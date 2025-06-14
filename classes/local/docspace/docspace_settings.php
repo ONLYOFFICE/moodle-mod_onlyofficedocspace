@@ -25,7 +25,7 @@
 namespace mod_onlyofficedocspace\local\docspace;
 
 use core\http_client;
-use GuzzleHttp\Exception\RequestException;
+use Exception;
 
 /**
  * Docspace settings class
@@ -99,7 +99,8 @@ class docspace_settings {
         try {
             $client = new http_client();
             $client->head($url);
-        } catch (RequestException) {
+        } catch (Exception $e) {
+            debugging('DocSpace health check failed: ' . $e->getMessage(), DEBUG_DEVELOPER);
             return false;
         }
 
