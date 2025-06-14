@@ -35,7 +35,7 @@ define(['core/str', 'core/notification'], function(Str, Notification) {
                         .trim()
                         .replace(/\/+$/g, '');
 
-                    if (urls.current && url !== urls.current && url !== urls.default) {
+                    if (urls.current && url !== urls.current && urls.current !== urls.default) {
                         const clearUsers = document.getElementById("id_s_onlyofficedocspace_clear_users");
 
                         await Notification.saveCancelPromise(
