@@ -47,7 +47,7 @@ if ($ADMIN->fulltree) {
     $categoryparam = $PAGE->url->get_param('category');
 
     if ($categoryparam === 'onlyoffice_docspace_settings' || $sectionparam === $section) {
-        $docspaceurlconfigtext = new admin_setting_configtext(
+        $docspaceurlconfigtext = new admin_setting_requiredtext(
             'onlyofficedocspace/docspace_server_url',
             get_string('docspaceserverurl', 'onlyofficedocspace'),
             get_string('adminsettings:urldescription', 'onlyofficedocspace'),
@@ -60,7 +60,7 @@ if ($ADMIN->fulltree) {
         });
         $managedocspacesettings->add($docspaceurlconfigtext);
 
-        $docspaceapikeyconfigtext = new admin_setting_configpasswordunmask(
+        $docspaceapikeyconfigtext = new admin_setting_requiredpasswordunmask(
             'onlyofficedocspace/docspace_api_key',
             get_string('settingsfield:apikey', 'onlyofficedocspace'),
             get_string('settingsdescription:apikey', 'onlyofficedocspace'),
