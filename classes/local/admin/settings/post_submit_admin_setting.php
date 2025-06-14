@@ -83,6 +83,11 @@ class post_submit_admin_setting extends admin_setting {
         $docspaceurl = docspace_settings::url();
         $docspaceapikey = docspace_settings::api_key();
 
+        if (empty($docspaceurl) || empty($docspaceapikey)) {
+            return '';
+        }
+
+        // Validate the DocSpace URL and API key.
         $docspaceurlvalidator = new docspace_url_validator($docspaceurl);
         $docspaceurlvalidator->validate();
         if ($docspaceurlvalidator->has_errors()) {
