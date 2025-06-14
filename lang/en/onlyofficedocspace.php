@@ -33,6 +33,7 @@ $string['docspaceapperror'] = 'Error during initialization. Please check your Do
 $string['docspaceautherror'] = 'The authentication process has failed.';
 $string['docspaceauthinvalidcredentials'] = 'Authentication failed. Incorrect login/password';
 $string['docspaceconfigurationerror'] = 'Please configure the plugin first on the ONLYOFFICE DocSpace settings page';
+$string['docspaceinvalidpermissions'] = 'The user does not have the required permissions to perform this action. Please check your DocSpace settings and try again.';
 $string['docspacefilenotfound'] = 'The required file was not found. Please check if the file still exist or contact the administrator.';
 $string['docspacelogin'] = 'DocSpace Login';
 $string['docspacepassword'] = 'DocSpace Password';
