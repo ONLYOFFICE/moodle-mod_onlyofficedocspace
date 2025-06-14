@@ -25,6 +25,7 @@
 use mod_onlyofficedocspace\local\docspace\docspace_file_manager;
 use mod_onlyofficedocspace\local\docspace\docspace_settings;
 use mod_onlyofficedocspace\local\errors\docspace_error;
+use mod_onlyofficedocspace\local\errors\docspace_item_not_found_error;
 use mod_onlyofficedocspace\local\moodle\moodle_docspace_user_manager;
 
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
@@ -61,8 +62,10 @@ try {
     } else if ($onlyofficedocspace->docspaceitemtype === 'room') {
         $docspacefile = docspace_file_manager::getroom($onlyofficedocspace->docspaceitemid);
     }
+} catch (docspace_item_not_found_error $e) {
+    $docspaceerrormessage = $e->getMessage();
 } catch (docspace_error $e) {
-    $filenotfoundmessage = $e->getMessage();
+    $docspaceerrormessage = get_string('docspaceunreachable', 'onlyofficedocspace', $e->getMessage());
 }
 
 $user = null;
@@ -131,7 +134,7 @@ if ($docspacefile) {
         ],
     );
 } else {
-    echo $OUTPUT->notification($filenotfoundmessage, 'error');
+    echo $OUTPUT->notification($docspaceerrormessage, 'error');
 }
 
 echo $OUTPUT->footer();
