@@ -143,7 +143,7 @@ class docspace_api_key_validator extends validator {
             $response = $client->get($url, [
                 'headers' => [
                     'Accept' => 'application/json',
-                    'Authorization' => 'Bearer ' . $this->apikey,
+                    'Authorization' => 'Bearer ' . $apikey,
                 ],
             ]);
             $body = json_decode($response->getBody(), true, flags: JSON_THROW_ON_ERROR);
