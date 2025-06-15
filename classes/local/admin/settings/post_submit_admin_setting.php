@@ -50,6 +50,8 @@ class post_submit_admin_setting extends admin_setting {
 
     /**
      * Constructor.
+     *
+     * @param bool $clearusers Flag to clear users in the database after validation
      */
     public function __construct($clearusers = false) {
         $this->clearusers = $clearusers;

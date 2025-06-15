@@ -55,6 +55,7 @@ class docspace_api_key_validator extends validator {
      * Constructor.
      *
      * @param string $url DocSpace URL
+     * @param string $apikey DocSpace API key
      */
     public function __construct(string $url, string $apikey) {
         $this->url = $url;
@@ -130,7 +131,7 @@ class docspace_api_key_validator extends validator {
     /**
      * Fetch the api key owner from DocSpace.
      *
-     * @var string
+     * @param string $apikey API key to fetch owner for
      * @return array
      */
     private function fetch_api_key_owner(string $apikey): array {
@@ -166,7 +167,7 @@ class docspace_api_key_validator extends validator {
     /**
      * Ensure the API key is valid.
      *
-     * @param string $apikey API key to validate
+     * @param array $apikey API key to validate
      * @return void
      */
     private function ensure_api_key_is_valid(array $apikey): void {
@@ -193,7 +194,7 @@ class docspace_api_key_validator extends validator {
     /**
      * Ensure the API key owner is DocSpace admin.
      *
-     * @var array $owner owner data
+     * @param array $owner owner data
      * @return void
      */
     private function ensure_api_key_owner_is_admin(array $owner): void {
