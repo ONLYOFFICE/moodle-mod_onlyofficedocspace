@@ -27,6 +27,7 @@
 
 use mod_onlyofficedocspace\local\docspace\docspace_settings;
 use mod_onlyofficedocspace\local\moodle\moodle_docspace_user_manager;
+use mod_onlyofficedocspace\local\moodle\plugin_settings;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -139,13 +140,13 @@ class mod_onlyofficedocspace_mod_form extends moodleform_mod {
         $mform->setType('docspaceitemicon', PARAM_TEXT);
 
         $selectelements[] = &$mform->createElement('html', $OUTPUT->render_from_template('onlyofficedocspace/select_element', [
-            'docspaceurl' => $docspacesettings->url(),
+            'docspaceurl' => plugin_settings::url(),
         ]));
         $PAGE->requires->js_call_amd(
             'mod_onlyofficedocspace/select_element',
             'init',
             [
-                'docspaceUrl' => $docspacesettings->url(),
+                'docspaceUrl' => plugin_settings::url(),
                 'user' => ['email' => $docspaceuser->email, 'hash' => $docspaceuser->password],
                 'activity' => $onlyofficedocspaceactivity,
             ],
