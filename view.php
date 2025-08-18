@@ -26,6 +26,7 @@ use mod_onlyofficedocspace\local\docspace\docspace_file_manager;
 use mod_onlyofficedocspace\local\docspace\docspace_settings;
 use mod_onlyofficedocspace\local\errors\docspace_error;
 use mod_onlyofficedocspace\local\moodle\moodle_docspace_user_manager;
+use mod_onlyofficedocspace\local\moodle\plugin_settings;
 
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 require_once(dirname(__FILE__) . '/lib.php');
@@ -36,7 +37,6 @@ $id = optional_param('id', 0, PARAM_INT); // Course_module ID.
 $n = optional_param('n', 0, PARAM_INT);  // Resource instance ID.
 $redirect = optional_param('redirect', 0, PARAM_BOOL);
 $docspacesettings = new docspace_settings();
-$docspacesettings->ensureIntegrity();
 
 if ($id) {
     $cm = get_coursemodule_from_id('onlyofficedocspace', $id, 0, false, MUST_EXIST);
@@ -54,7 +54,7 @@ require_login($course, true, $cm);
 $context = CONTEXT_MODULE::instance($cm->id);
 require_capability('mod/onlyofficedocspace:view', $context);
 
-$docspacefilemanager = new docspace_file_manager($docspacesettings->url(), $docspacesettings->token());
+$docspacefilemanager = new docspace_file_manager(plugin_settings::url(), plugin_settings::api_key());
 $docspacefile = null;
 
 try {
@@ -126,7 +126,7 @@ if ($docspacefile) {
         'mod_onlyofficedocspace/docspace_editor',
         'init',
         [
-            'docspaceUrl' => $docspacesettings->url(),
+            'docspaceUrl' => plugin_settings::url(),
             'config' => $editorconfig,
             'user' => $user,
         ],
