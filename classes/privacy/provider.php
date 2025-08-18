@@ -60,12 +60,11 @@ class provider implements \core_privacy\local\metadata\provider,
             'privacy:metadata:onlyofficedocspace_dsuser'
         );
 
-        $collection->add_external_location_link('onlyofficedocspace_admin',
+        $collection->add_external_location_link('onlyofficedocspace_settings',
             [
-                'login' => 'privacy:metadata:onlyofficedocspace_admin:login',
-                'password' => 'privacy:metadata:onlyofficedocspace_admin:password',
+                'api_key' => 'privacy:metadata:onlyofficedocspace_settings:api_key',
             ],
-            'privacy:metadata:onlyofficedocspace_admin');
+            'privacy:metadata:onlyofficedocspace_settings');
 
         $collection->add_external_location_link('onlyofficedocspace_users',
             [
