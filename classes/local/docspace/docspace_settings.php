@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Define docspace settings class
+ * DocSpace settings class
  *
- * @package    mod_onlyofficedocspace
+ * @package     mod_onlyofficedocspace
  * @copyright   2025 Ascensio System SIA <integration@onlyoffice.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -29,195 +29,108 @@ use GuzzleHttp\Exception\RequestException;
 use mod_onlyofficedocspace\local\errors\docspace_error;
 
 /**
- * Docspace settings class
+ * Class for interacting with ONLYOFFICE DocSpace API settings.
  */
 class docspace_settings {
 
     /**
-     * Docspace default url
-     */
-    const DOCSPACE_DEFAULT_URL = 'https://docspaceserver.url';
-    /**
-     * Docspace url setting key
-     */
-    const DOCSPACE_URL = 'docspace_server_url';
-    /**
-     * Docspace admin login setting key
-     */
-    const DOCSPACE_LOGIN = 'docspace_login';
-    /**
-     * Docspace admin password hash setting key
-     */
-    const DOCSPACE_PASSWORD = 'docspace_password';
-    /**
-     * Docspace admin auth token setting key
-     */
-    const DOCSPACE_TOKEN = 'docspace_token';
-
-    /**
-     * @var string $url docspace url
-     */
-    private string $url;
-    /**
-     * @var string $login docspace admin login
-     */
-    private string $login;
-    /**
-     * @var string $password docspace admin password hash
-     */
-    private string $password;
-    /**
-     * @var string $token docspace auth token
-     */
-    private string $token;
-
-    /**
-     * __construct
-     *
-     * @param ?string $url
-     * @param ?string $login
-     * @param ?string $password
-     * @param ?string $token
-     * @return void
+     * Constructor
+     * @param string $url DocSpace URL
+     * @param string $apikey DocSpace API key
      */
     public function __construct(
-        ?string $url = null,
-        ?string $login = null,
-        ?string $password = null,
-        ?string $token = null
+        /**
+         * @var string DocSpace URL
+         */
+        protected string $url,
+        /**
+         * @var string DocSpace API key
+         */
+        protected string $apikey
     ) {
-        $this->url = $url ?? $this->get(self::DOCSPACE_URL);
-        $this->login = $login ?? $this->get(self::DOCSPACE_LOGIN);
-        $this->password = $password ?? $this->get(self::DOCSPACE_PASSWORD);
-        $this->token = $token ?? $this->get(self::DOCSPACE_TOKEN);
     }
 
     /**
-     * Update docspace settings
+     * Adds a new domain to the list of allowed domains for DocSpace.
+     *
+     * @param string $newdomain The domain to be added.
+     * @return void
      */
-    public function update(): void {
-        $this->set(self::DOCSPACE_URL, $this->url);
-        $this->set(self::DOCSPACE_LOGIN, $this->login);
-        $this->set(self::DOCSPACE_PASSWORD, $this->password);
-        $this->set(self::DOCSPACE_TOKEN, $this->token);
+    public function add_domain_to_csp_list(string $newdomain): void {
+        $domains = $this->fetch_csp_domains_list();
+
+        if (!in_array($newdomain, $domains)) {
+            $domains[] = $newdomain;
+            $this->update_csp_domains_list($domains);
+        }
     }
 
     /**
-     * Return docspace url
+     * Fetches the allowed domains list from DocSpace portal.
+     *
+     * @return array The list of allowed domains.
+     * @throws docspace_error If there has been an error while fetching the domains.
      */
-    public function url(): string {
-        return $this->url;
-    }
+    public function fetch_csp_domains_list(): array {
+        $url = "{$this->url}/api/2.0/security/csp";
 
-    /**
-     * Return docspace login
-     */
-    public function login(): string {
-        return $this->login;
-    }
+        $client = new http_client();
 
-    /**
-     * Return docspace password hash
-     */
-    public function password(): string {
-        return $this->password;
-    }
-
-    /**
-     * Return docspace auth token
-     */
-    public function token(): string {
-        return $this->token;
-    }
-
-    /**
-     * Replace auth token
-     * @param string $token auth token
-     */
-    public function replacetoken(string $token): void {
-        $this->token = $token;
-    }
-
-    /**
-     * Health check docspace
-     * @throws docspace_error
-     */
-    public function healthcheck(): void {
         try {
-            $client = new http_client();
-            $client->head($this->url);
-        } catch (RequestException) {
-            throw new docspace_error(get_string('docspaceunreachable', 'onlyofficedocspace'));
+            $response = $client->get($url, [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Authorization' => "Bearer {$this->apikey}",
+                ],
+            ]);
+            $body = json_decode($response->getBody(), true);
+            $domains = $body['response']['domains'] ?? [];
+            return $domains;
+        } catch (RequestException $e) {
+            $statuscode = $e->hasResponse() ? $e->getResponse()->getStatusCode() : null;
+
+            if ($statuscode === 401 || $statuscode === 403) {
+                // Unauthorized access, throw an error.
+                throw new docspace_error(get_string('docspaceunauthorized', 'onlyofficedocspace'));
+            }
+
+            throw new docspace_error(get_string('docspacerequesterror', 'onlyofficedocspace'));
         }
     }
 
     /**
-     * Ensure integrity of docspace settings
-     * @throws docspace_error
+     * Updates the allowed domains list in DocSpace portal.
+     *
+     * @param array $domains The new list of allowed domains.
+     * @return void
+     * @throws docspace_error If there has been an error while updating the domains.
      */
-    public function ensureintegrity(): void {
-        $this->checkIntegrity();
-        $this->update();
-    }
-
-    /**
-     * Check integrity of docspace settings
-     * @throws docspace_error
-     */
-    public function checkintegrity(): void {
-        $this->healthCheck();
-        $this->authenticate();
-        $this->ensureIsAdmin();
-    }
-
-    /**
-     * Login to docspace with credentials
-     * @throws docspace_error
-     */
-    private function authenticate(): void {
-        $docspaceauthmanager = new docspace_auth_manager($this->url);
-
-        $token = $docspaceauthmanager->authenticate($this->login, $this->password);
-
-        $this->replaceToken($token);
-    }
-
-    /**
-     * Ensure the user is docspace admin
-     * @throws docspace_error
-     */
-    private function ensureisadmin(): void {
-        $docspaceusermanager = new docspace_user_manager($this->url, $this->token);
-
-        $user = $docspaceusermanager->get($this->login);
-
-        if (!$user['isAdmin']) {
-            throw new docspace_error(get_string('docspacepermissiondenied', 'onlyofficedocspace'));
-        }
-    }
-
-    /**
-     * Get setting by key
-     * @param string $key setting key
-     * @param string $def default value
-     * @return string setting value
-     */
-    private function get(string $key, string $def = ''): string {
-        $option = get_config('onlyofficedocspace', $key);
-
-        if ($option !== false) {
-            return $option;
+    public function update_csp_domains_list(array $domains): void {
+        if (empty($domains)) {
+            return;
         }
 
-        return $def;
-    }
+        $url = "{$this->url}/api/2.0/security/csp";
 
-    /**
-     * Set setting value by key
-     * @param string $key setting key
-     * @param mixed $value setting value
-     */
-    private function set(string $key, mixed $value): void {
-        set_config($key, $value, 'onlyofficedocspace');
+        $client = new http_client();
+        try {
+            $client->post($url, [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => "Bearer {$this->apikey}",
+                ],
+                'json' => ['domains' => $domains],
+            ]);
+        } catch (RequestException $e) {
+            $statuscode = $e->hasResponse() ? $e->getResponse()->getStatusCode() : null;
+
+            if ($statuscode === 401 || $statuscode === 403) {
+                // Unauthorized access, throw an error.
+                throw new docspace_error(get_string('docspaceunauthorized', 'onlyofficedocspace'));
+            }
+
+            throw new docspace_error(get_string('docspacerequesterror', 'onlyofficedocspace'));
+        }
     }
 }
