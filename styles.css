@@ -82,3 +82,115 @@
     margin: 0 0 0 50px;
     z-index: 100;
 }
+
+.path-mod-onlyofficedocspace .ds-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 470px;
+}
+
+.path-mod-onlyofficedocspace .ds-error-header img.icon {
+    width: 242px !important; /* stylelint-disable-line declaration-no-important */
+    height: 242px !important; /* stylelint-disable-line declaration-no-important */
+}
+
+.path-mod-onlyofficedocspace .ds-error-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.path-mod-onlyofficedocspace .ds-error-body h1 {
+    font-size: 23px;
+    line-height: 28px;
+    font-weight: 700;
+    color: #333;
+}
+
+.path-mod-onlyofficedocspace .ds-error-body p {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 450;
+    color: #73767c;
+    text-align: center;
+}
+
+.path-admin .disabled {
+    pointer-events: none;
+    opacity: 0.6;
+    user-select: none;
+}
+
+.path-admin #check-docspace-url-btn .icon {
+    margin: 0;
+}
+
+.path-admin .hidden {
+    display: none !important; /* stylelint-disable-line declaration-no-important */
+}
+
+.path-admin .docspace-control-buttons {
+    display: flex;
+    column-gap: 10px;
+}
+
+.path-admin .input-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.path-admin .input-wrapper input {
+    padding-right: 2.5rem;
+}
+
+.path-admin .input-wrapper .input-icon {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    padding-right: 5px;
+}
+
+.path-admin .input-wrapper .input-icon img {
+    width: 13px;
+    height: 10px;
+}
+
+.path-admin .ds-settings-intro {
+    display: flex;
+    flex-direction: column;
+    row-gap: 11px;
+    margin: 24px 0;
+    margin-top: 16px;
+}
+
+.path-admin .ds-settings-intro p {
+    margin: 0;
+}
+
+.path-admin .ds-settings-intro-links {
+    display: flex;
+    column-gap: 24px;
+}
+
+.path-admin .ds-settings-intro-links a {
+    font-weight: 500;
+    color: #0f6cbf;
+    text-decoration: none;
+    cursor: pointer;
+    display: flex;
+    gap: 4px;
+}
+
+.path-admin .ds-settings-intro-links a::after {
+    content: url([[pix:onlyofficedocspace|top_right_arrow]]);
+    width: 12px;
+    height: 12px;
+}
+
+.path-admin .ds-create-key-link {
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 2%;
+}
