@@ -31,12 +31,12 @@ use core_external\external_single_structure;
 use core_external\external_value;
 use invalid_parameter_exception;
 use mod_onlyofficedocspace\local\common\flash_message;
-use mod_onlyofficedocspace\local\docspace\docspace_settings;
 use mod_onlyofficedocspace\local\docspace\docspace_user_manager;
 use mod_onlyofficedocspace\local\docspace\enums\docspace_user_type;
 use mod_onlyofficedocspace\local\errors\docspace_error;
 use mod_onlyofficedocspace\local\moodle\moodle_docspace_user_manager;
 use mod_onlyofficedocspace\local\moodle\moodle_user_manager;
+use mod_onlyofficedocspace\local\moodle\plugin_settings;
 
 /**
  * invite_users external function class
@@ -93,7 +93,7 @@ class invite_users extends \core_external\external_api {
         $failedinvitations = 0;
         $sentinvitations = 0;
 
-        $docspaceusermanager = new docspace_user_manager($settings->url(), $settings->token());
+        $docspaceusermanager = new docspace_user_manager(plugin_settings::url(), plugin_settings::api_key());
         $docspaceusers = $docspaceusermanager->all();
 
         $moodleusermanager = new moodle_user_manager();
