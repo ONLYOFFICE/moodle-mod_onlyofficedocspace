@@ -86,9 +86,6 @@ class invite_users extends \core_external\external_api {
             }
         }
 
-        $settings = new docspace_settings();
-        $settings->ensureIntegrity();
-
         $skippedinvitations = 0;
         $failedinvitations = 0;
         $sentinvitations = 0;
