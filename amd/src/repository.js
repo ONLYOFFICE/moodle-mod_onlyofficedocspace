@@ -75,14 +75,12 @@ export const checkDocSpaceConnectivity = (url) => {
  *
  * @param   {string} url DocSpace url
  * @param   {string} apikey DocSpace API Key
- * @param   {boolean} clearusers Flag for clearing DocSpace users
  * @returns {Promise}
  */
-export const connectDocSpace = (url, apikey, clearusers) => {
+export const connectDocSpace = (url, apikey) => {
     const args = {
         url,
         apikey,
-        clearusers,
     };
 
     return fetchMany([{methodname: 'mod_onlyofficedocspace_connect_docspace', args}])[0];
