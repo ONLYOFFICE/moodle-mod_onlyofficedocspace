@@ -38,31 +38,6 @@ export const inviteUsers = (users) => {
 };
 
 /**
- * Update DocSpace admin settings
- *
- * @param   {string} url DocSpace url
- * @param   {string} email DocSpace admin email
- * @param   {string} password DocSpace admin password hash
- * @param   {string} randompassword Random password hash
- * @returns {Promise}
- */
-export const updateAdminSettings = (
-    url,
-    email,
-    password,
-    randompassword
-) => {
-    const args = {
-        url,
-        email,
-        password,
-        randompassword
-    };
-
-    return fetchMany([{methodname: 'mod_onlyofficedocspace_update_admin_settings', args}])[0];
-};
-
-/**
  * Update DocSpace user password
  *
  * @param   {string} email DocSpace admin email
@@ -79,4 +54,47 @@ export const updateUserPassword = (
     };
 
     return fetchMany([{methodname: 'mod_onlyofficedocspace_update_user_password', args}])[0];
+};
+
+/**
+ * Check DocSpace connectivity
+ *
+ * @param   {string} url DocSpace url
+ * @returns {Promise}
+ */
+export const checkDocSpaceConnectivity = (url) => {
+    const args = {
+        url,
+    };
+
+    return fetchMany([{methodname: 'mod_onlyofficedocspace_check_docspace_connectivity', args}])[0];
+};
+
+/**
+ * Connect DocSpace
+ *
+ * @param   {string} url DocSpace url
+ * @param   {string} apikey DocSpace API Key
+ * @param   {boolean} clearusers Flag for clearing DocSpace users
+ * @returns {Promise}
+ */
+export const connectDocSpace = (url, apikey, clearusers) => {
+    const args = {
+        url,
+        apikey,
+        clearusers,
+    };
+
+    return fetchMany([{methodname: 'mod_onlyofficedocspace_connect_docspace', args}])[0];
+};
+
+/**
+ * Disconnect DocSpace
+ *
+ * @returns {Promise}
+ */
+export const disconnectDocSpace = () => {
+    const args = {};
+
+    return fetchMany([{methodname: 'mod_onlyofficedocspace_disconnect_docspace', args}])[0];
 };
