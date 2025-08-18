@@ -30,9 +30,9 @@ use core_external\external_single_structure;
 use core_external\external_value;
 use core_external\external_warnings;
 use mod_onlyofficedocspace\local\docspace\docspace_auth_manager;
-use mod_onlyofficedocspace\local\docspace\docspace_settings;
 use mod_onlyofficedocspace\local\errors\invalid_credentials_error;
 use mod_onlyofficedocspace\local\moodle\moodle_docspace_user_manager;
+use mod_onlyofficedocspace\local\moodle\plugin_settings;
 
 /**
  * update_user_password external function class
@@ -94,12 +94,8 @@ class update_user_password extends \core_external\external_api {
             );
         }
 
-        $settings = new docspace_settings();
-
-        $settings->healthCheck();
-
         try {
-            $docspaceauthmanager = new docspace_auth_manager($settings->url());
+            $docspaceauthmanager = new docspace_auth_manager(plugin_settings::url());
             $docspaceauthmanager->authenticate($email, $password);
         } catch (invalid_credentials_error $e) {
             return self::return_errors(
