@@ -54,16 +54,6 @@ class mod_onlyofficedocspace_mod_form extends moodleform_mod {
 
         $mform = $this->_form;
 
-        $docspacesettings = new docspace_settings();
-
-        try {
-            $docspacesettings->healthCheck();
-        } catch (Exception) {
-            $mform->addElement('html', $OUTPUT->notification(get_string('docspaceunreachable', 'onlyofficedocspace'), 'error'));
-            $this->standard_hidden_coursemodule_elements();
-            return;
-        }
-
         $moodledocspaceusermanager = new moodle_docspace_user_manager();
         $docspaceuser = $moodledocspaceusermanager->get($USER->email);
 
