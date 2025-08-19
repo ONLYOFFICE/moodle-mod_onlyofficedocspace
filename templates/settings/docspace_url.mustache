@@ -34,13 +34,10 @@
         <div><span id="{{id}}-error" class="error hidden">{{error}}</span></div>
         
         <div class="form-text defaultsnext">
-            <div class="input-wrapper">
+            <div class="ds-input-wrapper">
                 <input type="text" name="{{name}}" value="{{value}}" size="{{size}}" id="{{id}}" class="form-control">
-                <button class="input-icon btn hidden" type="button">
-                    <!-- Close icon (X) -->
-                    &times;
-                </button>
-                <span id="input-check-icon" class="input-icon hidden">{{#pix}} check_mark, onlyofficedocspace {{/pix}}</span>
+                <button type="button" class="ds-clear-btn hidden" aria-label="Clear input">&times;</button>
+                <span class="ds-check-icon hidden">{{#pix}} check_mark, onlyofficedocspace {{/pix}}</span>
             </div>
             <button type="button" id="check-docspace-url-btn" class="btn btn-primary">
                 <div class="spinner-border hidden" style="width:1rem;height:1rem;" role="status">
