@@ -61,7 +61,11 @@ class admin_setting_docspace_api_key extends admin_setting_configtext {
     public function output_html($data, $query='') {
         global $OUTPUT;
 
-        $default = $this->get_defaultsetting();
+        $createkeylink = $OUTPUT->render_from_template(
+            'onlyofficedocspace/create_key_link',
+            ['url' => '#']
+        );
+
         $context = (object) [
             'size' => $this->size,
             'title' => $this->visiblename,
@@ -71,7 +75,12 @@ class admin_setting_docspace_api_key extends admin_setting_configtext {
             'id' => $this->get_id(),
             'name' => $this->get_full_name(),
             'value' => $data,
+            'createkeylink' => $createkeylink,
         ];
+
+        $context->helpbutton = $OUTPUT->help_icon('docspaceapikey', 'onlyofficedocspace', '', [
+            'createkeylink' => $createkeylink
+        ]);
 
         return $OUTPUT->render_from_template('onlyofficedocspace/settings/docspace_api_key', $context);
     }
