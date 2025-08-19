@@ -33,7 +33,7 @@ define([
         icons: {
             rightArrow: ".right-arrow",
             spinner: ".spinner-border",
-            checkMark: "#input-check-icon",
+            checkMark: ".ds-check-icon",
         },
         buttons: {
             checkUrl: "#check-docspace-url-btn",
@@ -82,6 +82,8 @@ define([
 
         document.querySelector(selectors.icons.spinner).classList.toggle('hidden', !isCheckingUrl);
         document.querySelector(selectors.icons.rightArrow).classList.toggle('hidden', isCheckingUrl);
+        document.querySelector(selectors.inputs.url).classList
+            .toggle('pr-5', state.isUrlValid);
         document.querySelector(selectors.icons.checkMark).classList
             .toggle('hidden', !state.isUrlValid);
 
@@ -90,6 +92,11 @@ define([
 
         document.querySelector(selectors.errors.url).classList.toggle('hidden', !(state.errors && state.errors.url));
         document.querySelector(selectors.errors.apiKey).classList.toggle('hidden', !(state.errors && state.errors.apiKey));
+
+        document.querySelectorAll('.ds-create-key-link').forEach(link => {
+            const url = document.querySelector(selectors.inputs.url).value;
+            link.href = state.isUrlValid ? url : '#';
+        });
 
         if (state.errors) {
             const errorMessages = [];
@@ -219,6 +226,31 @@ define([
         );
     };
 
+    const resetStepToCheckUrl = function() {
+        state.step = STEPS.CHECK_URL;
+        state.isUrlValid = false;
+        setState({});
+    };
+
+    const updateClearButton = function(event) {
+        const input = event.target;
+        const wrapper = input.closest(".ds-input-wrapper");
+        const clearButton = wrapper.querySelector('.ds-clear-btn');
+        const focusedAndNonEmpty = input.value && document.activeElement === input;
+        input.classList.toggle('pr-5', focusedAndNonEmpty);
+        clearButton.classList.toggle('hidden', !focusedAndNonEmpty);
+    };
+
+    const resetInputValue = function(event) {
+        if (event.target.closest(".ds-clear-btn")) {
+            const wrapper = event.target.closest(".ds-input-wrapper");
+            const input = wrapper.querySelector("input");
+            input.value = "";
+            input.dispatchEvent(new Event("input", { bubbles: true }));
+            input.focus();
+        }
+    };
+
     return {
         init: async function(connected) {
             // Bind event handlers.
@@ -226,6 +258,26 @@ define([
             document.querySelector(selectors.buttons.connect).addEventListener('click', handleConnect);
             document.querySelector(selectors.buttons.change).addEventListener('click', handleChangeDocSpace);
             document.querySelector(selectors.buttons.disconnect).addEventListener('click', handleDisconnectDocSpace);
+
+            document.querySelector(selectors.inputs.url).addEventListener('input', resetStepToCheckUrl);
+            document.querySelector(selectors.inputs.url).addEventListener('focus', resetStepToCheckUrl);
+            document.querySelector(selectors.inputs.url).addEventListener('input', updateClearButton);
+            document.querySelector(selectors.inputs.url).addEventListener('focus', updateClearButton);
+            document.querySelector(selectors.inputs.url).addEventListener('blur', e => {
+                setTimeout(() => {
+                    updateClearButton(e);
+                }, 200);
+            });
+
+            document.querySelector(selectors.inputs.apiKey).addEventListener('input', updateClearButton);
+            document.querySelector(selectors.inputs.apiKey).addEventListener('focus', updateClearButton);
+            document.querySelector(selectors.inputs.apiKey).addEventListener('blur', e => {
+                setTimeout(() => {
+                    updateClearButton(e);
+                }, 200);
+            });
+
+            document.addEventListener("click", resetInputValue);
 
             // Set initial state.
             state.step = connected ? STEPS.CONNECTED : STEPS.CHECK_URL;
