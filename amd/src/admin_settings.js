@@ -19,10 +19,11 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  **/
 define([
+    'core_form/changechecker',
     'core/notification',
     'core/str',
     'mod_onlyofficedocspace/repository',
-], function(Notification, Str, Repository) {
+], function(ChangeChecker, Notification, Str, Repository) {
 
     const selectors = {
         notifications: '#user-notifications',
@@ -179,6 +180,7 @@ define([
         const result = await Repository.connectDocSpace(url, apiKey);
 
         if (result.status && result.status === 'success') {
+            ChangeChecker.disableAllChecks();
             state.step = STEPS.CONNECTED;
             location.reload();
             return;
