@@ -100,3 +100,8 @@ $string['confirmdisconnect_desc'] = 'If you press the Change button, you will ha
 $string['docspaceapikey'] = 'ONLYOFFICE DocSpace API key';
 $string['validationerror:invalidapikey'] = 'Invalid DocSpace API key';
 $string['validationerror:emptyapikey'] = 'API Key value cannot be empty.';
+$string['createkey'] = 'Create a key';
+$string['docspaceapikey_help'] = '
+Before connecting the app, please go to the <b>link</b>, create new API key and insert it here. You can create API key with Permissions = <b>All</b> or create API key with <b>restricted access</b>. In this case, the following Access Scopes should be selected for valid work of this app: (Profile: Read, Contacts: Write, Rooms: Write).
+<br/>{$a->createkeylink}
+';
