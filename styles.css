@@ -135,26 +135,43 @@
     column-gap: 10px;
 }
 
-.path-admin .input-wrapper {
+.path-admin .ds-input-wrapper {
     position: relative;
     display: inline-block;
 }
 
-.path-admin .input-wrapper input {
-    padding-right: 2.5rem;
+.path-admin .ds-input-wrapper input {
+    width: 272px !important; /* stylelint-disable-line declaration-no-important */
+    box-sizing: border-box;
 }
 
-.path-admin .input-wrapper .input-icon {
+.path-admin .ds-input-wrapper .ds-clear-btn {
     position: absolute;
-    right: 0;
+    right: 0.5em;
     top: 50%;
     transform: translateY(-50%);
-    padding-right: 5px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 1.2em;
+    line-height: 1;
 }
 
-.path-admin .input-wrapper .input-icon img {
+.path-admin .ds-input-wrapper .ds-clear-btn:focus {
+    outline: none;
+}
+
+.path-admin .ds-input-wrapper .ds-check-icon {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.path-admin .ds-input-wrapper .ds-check-icon img {
     width: 13px;
     height: 10px;
+    margin-right: 0.3rem;
 }
 
 .path-admin .ds-settings-intro {
