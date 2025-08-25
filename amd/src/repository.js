@@ -26,19 +26,33 @@ import {call as fetchMany} from 'core/ajax';
 /**
  * Invite users to OnlyOffice DocSpace
  *
- * @param   {object} users Users list
+ * @param   {object} userids User ids
  * @returns {Promise}
  */
-export const inviteUsers = (users) => {
+export const inviteUsersToDocSpace = (userids) => {
     const args = {
-        users
+        userids
     };
 
-    return fetchMany([{methodname: 'mod_onlyofficedocspace_invite_users', args}])[0];
+    return fetchMany([{methodname: 'mod_onlyofficedocspace_invite_users_to_docspace', args}])[0];
 };
 
 /**
- * Update DocSpace user password
+ * Unlink DocSpace users from Moodle
+ *
+ * @param   {object} userids User ids
+ * @returns {Promise}
+ */
+export const unlinkDocSpaceUsers = (userids) => {
+    const args = {
+        userids
+    };
+
+    return fetchMany([{methodname: 'mod_onlyofficedocspace_unlink_docspace_users', args}])[0];
+};
+
+/**
+ * Update DocSpace user credentials
  *
  * @param   {string} email DocSpace admin email
  * @param   {string} password DocSpace admin password hash
@@ -53,7 +67,7 @@ export const updateUserPassword = (
         password,
     };
 
-    return fetchMany([{methodname: 'mod_onlyofficedocspace_update_user_password', args}])[0];
+    return fetchMany([{methodname: 'mod_onlyofficedocspace_update_docspace_user_credentials', args}])[0];
 };
 
 /**
