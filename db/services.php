@@ -25,17 +25,25 @@
 defined('MOODLE_INTERNAL') || die;
 
 $functions = [
-    'mod_onlyofficedocspace_invite_users' => [
-        'classname' => 'mod_onlyofficedocspace\external\invite_users',
+    'mod_onlyofficedocspace_invite_users_to_docspace' => [
+        'classname' => 'mod_onlyofficedocspace\external\invite_users_to_docspace',
         'description' => 'Invite users to OnlyOffice DocSpace',
         'type' => 'write',
         'ajax' => true,
         'capabilities'  => 'moodle/site:config',
         'services' => [],
     ],
-    'mod_onlyofficedocspace_update_user_password' => [
-        'classname' => 'mod_onlyofficedocspace\external\update_user_password',
-        'description' => 'Update DocSpace user password',
+    'mod_onlyofficedocspace_unlink_docspace_users' => [
+        'classname' => 'mod_onlyofficedocspace\external\unlink_docspace_users',
+        'description' => 'Unlink DocSpace users from Moodle',
+        'type' => 'write',
+        'ajax' => true,
+        'capabilities'  => 'moodle/site:config',
+        'services' => [],
+    ],
+    'mod_onlyofficedocspace_update_docspace_user_credentials' => [
+        'classname' => 'mod_onlyofficedocspace\external\update_docspace_user_credentials',
+        'description' => 'Update DocSpace user credentials',
         'type' => 'write',
         'ajax' => true,
         'services' => [],
