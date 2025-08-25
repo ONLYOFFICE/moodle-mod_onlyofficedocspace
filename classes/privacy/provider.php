@@ -31,8 +31,8 @@ use core_privacy\local\request\approved_userlist;
 use core_privacy\local\request\contextlist;
 use core_privacy\local\request\userlist;
 use core_privacy\local\request\writer;
-use mod_onlyofficedocspace\local\moodle\moodle_docspace_user_manager;
-use mod_onlyofficedocspace\local\moodle\moodle_user_manager;
+use mod_onlyofficedocspace\local\moodle\repositories\docspace_user_repository;
+use mod_onlyofficedocspace\local\moodle\repositories\user_repository;
 
 /**
  * Privacy provider class.
@@ -83,9 +83,9 @@ class provider implements \core_privacy\local\metadata\provider,
      */
     public static function get_contexts_for_userid(int $userid): contextlist {
         $contextlist = new contextlist();
-        $usermanager = new moodle_user_manager();
+        $userrepository = new user_repository();
 
-        if ($usermanager->get($userid)) {
+        if ($userrepository->get_by_id($userid)) {
             $contextlist->add_system_context();
         }
 
@@ -124,8 +124,8 @@ class provider implements \core_privacy\local\metadata\provider,
 
         $user = $contextlist->get_user();
 
-        $docspaceusermanager = new moodle_docspace_user_manager();
-        $docspaceuser = $docspaceusermanager->get($user->email);
+        $docspaceuserrepository = new docspace_user_repository();
+        $docspaceuser = $docspaceuserrepository->get_by_moodleuserid($user->id);
 
         foreach ($contextlist->get_contexts() as $context) {
             writer::with_context($context)
@@ -145,11 +145,11 @@ class provider implements \core_privacy\local\metadata\provider,
         }
 
         $user = $contextlist->get_user();
-        $docspaceusermanager = new moodle_docspace_user_manager();
+        $docspaceuserrepository = new docspace_user_repository();
 
         foreach ($contextlist->get_contexts() as $context) {
             if ($context->contextlevel === CONTEXT_SYSTEM) {
-                $docspaceusermanager->delete([$user->email]);
+                $docspaceuserrepository->delete_multiple_by_moodleuserid([$user->id]);
             }
         }
     }
@@ -160,8 +160,8 @@ class provider implements \core_privacy\local\metadata\provider,
      * @param context $context Context to delete data from.
      */
     public static function delete_data_for_all_users_in_context(context $context) {
-        $docspaceusermanager = new moodle_docspace_user_manager();
-        $docspaceusermanager->clear();
+        $docspaceuserrepository = new docspace_user_repository();
+        $docspaceuserrepository->delete_all();
     }
 
     /**
@@ -171,12 +171,9 @@ class provider implements \core_privacy\local\metadata\provider,
      */
     public static function delete_data_for_users(approved_userlist $userlist) {
         $users = $userlist->get_users();
+        $ids = array_map(fn($user) => $user->id, $users);
 
-        $emails = array_map(function($user) {
-            return $user->email;
-        }, $users);
-
-        $docspaceusermanager = new moodle_docspace_user_manager();
-        $docspaceusermanager->delete($emails);
+        $docspaceuserrepository = new docspace_user_repository();
+        $docspaceuserrepository->delete_multiple_by_moodleuserid($ids);
     }
 }
