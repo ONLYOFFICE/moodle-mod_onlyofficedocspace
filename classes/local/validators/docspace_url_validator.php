@@ -24,8 +24,8 @@
 
 namespace mod_onlyofficedocspace\local\validators;
 
-use core\http_client;
-use Exception;
+use mod_onlyofficedocspace\local\docspace\docspace_client;
+use mod_onlyofficedocspace\local\errors\docspace_client_error;
 
 /**
  * DocSpace URL validator class.
@@ -56,26 +56,14 @@ class docspace_url_validator extends validator {
             return false;
         }
 
-        if (!static::check_docspace_connectivity($url)) {
+        try {
+            $docspaceclient = new docspace_client($url, '');
+            $docspaceclient->fetch_portal_settings();
+        } catch (docspace_client_error) {
             $this->errors[] = get_string('docspaceunreachable', 'onlyofficedocspace');
             return false;
         }
 
-        return true;
-    }
-
-    /**
-     * Check DocSpace connectivity
-     * @param string $url DocSpace URL
-     * @return bool
-     */
-    private static function check_docspace_connectivity(string $url): bool {
-        try {
-            $client = new http_client();
-            $client->head($url);
-        } catch (Exception $e) {
-            return false;
-        }
         return true;
     }
 }
