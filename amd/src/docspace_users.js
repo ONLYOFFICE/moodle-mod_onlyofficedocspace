@@ -18,104 +18,149 @@
  * @copyright  2025 Ascensio System SIA <integration@onlyoffice.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  **/
-/* eslint-disable no-undef, no-console */
-define(
-    [
-        'jquery',
-        'mod_onlyofficedocspace/docspace_integration_sdk',
-        'mod_onlyofficedocspace/password_generator',
-        'mod_onlyofficedocspace/notification',
-        'core/str',
-        'core_form/changechecker',
-        'mod_onlyofficedocspace/repository'
-    ],
-    function($, DocSpaceIntegrationSDK, PasswordGenerator, Notification, Str, ChangeChecker, Repository) {
+
+define([
+    'core/str',
+    'core/notification',
+    'core_form/changechecker',
+    'mod_onlyofficedocspace/repository',
+], function(Str, Notification, ChangeChecker, Repository) {
+        let selectedUsers = [];
+
         const selectors = {
-            inviteButton: "button[data-action='invite-to-docspace']",
             usersTable: "table[id='ds-invite-users-table']",
-            selectAllUsers: "input[data-action='select-all-users']",
-            systemFrameId: "ds-system-frame",
-        };
-
-        const disableInviteButton = function() {
-            document.querySelector(selectors.inviteButton).setAttribute("disabled", "");
-        };
-
-        const enableInviteButton = function() {
-            inviteButton.removeAttribute("disabled");
+            checkers: 'input[name="users"]',
+            checkAll: 'input[id="check-all-users"]',
+            buttons: {
+                invite: "#invite-to-docspace",
+                unlink: "#unlink-docspace-account"
+            }
         };
 
         const toggle = function(event) {
             const checked = event.target.checked;
-            const checkboxes = document.querySelector(selectors.usersTable).querySelectorAll('input[name="users"]');
-            for (var i = 0, n = checkboxes.length; i < n; i++) {
-                checkboxes[i].checked = checked;
-            }
+            const checkboxes = document.querySelector(selectors.usersTable).querySelectorAll(selectors.checkers);
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = checked;
+            });
+            selectedUsers = checked ? [...checkboxes].map(checkbox => checkbox.value) : [];
+            toggleActionButtons();
         };
 
-        const sendInvitations = async function(users) {
-            const docSpace = DocSpace.SDK.frames[selectors.systemFrameId];
-            const hashSettings = await docSpace.getHashSettings();
-
-            for (let user of users) {
-                const hash = await docSpace.createHash(PasswordGenerator.generate(), hashSettings);
-                user.hash = hash;
-            }
-
-            await Repository.inviteUsers(users)
-                // eslint-disable-next-line promise/always-return
-                .then(() => {
-                    window.location.reload();
-                })
-                .catch((error) => {
-                    console.log(error);
-                    enableInviteButton();
-                });
+        const toggleActionButtons = function() {
+            const buttons = document.querySelectorAll(".action-buttons");
+            buttons.forEach(button => {
+                button.disabled = selectedUsers.length < 1;
+            });
         };
 
-        const inviteUsers = async function() {
-            if (!DocSpaceIntegrationSDK.initialized()) {
-                Notification.display(await Str.getString("docspaceunreachable", "onlyofficedocspace"), "error");
-                return;
-            }
+        const handleUnlinkDocspaceUser = async function(event) {
+            const unlinkButton = event.target;
+            unlinkButton.disabled = true;
 
-            disableInviteButton();
-            const checkboxes = document.getElementsByName("users");
-            let users = [];
+            await Notification.saveCancel(
+                Str.getString('warning', 'onlyofficedocspace'),
+                Str.getString('unlinkwarningmessage', 'onlyofficedocspace'),
+                Str.getString('unlinkdocspaceaccount', 'onlyofficedocspace'),
+                async() => {
+                    const result = await Repository.unlinkDocSpaceUsers(selectedUsers);
 
-            for (var i = 0, n = checkboxes.length; i < n; i++) {
-                if (checkboxes[i].checked) {
-                    users.push({id: checkboxes[i].value});
+                    if (result.unlinkedcount > 0) {
+                        Notification.addNotification({
+                            message: await Str.getString(
+                                'successfuldisable',
+                                'onlyofficedocspace',
+                                `${result.unlinkedcount}/${result.totalcount}`
+                            ),
+                            type: 'success',
+                        });
+                    }
+                    if (result.skippedcount > 0) {
+                        Notification.addNotification({
+                            message: await Str.getString(
+                                'skippeddisable',
+                                'onlyofficedocspace',
+                                `${result.skippedcount}/${result.totalcount}`
+                            ),
+                            type: 'warning',
+                        });
+                    }
+                },
+                null,
+            );
+
+            unlinkButton.disabled = false;
+        };
+
+        const handleInviteToDocspace = async function(event) {
+            const inviteButton = event.target;
+            inviteButton.disabled = true;
+
+            const result = await Repository.inviteUsersToDocSpace(selectedUsers);
+
+            if (result.status && result.status === 'success') {
+                if (result.invitedcount > 0) {
+                    Notification.addNotification({
+                        message: await Str.getString(
+                            'sentinvitations',
+                            'onlyofficedocspace',
+                            `${result.invitedcount}/${result.totalcount}`
+                        ),
+                        type: 'success',
+                    });
+                }
+                if (result.skippedcount > 0) {
+                    Notification.addNotification({
+                        message: await Str.getString(
+                            'skippedinvitations',
+                            'onlyofficedocspace',
+                            `${result.skippedcount}/${result.totalcount}`
+                        ),
+                        type: 'warning',
+                    });
+                }
+                if (result.failedcount > 0) {
+                    Notification.addNotification({
+                        message: await Str.getString(
+                            'failedinvitations',
+                            'onlyofficedocspace',
+                            `${result.failedcount}/${result.totalcount}`
+                        ),
+                        type: 'error',
+                    });
                 }
             }
 
-            if (DocSpace.SDK.frames[selectors.systemFrameId]) {
-                sendInvitations(users);
-            } else {
-                DocSpace.SDK.initSystem({
-                    frameId: selectors.systemFrameId,
-                    events: {
-                        onAppReady: async function() {
-                            sendInvitations(users);
-                        },
-                        onAppError: function() {
-                            console.log("An error occured while initialising DocSpace Frame.");
-                            DocSpace.SDK.frames[selectors.systemFrameId].destroyFrame();
-                        }
-                    }
-                });
+            inviteButton.disabled = false;
+        };
+
+        const handleSelectUser = function(event) {
+            if (event.target.matches(selectors.checkers)) {
+                const checkbox = event.target;
+                const userValue = checkbox.value;
+                const isChecked = checkbox.checked;
+
+                if (isChecked) {
+                    selectedUsers.push(userValue);
+                } else {
+                    selectedUsers = selectedUsers.filter(user => user !== userValue);
+                }
+
+                toggleActionButtons();
             }
         };
 
         return {
-            init: async function(url) {
+            init: async function() {
                 ChangeChecker.disableAllChecks();
-                await DocSpaceIntegrationSDK.initScript("oodsp-api-js", url);
-                const toggler = document.querySelector(selectors.selectAllUsers);
+
+                document.addEventListener("click", handleSelectUser);
+                const toggler = document.querySelector(selectors.checkAll);
                 toggler.addEventListener("click", toggle);
-                inviteButton = document.querySelector(selectors.inviteButton);
-                inviteButton.addEventListener("click", inviteUsers);
+                const unlinkbutton = document.querySelector(selectors.buttons.unlink);
+                unlinkbutton.addEventListener("click", handleUnlinkDocspaceUser);
+                const inviteButton = document.querySelector(selectors.buttons.invite);
+                inviteButton.addEventListener("click", handleInviteToDocspace);
             }
         };
     });
-/* eslint-enable no-undef, no-console */
