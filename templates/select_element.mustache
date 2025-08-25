@@ -32,29 +32,32 @@
     {
     }
 }}
-<div id="ds-system-frame"></div>
-<div id="ds-login-form" class="d-none flex-row border">
+<div class="d-none"><div id="ds-system-frame"></div></div>
+<div id="ds-login-container" class="d-none flex-row border">
     <h4>{{#str}} logintodocspace, mod_onlyofficedocspace {{/str}} <a href="{{docspaceurl}}" >{{docspaceurl}}</a></h4>
     <p class="m-0">
-        <button id="ds-login-button" type="button" class="btn btn-primary">{{#str}} login {{/str}}</button>
+        <button id="ds-show-login-modal" type="button" class="btn btn-primary">{{#str}} login {{/str}}</button>
     </p>
 </div>
-<div id="ds-selected-item" class="d-none bg-white border">
-    <div id="ds-selected-item-type" class="border-bottom d-flex align-items-center justify-content-between">
+<div id="ds-item-container" class="d-none bg-white border">
+    <div id="ds-item-type" class="border-bottom d-flex align-items-center justify-content-between">
         <p class="m-0"></p>
-        <button id="remove-selected-item" type="button" class="close" aria-label="Close">
+        <button id="ds-item-remove" type="button" class="close" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div id="ds-selected-item-info" style="column-gap: 12px;" class="d-flex align-items-center flex-fill">
+    <div id="ds-item-info" style="column-gap: 12px;" class="d-flex align-items-center flex-fill">
         <img src="#" width="32" alt="" height="32">
         <p class="m-0"></p>
     </div>
 </div>
-<div id="ds-select-buttons" class="d-none align-items-center bg-white border">
+<div id="ds-select-container" class="d-none align-items-center bg-white border">
     <p class="m-0">{{#str}} emptyselection, mod_onlyofficedocspace {{/str}}</p>
     <div class="d-flex" style="column-gap: 8px;">
         <button type="button" data-selector-type="room" id="ds-select-room" class="btn btn-secondary">{{#str}} selectroom, mod_onlyofficedocspace {{/str}}</button>
         {{! <button type="button" data-selector-type="file" id="ds-select-file" class="btn btn-secondary">Select file</button> }}
     </div>
+</div>
+<div id="ds-error" class="d-none alert alert-danger" role="alert">
+    {{#str}} docspaceapperror, mod_onlyofficedocspace {{/str}}
 </div>
