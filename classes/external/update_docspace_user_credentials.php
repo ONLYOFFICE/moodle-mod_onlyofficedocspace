@@ -26,18 +26,15 @@ namespace mod_onlyofficedocspace\external;
 
 use context_system;
 use core_external\external_function_parameters;
+use core_external\external_multiple_structure;
 use core_external\external_single_structure;
 use core_external\external_value;
-use core_external\external_warnings;
-use mod_onlyofficedocspace\local\docspace\docspace_auth_manager;
-use mod_onlyofficedocspace\local\errors\invalid_credentials_error;
-use mod_onlyofficedocspace\local\moodle\moodle_docspace_user_manager;
-use mod_onlyofficedocspace\local\moodle\plugin_settings;
+use mod_onlyofficedocspace\local\moodle\repositories\docspace_user_repository;
 
 /**
  * update_user_password external function class
  */
-class update_user_password extends \core_external\external_api {
+class update_docspace_user_credentials extends \core_external\external_api {
 
     /**
      * Returns description of method parameters
@@ -74,54 +71,25 @@ class update_user_password extends \core_external\external_api {
             'password' => $password,
         ]);
 
-        // Sanitize user input.
-        $email = filter_var(trim($email), FILTER_SANITIZE_EMAIL);
-        $password = trim($password);
+        $docspaceuserrepository = new docspace_user_repository();
+        $docspaceuser = $docspaceuserrepository->get_by_moodleuserid($USER->id);
 
-        if (empty($email) | empty($password)) {
-            return self::return_errors(
-                0,
-                'paramsmissingvalidationerror',
-                get_string('paramsmissingvalidationerror', 'onlyofficedocspace')
-            );
+        if ($docspaceuser) {
+            $docspaceuserrepository->update([
+                'id' => $docspaceuser->id,
+                'email' => $email,
+                'password' => $password,
+                'userid' => $docspaceuser->userid,
+            ]);
+        } else {
+            $docspaceuserrepository->create([
+                'email' => $email,
+                'password' => $password,
+                'userid' => $USER->id,
+            ]);
         }
 
-        if ($USER->email !== $email) {
-            return self::return_errors(
-                0,
-                'invalidparamsvalidationerror',
-                get_string('invalidparamsvalidationerror', 'onlyofficedocspace')
-            );
-        }
-
-        try {
-            $docspaceauthmanager = new docspace_auth_manager(plugin_settings::url());
-            $docspaceauthmanager->authenticate($email, $password);
-        } catch (invalid_credentials_error $e) {
-            return self::return_errors(
-                0,
-                'invalidcredentialserror',
-                $e->getMessage(),
-            );
-        }
-
-        $moodledocspaceusermanager = new moodle_docspace_user_manager();
-        $moodleuser = $moodledocspaceusermanager->get($USER->email);
-
-        if ($moodleuser === null) {
-            return self::return_errors(
-                0,
-                'docspaceusernotfounderror',
-                get_string('docspaceusernotfound', 'onlyofficedocspace')
-            );
-        }
-
-        $moodledocspaceusermanager->update($moodleuser->id, $email, $password);
-
-        return [
-            'status' => true,
-            'warnings' => [],
-        ];
+        return static::return_success();
     }
 
     /**
@@ -131,29 +99,28 @@ class update_user_password extends \core_external\external_api {
      */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
-            'status' => new external_value(PARAM_BOOL, 'Status: true if success'),
-            'warnings' => new external_warnings(),
+            'status' => new external_value(PARAM_TEXT, 'External function status: success or error'),
+            'errors' => new external_multiple_structure(new external_value(PARAM_TEXT, 'Error message'), 'Error message list'),
         ]);
     }
 
     /**
-     * Handle return error.
-     *
-     * @param int $itemid Item id
-     * @param string $warningcode Warning code
-     * @param string $message Message
+     * Return success array
      * @return array
      */
-    protected static function return_errors(int $itemid, string $warningcode, string $message): array {
-        $warnings[] = [
-            'item' => $itemid,
-            'warningcode' => $warningcode,
-            'message' => $message,
-        ];
+    public static function return_success(): array {
+        return ['status' => 'success'];
+    }
 
+    /**
+     * Return error array
+     * @param array $errors
+     * @return array
+     */
+    public static function return_errors(array $errors): array {
         return [
-            'status' => false,
-            'warnings' => $warnings,
+            'status' => 'error',
+            'errors' => $errors,
         ];
     }
 }
