@@ -79,7 +79,7 @@ class admin_setting_docspace_api_key extends admin_setting_configtext {
         ];
 
         $context->helpbutton = $OUTPUT->help_icon('docspaceapikey', 'onlyofficedocspace', '', [
-            'createkeylink' => $createkeylink
+            'createkeylink' => $createkeylink,
         ]);
 
         return $OUTPUT->render_from_template('onlyofficedocspace/settings/docspace_api_key', $context);
