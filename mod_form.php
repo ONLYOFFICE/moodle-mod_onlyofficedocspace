@@ -25,9 +25,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use mod_onlyofficedocspace\local\docspace\docspace_settings;
-use mod_onlyofficedocspace\local\moodle\moodle_docspace_user_manager;
 use mod_onlyofficedocspace\local\moodle\plugin_settings;
+use mod_onlyofficedocspace\local\moodle\repositories\docspace_user_repository;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -54,14 +53,8 @@ class mod_onlyofficedocspace_mod_form extends moodleform_mod {
 
         $mform = $this->_form;
 
-        $moodledocspaceusermanager = new moodle_docspace_user_manager();
-        $docspaceuser = $moodledocspaceusermanager->get($USER->email);
-
-        if (!$docspaceuser) {
-            $mform->addElement('html', $OUTPUT->notification(get_string('docspaceusernotfound', 'onlyofficedocspace'), 'error'));
-            $this->standard_hidden_coursemodule_elements();
-            return;
-        }
+        $docspaceuserrepository = new docspace_user_repository();
+        $docspaceuser = $docspaceuserrepository->get_by_moodleuserid($USER->id);
 
         // Adding the "general" fieldset, where all the common settings are showed.
         $mform->addElement('header', 'general', get_string('general', 'form'));
@@ -136,9 +129,9 @@ class mod_onlyofficedocspace_mod_form extends moodleform_mod {
             'mod_onlyofficedocspace/select_element',
             'init',
             [
-                'docspaceUrl' => plugin_settings::url(),
-                'user' => ['email' => $docspaceuser->email, 'hash' => $docspaceuser->password],
-                'activity' => $onlyofficedocspaceactivity,
+                'url' => plugin_settings::url(),
+                'user' => $docspaceuser ? ['email' => $docspaceuser->email, 'passwordHash' => $docspaceuser->password] : [],
+                'item' => $onlyofficedocspaceactivity,
             ],
         );
         $mform->addGroup(
