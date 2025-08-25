@@ -24,10 +24,10 @@
 
 namespace mod_onlyofficedocspace\local\docspace\enums;
 // phpcs:disable
-enum docspace_user_type: int {
+enum docspace_user_type: string {
 
-    case ROOM_ADMIN = 1;
-    case POWER_USER = 4;
-    case NOT_FOUND = 3;
+    case ROOM_ADMIN = "RoomAdmin";
+    case POWER_USER = "User";
+    case NOT_FOUND = "Guest";
 }
 // phpcs:enable
