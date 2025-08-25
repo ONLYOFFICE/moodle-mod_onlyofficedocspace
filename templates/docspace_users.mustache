@@ -38,7 +38,7 @@
   <table id="ds-invite-users-table" class="table table-striped m-0">
     <thead>
       <tr>
-        <th scope="col"><input data-action="select-all-users" id="select-all" type="checkbox"></th>
+        <th scope="col"><input id="check-all-users" type="checkbox"></th>
         <th scope="col">
           <div class="d-flex align-items-center">
             <a href="{{urls.firstname}}">{{#str}} firstname {{/str}}</a>
@@ -77,13 +77,19 @@
   <div>
     <button
       type="button"
-      data-action="invite-to-docspace"
-      class="btn btn-primary"
+      class="btn btn-primary action-buttons"
+      id="invite-to-docspace"
+      disabled
       >
       {{#str}} invitetodocspace, mod_onlyofficedocspace {{/str}}
     </button>
-  </div>
-  <div class="d-none">
-    <div id="ds-system-frame"></div>
+    <button
+      type="button"
+      class="btn btn-secondary action-buttons"
+      id="unlink-docspace-account"
+      disabled
+      >
+      {{#str}} unlinkdocspaceaccount, mod_onlyofficedocspace {{/str}}
+    </button>
   </div>
 </div>
