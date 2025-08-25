@@ -19,11 +19,10 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  **/
 define([
-    'core_form/changechecker',
     'core/notification',
     'core/str',
     'mod_onlyofficedocspace/repository',
-], function(ChangeChecker, Notification, Str, Repository) {
+], function(Notification, Str, Repository) {
 
     const selectors = {
         notifications: '#user-notifications',
@@ -98,6 +97,13 @@ define([
             const url = document.querySelector(selectors.inputs.url).value;
             link.href = state.isUrlValid ? url : '#';
         });
+
+        if (state.success) {
+            await Notification.addNotification({
+                message: state.success,
+                type: 'success',
+            });
+        }
 
         if (state.errors) {
             const errorMessages = [];
@@ -180,13 +186,10 @@ define([
         const result = await Repository.connectDocSpace(url, apiKey);
 
         if (result.status && result.status === 'success') {
-            ChangeChecker.disableAllChecks();
             state.step = STEPS.CONNECTED;
-            location.reload();
-            return;
-        }
-
-        if (result.errors) {
+            state.isUrlValid = true;
+            setState({success: await Str.getString('successfulconnection', 'onlyofficedocspace')});
+        } else if (result.errors) {
             setState({errors: {apiKey: result.errors[0]}});
         }
 
@@ -215,8 +218,10 @@ define([
             async() => {
                 const result = await Repository.disconnectDocSpace();
 
-                if (result.success) {
-                    location.reload();
+                if (result.status && result.status === 'success') {
+                    state.step = STEPS.CONNECTED;
+                    state.isUrlValid = false;
+                    setState({});
                     return;
                 }
 
@@ -248,7 +253,7 @@ define([
             const wrapper = event.target.closest(".ds-input-wrapper");
             const input = wrapper.querySelector("input");
             input.value = "";
-            input.dispatchEvent(new Event("input", { bubbles: true }));
+            input.dispatchEvent(new Event("input", {bubbles: true}));
             input.focus();
         }
     };
