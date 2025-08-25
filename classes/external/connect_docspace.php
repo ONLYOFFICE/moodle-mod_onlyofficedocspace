@@ -29,9 +29,9 @@ use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
 use core_external\external_single_structure;
 use core_external\external_value;
-use mod_onlyofficedocspace\local\docspace\docspace_settings;
-use mod_onlyofficedocspace\local\moodle\moodle_docspace_user_manager;
+use mod_onlyofficedocspace\local\docspace\docspace_client;
 use mod_onlyofficedocspace\local\moodle\plugin_settings;
+use mod_onlyofficedocspace\local\moodle\repositories\docspace_user_repository;
 use mod_onlyofficedocspace\local\utils\url_parser;
 use mod_onlyofficedocspace\local\validators\docspace_api_key_validator;
 use mod_onlyofficedocspace\local\validators\docspace_url_validator;
@@ -96,8 +96,8 @@ class connect_docspace extends \core_external\external_api {
 
         // Add the domain to the CSP allowed list.
         $domain = url_parser::get_base($CFG->wwwroot);
-        $docspacecspsettings = new docspace_settings($url, $apikey);
-        $docspacecspsettings->add_domain_to_csp_list($domain);
+        $docspaceclient = new docspace_client($url, $apikey);
+        $docspaceclient->add_domain_to_csp_list($domain);
 
         // Update the plugin configs.
         plugin_settings::set(plugin_settings::URL_PARAM_NAME, $url);
@@ -105,8 +105,8 @@ class connect_docspace extends \core_external\external_api {
 
         // Clear the docspace users in moodle database if the admin is moving to a new portal.
         if ($isnewportal) {
-            $moodledocspaceusermanager = new moodle_docspace_user_manager();
-            $moodledocspaceusermanager->clear();
+            $docspaceuserrepository = new docspace_user_repository();
+            $docspaceuserrepository->delete_all();
         }
 
         return [
