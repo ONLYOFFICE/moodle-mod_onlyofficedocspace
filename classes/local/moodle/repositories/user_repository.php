@@ -139,6 +139,34 @@ class user_repository {
     }
 
     /**
+     * Return user counts with system or course editor roles
+     * @return int
+     */
+    public function count_users_with_editor_roles(): int {
+        global $CFG;
+
+        $context = context_system::instance();
+
+        $systemroles = array_keys(get_assignable_roles($context));
+        $courseroles = array_keys(array_filter(get_default_enrol_roles($context), fn($role) => strtolower($role) !== 'student'));
+
+        $extrasql = "id IN (SELECT userid FROM {role_assignments} a WHERE a.contextid= "
+            . SYSCONTEXTID . " AND a.roleid IN (" . implode(",", $systemroles) . ") "
+            . "UNION SELECT userid FROM {role_assignments} a "
+            . "INNER JOIN {context} b ON a.contextid=b.id WHERE b.contextlevel=50 AND a.roleid IN ("
+            . implode(",", $courseroles) . "))";
+
+        $sql = "SELECT COUNT(*) FROM {" . $this->table . "} WHERE NOT id = :id AND ";
+        $sql .= $extrasql;
+
+        $params = ['id' => $CFG->siteguest];
+
+        $count = $this->persistence->count_records_sql($sql, $params);
+
+        return $count;
+    }
+
+    /**
      * Get a user by id.
      *
      * @param string $userid
