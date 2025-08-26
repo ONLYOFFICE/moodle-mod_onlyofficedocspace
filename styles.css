@@ -2,13 +2,13 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-.path-mod-onlyofficedocspace #ds-login-form {
+.path-mod-onlyofficedocspace #ds-login-container {
     padding: 16px;
     border-radius: 8px;
     flex: 1;
 }
 
-.path-mod-onlyofficedocspace #ds-login-form h4 {
+.path-mod-onlyofficedocspace #ds-login-container h4 {
     font-size: 16px;
     font-weight: 400;
 }
@@ -32,7 +32,7 @@
     font-size: 18px;
 }
 
-.path-mod-onlyofficedocspace #ds-select-buttons {
+.path-mod-onlyofficedocspace #ds-select-container {
     display: flex;
     column-gap: 16px;
     border-radius: 8px;
@@ -40,12 +40,12 @@
     padding: 16px;
 }
 
-.path-mod-onlyofficedocspace #ds-selected-item {
+.path-mod-onlyofficedocspace #ds-item-container {
     border-radius: 8px;
     flex: 1;
 }
 
-.path-mod-onlyofficedocspace #ds-selected-item > div {
+.path-mod-onlyofficedocspace #ds-item-container > div {
     padding: 12px;
 }
 
