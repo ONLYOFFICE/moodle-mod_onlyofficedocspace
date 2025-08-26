@@ -22,10 +22,12 @@
 define([
     'core/str',
     'core/notification',
-    'core_form/changechecker',
+    'core/templates',
     'mod_onlyofficedocspace/repository',
-], function(Str, Notification, ChangeChecker, Repository) {
+    'mod_onlyofficedocspace/pagination',
+], function(Str, Notification, Templates, Repository, Pagination) {
         let selectedUsers = [];
+        let currentPage = 1;
 
         const selectors = {
             usersTable: "table[id='ds-invite-users-table']",
@@ -34,8 +36,11 @@ define([
             buttons: {
                 invite: "#invite-to-docspace",
                 unlink: "#unlink-docspace-account"
-            }
+            },
+            pagination: "#pagination",
         };
+
+        const iconTemplates = {};
 
         const toggle = function(event) {
             const checked = event.target.checked;
@@ -65,25 +70,29 @@ define([
                 async() => {
                     const result = await Repository.unlinkDocSpaceUsers(selectedUsers);
 
-                    if (result.unlinkedcount > 0) {
-                        Notification.addNotification({
-                            message: await Str.getString(
-                                'successfuldisable',
-                                'onlyofficedocspace',
-                                `${result.unlinkedcount}/${result.totalcount}`
-                            ),
-                            type: 'success',
-                        });
-                    }
-                    if (result.skippedcount > 0) {
-                        Notification.addNotification({
-                            message: await Str.getString(
-                                'skippeddisable',
-                                'onlyofficedocspace',
-                                `${result.skippedcount}/${result.totalcount}`
-                            ),
-                            type: 'warning',
-                        });
+                    if (result.status === "success") {
+                        clearNotificationsSection();
+                        if (result.unlinkedcount > 0) {
+                            Notification.addNotification({
+                                message: await Str.getString(
+                                    'successfuldisable',
+                                    'onlyofficedocspace',
+                                    `${result.unlinkedcount}/${result.totalcount}`
+                                ),
+                                type: 'success',
+                            });
+                            updateUsersTable();
+                        }
+                        if (result.skippedcount > 0) {
+                            Notification.addNotification({
+                                message: await Str.getString(
+                                    'skippeddisable',
+                                    'onlyofficedocspace',
+                                    `${result.skippedcount}/${result.totalcount}`
+                                ),
+                                type: 'warning',
+                            });
+                        }
                     }
                 },
                 null,
@@ -99,6 +108,7 @@ define([
             const result = await Repository.inviteUsersToDocSpace(selectedUsers);
 
             if (result.status && result.status === 'success') {
+                clearNotificationsSection();
                 if (result.invitedcount > 0) {
                     Notification.addNotification({
                         message: await Str.getString(
@@ -108,6 +118,7 @@ define([
                         ),
                         type: 'success',
                     });
+                    updateUsersTable();
                 }
                 if (result.skippedcount > 0) {
                     Notification.addNotification({
@@ -150,10 +161,119 @@ define([
             }
         };
 
+        const updateUsersTable = async function() {
+            const response = await Repository.fetchDocSpaceUsers(currentPage);
+
+            if (!response.users) {
+                return;
+            }
+
+            selectedUsers = [];
+
+            const table = document.querySelector("#ds-invite-users-table");
+            const tbody = table.querySelector("tbody");
+            const checkAllInput = table.querySelector(selectors.checkAll);
+            const fragment = document.createDocumentFragment();
+
+            response.users.forEach(user => {
+                fragment.appendChild(generateUsersTableRow(user));
+            });
+
+            checkAllInput.checked = false;
+            tbody.innerHTML = "";
+            tbody.appendChild(fragment);
+
+            const totalPages = Math.ceil(response.pagination.total / response.pagination.limit);
+            Pagination.render(selectors.pagination, totalPages, currentPage, (page) => {
+                currentPage = page;
+                updateUsersTable();
+            });
+        };
+
+        const generateUsersTableRow = function(user) {
+            const tr = document.createElement("tr");
+
+            // Add checkbox column
+            let td = document.createElement("td");
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.name = "users";
+            checkbox.value = user.id;
+            td.appendChild(checkbox);
+            tr.appendChild(td);
+
+            // Add fullname column
+            td = document.createElement("td");
+            td.textContent = `${user.firstname} ${user.lastname}`;
+            tr.appendChild(td);
+
+            // Add email column
+            td = document.createElement("td");
+            td.textContent = user.email;
+            tr.appendChild(td);
+
+            // Add role column
+            td = document.createElement("td");
+            td.textContent = user.role;
+            tr.appendChild(td);
+
+            // Add status column
+            td = document.createElement("td");
+            td.innerHTML = getStatusTemplate(user.status);
+            tr.appendChild(td);
+
+            // Add type column
+            td = document.createElement("td");
+            td.textContent = user.type;
+            tr.appendChild(td);
+
+            return tr;
+        };
+
+        const sortUsersTable = function(event) {
+            const button = event.target;
+            const sortIndex = parseInt(button.dataset.sortIndex);
+            const table = document.querySelector(selectors.usersTable);
+            const headers = table.querySelectorAll("th button");
+            const tbody = table.querySelector("tbody");
+
+            const currentSort = button.getAttribute("aria-sort");
+            const newSort = currentSort === "ascending" ? "descending": "ascending";
+
+            headers.forEach(h => h.setAttribute("aria-sort", "none"));
+            button.setAttribute("aria-sort", newSort);
+
+            const rows = Array.from(tbody.querySelectorAll("tr"));
+            rows.sort((a, b) => {
+                const cellA = a.children[sortIndex].textContent.trim();
+                const cellB = b.children[sortIndex].textContent.trim();
+
+                return newSort === "ascending"
+                    ? cellA.localeCompare(cellB)
+                    : cellB.localeCompare(cellA);
+            });
+
+            rows.forEach(row => tbody.appendChild(row));
+        };
+
+        const getStatusTemplate = function(status) {
+            switch (status) {
+                case "active":
+                    return iconTemplates.checkMark;
+                case "present":
+                    return iconTemplates.hourglass;
+                default:
+                    return "";
+            }
+        };
+
+        const clearNotificationsSection = function() {
+            const notificationsSection = document.getElementById("user-notifications");
+            notificationsSection.innerHTML = "";
+        };
+
         return {
             init: async function() {
-                ChangeChecker.disableAllChecks();
-
                 document.addEventListener("click", handleSelectUser);
                 const toggler = document.querySelector(selectors.checkAll);
                 toggler.addEventListener("click", toggle);
@@ -161,6 +281,21 @@ define([
                 unlinkbutton.addEventListener("click", handleUnlinkDocspaceUser);
                 const inviteButton = document.querySelector(selectors.buttons.invite);
                 inviteButton.addEventListener("click", handleInviteToDocspace);
+                const buttons = document.querySelectorAll(selectors.usersTable + " th button");
+                buttons.forEach(button => button.addEventListener("click", sortUsersTable));
+
+                await Templates.renderForPromise("mod_onlyofficedocspace/icons/hourglass", {})
+                    .then(({html}) => {
+                        iconTemplates.hourglass = html;
+                        return;
+                    });
+                await Templates.renderForPromise("mod_onlyofficedocspace/icons/check_mark", {})
+                    .then(({html}) => {
+                        iconTemplates.checkMark = html;
+                        return;
+                    });
+
+                updateUsersTable();
             }
         };
     });
