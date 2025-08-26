@@ -34,46 +34,42 @@
 }}
 <div class="d-flex flex-column" style="row-gap: 16px;">
   <p class="m-0">{{#str}} docspaceuserscategory:description, mod_onlyofficedocspace, {{#str}} invitetodocspace, mod_onlyofficedocspace {{/str}} {{/str}}</p>
-  {{#invitations}} {{{.}}} {{/invitations}}
   <table id="ds-invite-users-table" class="table table-striped m-0">
     <thead>
       <tr>
         <th scope="col"><input id="check-all-users" type="checkbox"></th>
         <th scope="col">
-          <div class="d-flex align-items-center">
-            <a href="{{urls.firstname}}">{{#str}} firstname {{/str}}</a>
+          <div class="ds-sort-buttons">
+            <button type="button" data-sort-index="1">{{#str}} firstname {{/str}}</button>
             /
-            <a href="{{urls.lastname}}">{{#str}} lastname {{/str}}</a>
+            <button type="button" data-sort-index="1">{{#str}} lastname {{/str}}</button>
           </div>
         </th>
-        <th scope="col"><a href="{{urls.email}}">{{#str}} email {{/str}}</a></th>
-        <th scope="col">{{#str}} role {{/str}}</th>
-        <th scope="col">{{#str}} docspaceuserstatus, mod_onlyofficedocspace {{/str}}</th>
-        <th scope="col">{{#str}} docspaceusertype, mod_onlyofficedocspace {{/str}}</th>
+        <th scope="col">
+          <div class="ds-sort-buttons">
+            <button type="button" data-sort-index="2">{{#str}} email {{/str}}</button>
+          </div>
+        </th>
+        <th scope="col">
+          <div class="ds-sort-buttons">
+            <button type="button" data-sort-index="3">{{#str}} role {{/str}}</button>
+          </div>
+        </th>
+        <th scope="col">
+          <div class="ds-sort-buttons">
+            <button type="button" data-sort-index="4">{{#str}} docspaceuserstatus, mod_onlyofficedocspace {{/str}}</button>
+          </div>
+        </th>
+        <th scope="col">
+          <div class="ds-sort-buttons">
+            <button type="button" data-sort-index="5">{{#str}} docspaceusertype, mod_onlyofficedocspace {{/str}}</button>
+          </div>
+        </th>
       </tr>
     </thead>
-    <tbody>
-      {{#users}}
-        <tr>
-          <th scope="row"><input type="checkbox" name="users" value="{{id}}"></th>
-          <td>{{fullname}}</td>
-          <td>{{email}}</td>
-          <td>{{role}}</td>
-          <td>
-            {{#status}}
-              <img src="{{status}}">
-            {{/status}}
-          </td>
-          <td>{{type}}</td>
-        </tr>
-      {{/users}}
-    </tbody>
+    <tbody></tbody>
   </table>
-  <div>
-    {{#paginator}}
-      {{{.}}}
-    {{/paginator}}
-  </div>
+
   <div>
     <button
       type="button"
