@@ -22,7 +22,6 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use mod_onlyofficedocspace\local\errors\docspace_error;
 use mod_onlyofficedocspace\local\moodle\admin\settings\admin_setting_docspace_api_key;
 use mod_onlyofficedocspace\local\moodle\admin\settings\admin_setting_docspace_url;
 use mod_onlyofficedocspace\local\moodle\plugin_settings;
@@ -90,44 +89,15 @@ $settings = new admin_settingpage(
 
 if ($sectionparam && $sectionparam === 'modsettingdocspaceusers') {
     if ($connected) {
-        try {
-            $sort = optional_param('sort', 'firstname', PARAM_ALPHANUMEXT);
-            $dir = optional_param('dir', 'ASC', PARAM_ALPHA);
-            $page = optional_param('page', 1, PARAM_INT);
-            $perpage = 30;
-
-            $params = new stdClass();
-            $params->sort = $sort;
-            $params->dir = $dir;
-            $params->page = $page;
-            $params->perpage = $perpage;
-
-            $docspaceusersrenderable = new docspaceusers($params);
-            $docspaceusersrenderer = $PAGE->get_renderer('mod_onlyofficedocspace');
-            if (!empty($notifications)) {
-                foreach ($notifications as $status => $message) {
-                    echo $OUTPUT->notification($message, $status);
-                }
-            }
-
-            $settings->add(
-                new admin_setting_heading(
-                    'onlyofficedocspace/docspace_users',
-                    '',
-                    $docspaceusersrenderer->render($docspaceusersrenderable)
-                )
-            );
-
-            $PAGE->requires->js_call_amd('mod_onlyofficedocspace/docspace_users', 'init', []);
-        } catch (docspace_error $e) {
-            $settings->add(
-                new admin_setting_heading(
-                    'onlyofficedocspace/docspace_users',
-                    '',
-                    $OUTPUT->notification(get_string('docspaceconfigurationerror', 'onlyofficedocspace'), 'error')
-                )
-            );
-        }
+        $docspaceusersrenderable = new docspaceusers();
+        $docspaceusersrenderer = $PAGE->get_renderer('mod_onlyofficedocspace');
+        $settings->add(
+            new admin_setting_heading(
+                'onlyofficedocspace/docspace_users',
+                '',
+                $docspaceusersrenderer->render($docspaceusersrenderable)
+            )
+        );
     } else {
         $settings->add(
             new admin_setting_heading(
