@@ -22,11 +22,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use mod_onlyofficedocspace\local\docspace\docspace_file_manager;
-use mod_onlyofficedocspace\local\docspace\docspace_settings;
-use mod_onlyofficedocspace\local\errors\docspace_error;
-use mod_onlyofficedocspace\local\moodle\moodle_docspace_user_manager;
 use mod_onlyofficedocspace\local\moodle\plugin_settings;
+use mod_onlyofficedocspace\local\moodle\repositories\docspace_user_repository;
 
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 require_once(dirname(__FILE__) . '/lib.php');
@@ -36,7 +33,6 @@ global $USER, $CFG;
 $id = optional_param('id', 0, PARAM_INT); // Course_module ID.
 $n = optional_param('n', 0, PARAM_INT);  // Resource instance ID.
 $redirect = optional_param('redirect', 0, PARAM_BOOL);
-$docspacesettings = new docspace_settings();
 
 if ($id) {
     $cm = get_coursemodule_from_id('onlyofficedocspace', $id, 0, false, MUST_EXIST);
@@ -89,6 +85,7 @@ if (property_exists($USER, 'lang')) {
 
 $editorconfig = [
     "frameId" => "ds-editor-frame",
+    "src" => $docspaceurl,
     "width" => "100%",
     "height" => "100%",
     "id" => $onlyofficedocspace->docspaceitemid,
