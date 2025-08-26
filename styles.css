@@ -116,6 +116,24 @@
     text-align: center;
 }
 
+.path-admin #ds-invite-users-table .ds-sort-buttons {
+    display: flex;
+    flex-direction: row;
+    column-gap: 5px;
+    align-items: center;
+}
+
+.path-admin #ds-invite-users-table .ds-sort-buttons button {
+    all: unset;
+    cursor: pointer;
+    color: #0f6cbf;
+    text-decoration: underline;
+}
+
+.path-mod #ds-invite-users-table .ds-sort-buttons button:hover {
+    color: #0f6cbf;
+}
+
 .path-admin .disabled {
     pointer-events: none;
     opacity: 0.6;
