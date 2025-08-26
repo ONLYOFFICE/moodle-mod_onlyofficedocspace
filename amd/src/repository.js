@@ -110,3 +110,16 @@ export const disconnectDocSpace = () => {
 
     return fetchMany([{methodname: 'mod_onlyofficedocspace_disconnect_docspace', args}])[0];
 };
+
+/**
+ * Fetch DocSpace users list
+ *
+ * @param   {Number} page Page number
+ * @param   {Number} limit Per page number
+ * @returns {Promise}
+ */
+export const fetchDocSpaceUsers = (page = 1, limit = 10) => {
+    const args = { page, limit };
+
+    return fetchMany([{methodname: 'mod_onlyofficedocspace_fetch_docspace_users', args}])[0];
+};
