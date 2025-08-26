@@ -69,4 +69,11 @@ $functions = [
         'ajax' => true,
         'services' => [],
     ],
+    'mod_onlyofficedocspace_fetch_docspace_users' => [
+        'classname' => 'mod_onlyofficedocspace\external\fetch_docspace_users',
+        'description' => 'Fetch DocSpace users list',
+        'type' => 'read',
+        'ajax' => true,
+        'services' => [],
+    ],
 ];
