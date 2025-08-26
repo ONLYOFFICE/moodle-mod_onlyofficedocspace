@@ -50,31 +50,19 @@ require_login($course, true, $cm);
 $context = CONTEXT_MODULE::instance($cm->id);
 require_capability('mod/onlyofficedocspace:view', $context);
 
-$docspacefilemanager = new docspace_file_manager(plugin_settings::url(), plugin_settings::api_key());
-$docspacefile = null;
+$docspaceuser = null;
+$errortemplatename = 'mod_onlyofficedocspace/errors/docspace_not_found_guest';
+$docspaceurl = plugin_settings::url();
 
-try {
-    if ($onlyofficedocspace->docspaceitemtype === 'file') {
-        $docspacefile = $docspacefilemanager->getFile($onlyofficedocspace->docspaceitemid);
-    } else if ($onlyofficedocspace->docspaceitemtype === 'room') {
-        $docspacefile = $docspacefilemanager->getRoom($onlyofficedocspace->docspaceitemid);
-    }
-} catch (docspace_error $e) {
-    $filenotfoundmessage = $e->getMessage();
-}
+$caneditonlyofficedocspace = has_capability('mod/onlyofficedocspace:edit', $context);
+$hasadmincapabilities = has_capability('moodle/site:config', $context);
 
-$user = null;
-
-if (has_capability('mod/onlyofficedocspace:edit', $context)) {
-    $moodledocspaceusermanager = new moodle_docspace_user_manager();
-    $docspaceuser = $moodledocspaceusermanager->get($USER->email);
-
-    if ($docspaceuser) {
-        $user['email'] = $docspaceuser->email;
-        $user['hash'] = $docspaceuser->password;
-    } else {
-        $user['email'] = $USER->email;
-    }
+if ($caneditonlyofficedocspace) {
+    $docspaceuserrepository = new docspace_user_repository();
+    $docspaceuser = $docspaceuserrepository->get_by_moodleuserid($USER->id);
+    $errortemplatename = $hasadmincapabilities
+        ? 'mod_onlyofficedocspace/errors/docspace_not_found_admin'
+        : 'mod_onlyofficedocspace/errors/docspace_not_found_teacher';
 }
 
 if (property_exists($USER, 'lang')) {
@@ -116,20 +104,17 @@ $PAGE->set_heading(format_string($course->fullname));
 echo $OUTPUT->header();
 echo $OUTPUT->heading($cm->name);
 
-if ($docspacefile) {
-    echo $OUTPUT->render_from_template('mod_onlyofficedocspace/docspace_editor', []);
+echo $OUTPUT->render_from_template('mod_onlyofficedocspace/docspace_editor', []);
 
-    $PAGE->requires->js_call_amd(
-        'mod_onlyofficedocspace/docspace_editor',
-        'init',
-        [
-            'docspaceUrl' => plugin_settings::url(),
-            'config' => $editorconfig,
-            'user' => $user,
-        ],
-    );
-} else {
-    echo $OUTPUT->notification($filenotfoundmessage, 'error');
-}
+$PAGE->requires->js_call_amd(
+    'mod_onlyofficedocspace/docspace_editor',
+    'init',
+    [
+        'docspaceUrl' => $docspaceurl,
+        'config' => $editorconfig,
+        'user' => $docspaceuser ? ['email' => $docspaceuser->email, 'hash' => $docspaceuser->password] : [],
+        'errorTemplateName' => $errortemplatename,
+    ],
+);
 
 echo $OUTPUT->footer();
