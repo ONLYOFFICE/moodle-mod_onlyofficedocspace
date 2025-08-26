@@ -44,7 +44,9 @@ $string['docspaceuserinviteerror'] = 'Error create user {$a} in DocSpace! The li
 $string['docspaceusernotfound'] = 'The user was not found in ONLYOFFICE DocSpace. Please, contact the administrator.';
 $string['docspaceuserrole:admin'] = 'Room admin';
 $string['docspaceuserrole:power'] = 'Power user';
-$string['docspaceuserscategory:description'] = 'To add new users to ONLYOFFICE DocSpace and start working with the plugin, please press <b>{$a}</b>. Only users with the roles of Manager, Teacher, and Course creator from Moodle can be invited to DocSpace. <br/> All new users will be added with <b>Power user</b> role. You can change the role type in the Accounts settings in DocSpace. Please note: <b>Power user</b> role is paid.';
+$string['docspaceuserscategory:description'] = '
+To add new users to ONLYOFFICE DocSpace and start working with the plugin, please press <b>{$a}</b>.<br/>
+All new users will be added with User role, you can change the role in Accounts settings in DocSpace.';
 $string['docspaceuserscategory:title'] = 'DocSpace users';
 $string['docspaceuserstatus'] = 'DocSpace user status';
 $string['docspaceusertype'] = 'DocSpace user type';
@@ -105,3 +107,14 @@ $string['docspaceapikey_help'] = '
 Before connecting the app, please go to the <b>link</b>, create new API key and insert it here. You can create API key with Permissions = <b>All</b> or create API key with <b>restricted access</b>. In this case, the following Access Scopes should be selected for valid work of this app: (Profile: Read, Contacts: Write, Rooms: Write).
 <br/>{$a->createkeylink}
 ';
+$string['unlinkdocspaceaccount'] = 'Unlink DocSpace Account';
+$string['skippeddisable'] = 'Account disabling skipped for {$a} user(s). User(s) with the specified email(s) addresses may already be unlinked from DocSpace.';
+$string['successfuldisable'] = 'The selected DocSpace account has been successfully disabled';
+$string['successfulconnection'] = 'Your DocSpace has been successfully connected!';
+$string['forgotpassword'] = 'Forgot password?';
+$string['modalloginerror'] = 'Invalid authorization credentials. Please check your Email and password and try to log in again.';
+$string['gotosettings'] = 'Go to Settings';
+$string['invalidlink'] = 'Invalid link';
+$string['docspacenotfound_desc'] = 'Please ensure that this room is located at the same DocSpace Service Address specified in the Settings.';
+$string['roomunavailable'] = 'Room unavailable.';
+$string['somethingwentwrong'] = 'Something went wrong';
