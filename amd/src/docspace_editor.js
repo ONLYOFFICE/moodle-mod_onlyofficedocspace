@@ -103,6 +103,7 @@ define([
                 // eslint-disable-next-line promise/always-return
                 .then(async() => {
                     DocSpace.SDK.initSystem({
+                        src: docspaceUrl,
                         frameId: config.frameId,
                         width: config.width,
                         height: config.height,
