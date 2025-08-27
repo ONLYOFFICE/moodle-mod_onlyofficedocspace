@@ -110,7 +110,7 @@ define(
                                         data.user.email,
                                         data.user.passwordHash,
                                         () => {
-                                            setState({step: STEPS.SELECT_ITEM});
+                                            setState({step: STEPS.DOCSPACE_ITEM});
                                         },
                                         () => {
                                             setState({step: STEPS.LOGIN});
