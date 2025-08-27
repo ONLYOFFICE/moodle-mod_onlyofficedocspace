@@ -56,6 +56,8 @@ define(
                     containers: {
                         login: 'ds-login-container',
                         item: 'ds-item-container',
+                        itemInfo: 'ds-item-info',
+                        itemType: 'ds-item-type',
                         select: 'ds-select-container',
                         error: 'ds-error',
                     },
@@ -82,7 +84,7 @@ define(
             render();
         };
 
-        const render = function() {
+        const render = async function() {
             document.getElementById(selectors.select.ids.containers.item)
                 .classList.toggle('d-none', state.step !== STEPS.DOCSPACE_ITEM);
             document.getElementById(selectors.select.ids.containers.login)
@@ -94,6 +96,17 @@ define(
 
             if (state.step === STEPS.LOADING) {
                 initDocSpace();
+            }
+            if (state.step === STEPS.DOCSPACE_ITEM) {
+                document.getElementById(selectors.select.ids.containers.itemType)
+                    .querySelector("p").textContent = await Str.getString(
+                        'selecteditemtype:' + data.item.docspaceitemtype,
+                        'onlyofficedocspace'
+                    );
+                document.getElementById(selectors.select.ids.containers.itemInfo)
+                    .querySelector("img").src = data.item.docspaceitemicon;
+                document.getElementById(selectors.select.ids.containers.itemInfo)
+                    .querySelector("p").textContent = data.item.docspaceitemname;
             }
         };
 
