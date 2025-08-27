@@ -53,6 +53,14 @@ class mod_onlyofficedocspace_mod_form extends moodleform_mod {
 
         $mform = $this->_form;
 
+        $docspaceurl = plugin_settings::url();
+
+        if (empty($docspaceurl)) {
+            $mform->addElement('html', $OUTPUT->notification(get_string('docspaceunreachable', 'onlyofficedocspace'), 'error'));
+            $this->standard_hidden_coursemodule_elements();
+            return;
+        }
+
         $docspaceuserrepository = new docspace_user_repository();
         $docspaceuser = $docspaceuserrepository->get_by_moodleuserid($USER->id);
 
@@ -123,13 +131,13 @@ class mod_onlyofficedocspace_mod_form extends moodleform_mod {
         $mform->setType('docspaceitemicon', PARAM_TEXT);
 
         $selectelements[] = &$mform->createElement('html', $OUTPUT->render_from_template('onlyofficedocspace/select_element', [
-            'docspaceurl' => plugin_settings::url(),
+            'docspaceurl' => $docspaceurl,
         ]));
         $PAGE->requires->js_call_amd(
             'mod_onlyofficedocspace/select_element',
             'init',
             [
-                'url' => plugin_settings::url(),
+                'url' => $docspaceurl,
                 'user' => $docspaceuser ? ['email' => $docspaceuser->email, 'passwordHash' => $docspaceuser->password] : [],
                 'item' => $onlyofficedocspaceactivity,
             ],
