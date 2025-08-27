@@ -29,7 +29,10 @@ use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
 use core_external\external_single_structure;
 use core_external\external_value;
+use mod_onlyofficedocspace\local\docspace\docspace_client;
+use mod_onlyofficedocspace\local\docspace\enums\docspace_user_status;
 use mod_onlyofficedocspace\local\docspace\enums\docspace_user_type;
+use mod_onlyofficedocspace\local\moodle\plugin_settings;
 use mod_onlyofficedocspace\local\moodle\repositories\docspace_user_repository;
 use mod_onlyofficedocspace\local\moodle\repositories\user_repository;
 
@@ -87,9 +90,11 @@ class fetch_docspace_users extends \core_external\external_api {
         $offset = ($page - 1) * $limit;
 
         $moodleusers = $userrepository->get_users_with_editor_roles($offset, $limit);
-
         $userids = array_map(fn($user) => $user->id, $moodleusers);
         $docspaceusers = $docspaceuserrepository->get_multiple_by_moodleuserids($userids);
+
+        $docspaceclient = new docspace_client(plugin_settings::url(), plugin_settings::api_key());
+        $remotedocspaceusers = $docspaceclient->fetch_all_users();
 
         $users = [];
 
@@ -101,9 +106,14 @@ class fetch_docspace_users extends \core_external\external_api {
             $type = "";
 
             if ($docspaceuser) {
+                $remotedocspaceuser = $remotedocspaceusers->get_by_email($docspaceuser->email);
                 $email = $docspaceuser->email;
-                $status = $docspaceuser->email && $docspaceuser->password ? "active" : "present";
-                $type = $docspaceuser->type ?? docspace_user_type::POWER_USER->value;
+                $status = $docspaceuser->email && $docspaceuser->password ? docspace_user_status::ACTIVE->value : "";
+                $type = $remotedocspaceuser && $remotedocspaceuser->isroomadmin
+                    ? docspace_user_type::ROOM_ADMIN->value
+                    : docspace_user_type::POWER_USER->value;
+            } else if (($remotedocspaceuser = $remotedocspaceusers->get_by_email($user->email))) {
+                $status = docspace_user_status::EXISTS->value;
             }
 
             $users[] = [
