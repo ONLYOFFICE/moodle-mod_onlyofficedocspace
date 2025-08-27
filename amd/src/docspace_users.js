@@ -287,16 +287,10 @@ define([
                 const buttons = document.querySelectorAll(selectors.usersTable + " th button");
                 buttons.forEach(button => button.addEventListener("click", sortUsersTable));
 
-                await Templates.renderForPromise("mod_onlyofficedocspace/icons/hourglass", {})
-                    .then(({html}) => {
-                        iconTemplates.hourglass = html;
-                        return;
-                    });
-                await Templates.renderForPromise("mod_onlyofficedocspace/icons/check_mark", {})
-                    .then(({html}) => {
-                        iconTemplates.checkMark = html;
-                        return;
-                    });
+                let template = await Templates.renderForPromise("mod_onlyofficedocspace/icons/hourglass", {});
+                iconTemplates.hourglass = template.html;
+                template = await Templates.renderForPromise("mod_onlyofficedocspace/icons/check_mark", {});
+                iconTemplates.checkMark = template.html;
 
                 updateUsersTable();
             }
