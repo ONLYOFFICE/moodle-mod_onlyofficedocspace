@@ -104,17 +104,21 @@ $PAGE->set_heading(format_string($course->fullname));
 echo $OUTPUT->header();
 echo $OUTPUT->heading($cm->name);
 
-echo $OUTPUT->render_from_template('mod_onlyofficedocspace/docspace_editor', []);
+if (empty($docspaceurl)) {
+    echo $OUTPUT->notification(get_string('docspaceunreachable', 'onlyofficedocspace'), 'error');
+} else {
+    echo $OUTPUT->render_from_template('mod_onlyofficedocspace/docspace_editor', []);
 
-$PAGE->requires->js_call_amd(
-    'mod_onlyofficedocspace/docspace_editor',
-    'init',
-    [
-        'docspaceUrl' => $docspaceurl,
-        'config' => $editorconfig,
-        'user' => $docspaceuser ? ['email' => $docspaceuser->email, 'hash' => $docspaceuser->password] : [],
-        'errorTemplateName' => $errortemplatename,
-    ],
-);
+    $PAGE->requires->js_call_amd(
+        'mod_onlyofficedocspace/docspace_editor',
+        'init',
+        [
+            'docspaceUrl' => $docspaceurl,
+            'config' => $editorconfig,
+            'user' => $docspaceuser ? ['email' => $docspaceuser->email, 'hash' => $docspaceuser->password] : [],
+            'errorTemplateName' => $errortemplatename,
+        ],
+    );
+}
 
 echo $OUTPUT->footer();
