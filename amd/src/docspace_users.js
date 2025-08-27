@@ -263,7 +263,7 @@ define([
             switch (status) {
                 case "active":
                     return iconTemplates.checkMark;
-                case "present":
+                case "exists":
                     return iconTemplates.hourglass;
                 default:
                     return "";
