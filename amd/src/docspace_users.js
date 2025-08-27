@@ -33,6 +33,7 @@ define([
             usersTable: "table[id='ds-invite-users-table']",
             checkers: 'input[name="users"]',
             checkAll: 'input[id="check-all-users"]',
+            actionsButtons: '.action-buttons',
             buttons: {
                 invite: "#invite-to-docspace",
                 unlink: "#unlink-docspace-account"
@@ -162,24 +163,26 @@ define([
         };
 
         const updateUsersTable = async function() {
+            const table = document.querySelector("#ds-invite-users-table");
+            const tbody = table.querySelector("tbody");
+            const checkAllInput = table.querySelector(selectors.checkAll);
+            checkAllInput.checked = false;
+            selectedUsers = [];
+
             const response = await Repository.fetchDocSpaceUsers(currentPage);
 
+            document.querySelector(selectors.actionsButtons)
+                .classList.toggle("hidden", !(response.users && response.users.length > 0));
             if (!response.users) {
                 return;
             }
 
-            selectedUsers = [];
-
-            const table = document.querySelector("#ds-invite-users-table");
-            const tbody = table.querySelector("tbody");
-            const checkAllInput = table.querySelector(selectors.checkAll);
             const fragment = document.createDocumentFragment();
 
             response.users.forEach(user => {
                 fragment.appendChild(generateUsersTableRow(user));
             });
 
-            checkAllInput.checked = false;
             tbody.innerHTML = "";
             tbody.appendChild(fragment);
 
