@@ -221,9 +221,8 @@ define([
                 const result = await Repository.disconnectDocSpace();
 
                 if (result.status && result.status === 'success') {
-                    state.step = STEPS.CONNECTED;
-                    state.isUrlValid = false;
-                    setState({});
+                    ChangeChecker.disableAllChecks();
+                    window.location.reload();
                     return;
                 }
 
