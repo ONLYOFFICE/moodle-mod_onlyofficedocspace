@@ -293,14 +293,6 @@ define(
             document.getElementsByName("docspacerequesttoken")[0].value = requestToken;
             document.getElementsByName("docspaceitemname")[0].value = name;
             document.getElementsByName("docspaceitemicon")[0].value = icon;
-
-            const selectedItemType = document.getElementById("ds-item-type");
-            selectedItemType
-                .querySelector("p")
-                .textContent = await Str.getString("selecteditemtype:" + type, 'mod_onlyofficedocspace');
-            const selectedItemInfo = document.getElementById("ds-item-info");
-            selectedItemInfo.querySelector("img").src = icon;
-            selectedItemInfo.querySelector("p").textContent = name;
         };
 
         const removeItem = async function() {
