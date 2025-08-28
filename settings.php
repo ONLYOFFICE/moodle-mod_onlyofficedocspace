@@ -36,7 +36,7 @@ $settings = new admin_settingpage(
     'moodle/site:config'
 );
 $sectionparam = null;
-$connected = !(empty(plugin_settings::url()) || empty(plugin_settings::api_key()));
+$connected = plugin_settings::url() && plugin_settings::api_key();
 
 if ($ADMIN->fulltree) {
     $sectionparam = $PAGE->url->get_param('section');
