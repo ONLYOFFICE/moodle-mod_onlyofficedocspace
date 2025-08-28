@@ -232,11 +232,16 @@ define(
                         const itemInfo = selectorType === "room" ? event[0] : event;
                         const name = selectorType === "room" ? itemInfo.label : itemInfo.title + itemInfo.fileExst;
                         const icon = URL.parse(itemInfo.icon) ?? new URL(itemInfo.icon, data.url);
-                                const requestToken = itemInfo.requestTokens[0].requestToken;
-                                selectItem(itemInfo.id, selectorType, requestToken, name, icon.href);
-                                setState({step: STEPS.DOCSPACE_ITEM});
-                                modal.destroy();
-                            },
+                        const requestToken = itemInfo.requestTokens[0].requestToken;
+                        data.item = {
+                            docspaceitemtype: selectorType,
+                            docspaceitemname: name,
+                            docspaceitemicon:icon.href,
+                        };
+                        selectItem(itemInfo.id, selectorType, requestToken, name, icon.href);
+                        setState({step: STEPS.DOCSPACE_ITEM});
+                        modal.destroy();
+                    },
                     onCloseCallback: function() {
                         modal.destroy();
                     }
