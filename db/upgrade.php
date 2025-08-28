@@ -52,6 +52,39 @@ function xmldb_onlyofficedocspace_upgrade($oldversion) {
         unset_config('docspace_password', 'onlyofficedocspace');
         unset_config('docspace_token', 'onlyofficedocspace');
 
+        // Define field userid to be added to onlyofficedocspace_dsuser.
+        $table = new xmldb_table('onlyofficedocspace_dsuser');
+        $field = new xmldb_field('userid', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'password');
+        $key = new xmldb_key('userid_key', XMLDB_KEY_FOREIGN, ['userid'], 'user', ['id']);
+
+        // Add the field first.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Add the foreign key.
+        if (!$dbman->find_key_name($table, $key)) {
+            $dbman->add_key($table, $key);
+        }
+
+        // Populate the userid field by matching email addresses.
+        $dsusers = $DB->get_recordset('onlyofficedocspace_dsuser', ['userid' => null]);
+        
+        foreach ($dsusers as $dsuser) {
+            if (empty($dsuser->email)) {
+                continue;
+            }
+            
+            // Find matching Moodle user by email.
+            $user = $DB->get_record('user', ['email' => $dsuser->email, 'deleted' => 0], 'id', IGNORE_MULTIPLE);
+            
+            if ($user) {
+                $dsuser->userid = $user->id;
+                $DB->update_record('onlyofficedocspace_dsuser', $dsuser);
+            }
+        }
+        $dsusers->close();
+
         // Update db version tag.
         upgrade_mod_savepoint(true, 2025012901, 'onlyofficedocspace');
     }
