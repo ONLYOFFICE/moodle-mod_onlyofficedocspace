@@ -92,7 +92,7 @@ class connect_docspace extends \core_external\external_api {
 
         // Check if the user is moving to a new DocSpace portal.
         $oldurl = rtrim(trim(plugin_settings::url()), '/');
-        $isnewportal = $oldurl !== $url;
+        $isnewportal = !empty($oldurl) && $oldurl !== $url;
 
         // Add the domain to the CSP allowed list.
         $domain = url_parser::get_base($CFG->wwwroot);
