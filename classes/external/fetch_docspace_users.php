@@ -108,7 +108,7 @@ class fetch_docspace_users extends \core_external\external_api {
             if ($docspaceuser) {
                 $remotedocspaceuser = $remotedocspaceusers->get_by_email($docspaceuser->email);
                 $email = $docspaceuser->email;
-                $status = $docspaceuser->email && $docspaceuser->password ? docspace_user_status::ACTIVE->value : "";
+                $status = docspace_user_status::ACTIVE->value;
                 $type = $remotedocspaceuser && $remotedocspaceuser->isroomadmin
                     ? docspace_user_type::ROOM_ADMIN->value
                     : docspace_user_type::POWER_USER->value;
