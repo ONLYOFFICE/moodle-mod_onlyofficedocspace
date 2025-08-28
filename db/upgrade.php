@@ -55,35 +55,57 @@ function xmldb_onlyofficedocspace_upgrade($oldversion) {
         // Define field userid to be added to onlyofficedocspace_dsuser.
         $table = new xmldb_table('onlyofficedocspace_dsuser');
         $field = new xmldb_field('userid', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'password');
-        $key = new xmldb_key('userid_key', XMLDB_KEY_FOREIGN, ['userid'], 'user', ['id']);
 
         // Add the field first.
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
 
-        // Add the foreign key.
-        if (!$dbman->find_key_name($table, $key)) {
-            $dbman->add_key($table, $key);
-        }
-
         // Populate the userid field by matching email addresses.
         $dsusers = $DB->get_recordset('onlyofficedocspace_dsuser', ['userid' => null]);
         
-        foreach ($dsusers as $dsuser) {
-            if (empty($dsuser->email)) {
-                continue;
+        try {
+            $transaction = $DB->start_delegated_transaction();
+
+            foreach ($dsusers as $dsuser) {            
+                // Find matching Moodle user by email.
+                $user = $DB->get_record('user', ['email' => $dsuser->email, 'deleted' => 0], 'id', IGNORE_MULTIPLE);
+                
+                if ($user && $dsuser->password) {
+                    $DB->set_field('onlyofficedocspace_dsuser', 'userid', $user->id, ['id' => $dsuser->id]);
+                } else {
+                    $DB->delete_records('onlyofficedocspace_dsuser', ['id' => $dsuser->id]);
+                }
             }
-            
-            // Find matching Moodle user by email.
-            $user = $DB->get_record('user', ['email' => $dsuser->email, 'deleted' => 0], 'id', IGNORE_MULTIPLE);
-            
-            if ($user) {
-                $dsuser->userid = $user->id;
-                $DB->update_record('onlyofficedocspace_dsuser', $dsuser);
+
+            $field = new xmldb_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null, 'password');
+            $dbman->change_field_notnull($table, $field);
+
+            // Add the foreign key after ensuring all userid values are valid
+            $key = new xmldb_key('userid_key', XMLDB_KEY_FOREIGN, ['userid'], 'user', ['id']);
+            if (!$dbman->find_key_name($table, $key)) {
+                $dbman->add_key($table, $key);
             }
+
+            $transaction->allow_commit();
+        } catch (Exception $e) {
+            $transaction->rollback($e);
+            throw $e;
+        } finally {
+            $dsusers->close();
         }
-        $dsusers->close();
+
+        // Make the password field to be required.
+        $table = new xmldb_table('onlyofficedocspace_dsuser');
+        $field = new xmldb_field('password');
+
+        // Set all existing NULL passwords to empty string first
+        $DB->set_field_select('onlyofficedocspace_dsuser', 'password', '', 'password IS NULL');
+        
+        // Now make the field NOT NULL
+        $field->set_attributes(XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null, 'email');
+        $dbman->change_field_notnull($table, $field);
+        $dbman->change_field_default($table, $field);
 
         // Update db version tag.
         upgrade_mod_savepoint(true, 2025012901, 'onlyofficedocspace');
