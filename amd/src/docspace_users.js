@@ -54,7 +54,7 @@ define([
         };
 
         const toggleActionButtons = function() {
-            const buttons = document.querySelectorAll(".action-buttons");
+            const buttons = document.querySelectorAll(".action-buttons button");
             buttons.forEach(button => {
                 button.disabled = selectedUsers.length < 1;
             });
