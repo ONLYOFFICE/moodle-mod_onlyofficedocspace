@@ -22,12 +22,20 @@
 define([
     'core/str',
     'core/notification',
+    'core_form/changechecker',
     'core/templates',
     'mod_onlyofficedocspace/repository',
     'mod_onlyofficedocspace/pagination',
-], function(Str, Notification, Templates, Repository, Pagination) {
-        let selectedUsers = [];
-        let currentPage = 1;
+], function(Str, Notification, ChangeChecker, Templates, Repository, Pagination) {
+        const data = {
+            users: [],
+            selectedUsers: [],
+            pagination: {
+                currentPage: 1,
+                total: 0,
+                limit: 10,
+            },
+        };
 
         const selectors = {
             usersTable: "table[id='ds-invite-users-table']",
@@ -49,15 +57,19 @@ define([
             checkboxes.forEach(checkbox => {
                 checkbox.checked = checked;
             });
-            selectedUsers = checked ? [...checkboxes].map(checkbox => checkbox.value) : [];
+            data.selectedUsers = checked ? [...checkboxes].map(checkbox => checkbox.value) : [];
             toggleActionButtons();
         };
 
         const toggleActionButtons = function() {
             const buttons = document.querySelectorAll(".action-buttons button");
             buttons.forEach(button => {
-                button.disabled = selectedUsers.length < 1;
+                button.disabled = data.selectedUsers.length < 1;
             });
+
+            if (data.selectedUsers.length < 1) {
+                ChangeChecker.disableAllChecks();
+            }
         };
 
         const handleUnlinkDocspaceUser = async function(event) {
@@ -153,12 +165,25 @@ define([
                 const isChecked = checkbox.checked;
 
                 if (isChecked) {
-                    selectedUsers.push(userValue);
+                    data.selectedUsers.push(userValue);
                 } else {
-                    selectedUsers = selectedUsers.filter(user => user !== userValue);
+                    data.selectedUsers = data.selectedUsers.filter(user => user !== userValue);
                 }
 
                 toggleActionButtons();
+            }
+        };
+
+        const updateUsersList = async function() {
+            try {
+                const response = await Repository.fetchDocSpaceUsers(data.pagination.currentPage, data.pagination.limit);
+                data.users = response.users;
+                data.pagination.total = response.pagination.total;
+            } catch (error) {
+                // eslint-disable-next-line no-console
+                console.log(error);
+                data.users = [];
+                data.pagination.total = 0;
             }
         };
 
@@ -166,29 +191,36 @@ define([
             const table = document.querySelector("#ds-invite-users-table");
             const tbody = table.querySelector("tbody");
             const checkAllInput = table.querySelector(selectors.checkAll);
+            const selectButtons = document.querySelector(selectors.actionsButtons);
+
+            tbody.innerHTML = "";
             checkAllInput.checked = false;
-            selectedUsers = [];
+            data.selectedUsers = [];
+            selectButtons.classList.toggle("hidden", !(data.users && data.users.length > 0));
 
-            const response = await Repository.fetchDocSpaceUsers(currentPage);
-
-            document.querySelector(selectors.actionsButtons)
-                .classList.toggle("hidden", !(response.users && response.users.length > 0));
-            if (!response.users) {
+            if (data.users.length < 1) {
+                const tr = document.createElement("tr");
+                const td = document.createElement("td");
+                td.textContent = await Str.getString("emptyuserslist", "onlyofficedocspace");
+                td.colSpan = 6;
+                td.classList.add("text-center");
+                tr.appendChild(td);
+                tbody.appendChild(tr);
                 return;
             }
 
             const fragment = document.createDocumentFragment();
 
-            response.users.forEach(user => {
+            data.users.forEach(user => {
                 fragment.appendChild(generateUsersTableRow(user));
             });
 
-            tbody.innerHTML = "";
             tbody.appendChild(fragment);
 
-            const totalPages = Math.ceil(response.pagination.total / response.pagination.limit);
-            Pagination.render(selectors.pagination, totalPages, currentPage, (page) => {
-                currentPage = page;
+            const totalPages = Math.ceil(data.pagination.total / data.pagination.limit);
+            Pagination.render(selectors.pagination, totalPages, data.pagination.currentPage, async(page) => {
+                data.pagination.currentPage = page;
+                await updateUsersList();
                 updateUsersTable();
             });
         };
@@ -235,28 +267,29 @@ define([
 
         const sortUsersTable = function(event) {
             const button = event.target;
-            const sortIndex = parseInt(button.dataset.sortIndex);
+            const sortProperty = button.dataset.sortProperty;
             const table = document.querySelector(selectors.usersTable);
             const headers = table.querySelectorAll("th button");
-            const tbody = table.querySelector("tbody");
 
             const currentSort = button.getAttribute("aria-sort");
             const newSort = currentSort === "ascending" ? "descending": "ascending";
 
-            headers.forEach(h => h.setAttribute("aria-sort", "none"));
-            button.setAttribute("aria-sort", newSort);
-
-            const rows = Array.from(tbody.querySelectorAll("tr"));
-            rows.sort((a, b) => {
-                const cellA = a.children[sortIndex].textContent.trim();
-                const cellB = b.children[sortIndex].textContent.trim();
-
-                return newSort === "ascending"
-                    ? cellA.localeCompare(cellB)
-                    : cellB.localeCompare(cellA);
+            headers.forEach(h => {
+                h.setAttribute("aria-sort", "none");
+                h.classList.remove("asc");
+                h.classList.remove("desc");
             });
 
-            rows.forEach(row => tbody.appendChild(row));
+            button.setAttribute("aria-sort", newSort);
+            button.classList.add(newSort === "ascending" ? "asc" : "desc");
+
+            data.users.sort((a, b) => {
+                return newSort === "ascending"
+                    ? a[sortProperty].localeCompare(b[sortProperty])
+                    : b[sortProperty].localeCompare(a[sortProperty]);
+            });
+
+            updateUsersTable();
         };
 
         const getStatusTemplate = function(status) {
@@ -292,6 +325,7 @@ define([
                 template = await Templates.renderForPromise("mod_onlyofficedocspace/icons/check_mark", {});
                 iconTemplates.checkMark = template.html;
 
+                await updateUsersList();
                 updateUsersTable();
             }
         };
