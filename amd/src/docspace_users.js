@@ -312,9 +312,21 @@ define([
             button.classList.add(newSort === "ascending" ? "asc" : "desc");
 
             data.users.sort((a, b) => {
-                return newSort === "ascending"
-                    ? a[sortProperty].localeCompare(b[sortProperty])
-                    : b[sortProperty].localeCompare(a[sortProperty]);
+                const valA = a[sortProperty];
+                const valB = b[sortProperty];
+                const ascending = newSort === "ascending";
+
+                if (!valA && valB) {
+                    return ascending ? 1 : -1;
+                }
+                if (valA && !valB) {
+                    return ascending ? -1 : 1;
+                }
+                if (!valA && !valB) {
+                    return 0;
+                }
+
+                return ascending ? valA.localeCompare(valB) : valB.localeCompare(valA);
             });
 
             updateUsersTable();
