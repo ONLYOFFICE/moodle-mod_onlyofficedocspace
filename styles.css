@@ -116,21 +116,24 @@
     text-align: center;
 }
 
-.path-admin #ds-invite-users-table .ds-sort-buttons {
-    display: flex;
-    flex-direction: row;
-    column-gap: 5px;
-    align-items: center;
-}
-
-.path-admin #ds-invite-users-table .ds-sort-buttons button {
+.path-admin #ds-invite-users-table button.sortable {
     all: unset;
     cursor: pointer;
     color: #0f6cbf;
     text-decoration: underline;
 }
 
-.path-mod #ds-invite-users-table .ds-sort-buttons button:hover {
+.path-admin #ds-invite-users-table button.sortable.asc::after {
+    content: "▲";
+    color: #000;
+}
+
+.path-admin #ds-invite-users-table button.sortable.desc::after {
+    content: "▼";
+    color: #000;
+}
+
+.path-mod #ds-invite-users-table button.sortable:hover {
     color: #0f6cbf;
 }
 
