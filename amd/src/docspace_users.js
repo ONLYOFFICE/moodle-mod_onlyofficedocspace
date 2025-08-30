@@ -97,6 +97,7 @@ define([
                                 });
                                 await updateUsersList();
                                 updateUsersTable();
+                                ChangeChecker.disableAllChecks();
                             }
                             if (result.skippedcount > 0) {
                                 Notification.addNotification({
@@ -147,6 +148,7 @@ define([
                         });
                         await updateUsersList();
                         updateUsersTable();
+                        ChangeChecker.disableAllChecks();
                     }
                     if (result.skippedcount > 0) {
                         Notification.addNotification({
