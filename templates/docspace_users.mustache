@@ -39,31 +39,23 @@
       <tr>
         <th scope="col"><input id="check-all-users" type="checkbox"></th>
         <th scope="col">
-          <div class="ds-sort-buttons">
-            <button type="button" data-sort-index="1">{{#str}} firstname {{/str}}</button>
+          <div class="d-flex align-items-center" style="column-gap: 4px">
+            <button type="button" class="sortable" data-sort-property="firstname">{{#str}} firstname {{/str}}</button>
             /
-            <button type="button" data-sort-index="1">{{#str}} lastname {{/str}}</button>
+            <button type="button" class="sortable" data-sort-property="lastname">{{#str}} lastname {{/str}}</button>
           </div>
         </th>
         <th scope="col">
-          <div class="ds-sort-buttons">
-            <button type="button" data-sort-index="2">{{#str}} email {{/str}}</button>
-          </div>
+          <button type="button" class="sortable" data-sort-property="email">{{#str}} email {{/str}}</button>
         </th>
         <th scope="col">
-          <div class="ds-sort-buttons">
-            <button type="button" data-sort-index="3">{{#str}} role {{/str}}</button>
-          </div>
+          <button type="button" class="sortable" data-sort-property="role">{{#str}} role {{/str}}</button>
         </th>
         <th scope="col">
-          <div class="ds-sort-buttons">
-            <button type="button" data-sort-index="4">{{#str}} docspaceuserstatus, mod_onlyofficedocspace {{/str}}</button>
-          </div>
+          <button type="button" class="sortable" data-sort-property="status">{{#str}} docspaceuserstatus, mod_onlyofficedocspace {{/str}}</button>
         </th>
         <th scope="col">
-          <div class="ds-sort-buttons">
-            <button type="button" data-sort-index="5">{{#str}} docspaceusertype, mod_onlyofficedocspace {{/str}}</button>
-          </div>
+          <button type="button" class="sortable" data-sort-property="type">{{#str}} docspaceusertype, mod_onlyofficedocspace {{/str}}</button>
         </th>
       </tr>
     </thead>
