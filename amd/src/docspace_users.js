@@ -81,31 +81,44 @@ define([
                 Str.getString('unlinkwarningmessage', 'onlyofficedocspace'),
                 Str.getString('unlinkdocspaceaccount', 'onlyofficedocspace'),
                 async() => {
-                    const result = await Repository.unlinkDocSpaceUsers(selectedUsers);
+                    clearNotificationsSection();
+                    try {
+                        const result = await Repository.unlinkDocSpaceUsers(data.selectedUsers);
 
-                    if (result.status === "success") {
-                        clearNotificationsSection();
-                        if (result.unlinkedcount > 0) {
-                            Notification.addNotification({
-                                message: await Str.getString(
-                                    'successfuldisable',
-                                    'onlyofficedocspace',
-                                    `${result.unlinkedcount}/${result.totalcount}`
-                                ),
-                                type: 'success',
-                            });
-                            updateUsersTable();
+                        if (result.status === "success") {
+                            if (result.unlinkedcount > 0) {
+                                Notification.addNotification({
+                                    message: await Str.getString(
+                                        'successfuldisable',
+                                        'onlyofficedocspace',
+                                        `${result.unlinkedcount}/${result.totalcount}`
+                                    ),
+                                    type: 'success',
+                                });
+                                await updateUsersList();
+                                updateUsersTable();
+                            }
+                            if (result.skippedcount > 0) {
+                                Notification.addNotification({
+                                    message: await Str.getString(
+                                        'skippeddisable',
+                                        'onlyofficedocspace',
+                                        `${result.skippedcount}/${result.totalcount}`
+                                    ),
+                                    type: 'warning',
+                                });
+                            }
                         }
-                        if (result.skippedcount > 0) {
-                            Notification.addNotification({
-                                message: await Str.getString(
-                                    'skippeddisable',
-                                    'onlyofficedocspace',
-                                    `${result.skippedcount}/${result.totalcount}`
-                                ),
-                                type: 'warning',
-                            });
-                        }
+                    } catch (error) {
+                        // eslint-disable-next-line no-console
+                        console.log(error);
+                        Notification.addNotification({
+                            message: await Str.getString(
+                                'unexpectederror:unlinkusers',
+                                'onlyofficedocspace',
+                            ),
+                            type: 'error',
+                        });
                     }
                 },
                 null,
@@ -118,41 +131,54 @@ define([
             const inviteButton = event.target;
             inviteButton.disabled = true;
 
-            const result = await Repository.inviteUsersToDocSpace(selectedUsers);
+            try {
+                const result = await Repository.inviteUsersToDocSpace(data.selectedUsers);
 
-            if (result.status && result.status === 'success') {
-                clearNotificationsSection();
-                if (result.invitedcount > 0) {
-                    Notification.addNotification({
-                        message: await Str.getString(
-                            'sentinvitations',
-                            'onlyofficedocspace',
-                            `${result.invitedcount}/${result.totalcount}`
-                        ),
-                        type: 'success',
-                    });
-                    updateUsersTable();
+                if (result.status && result.status === 'success') {
+                    clearNotificationsSection();
+                    if (result.invitedcount > 0) {
+                        Notification.addNotification({
+                            message: await Str.getString(
+                                'sentinvitations',
+                                'onlyofficedocspace',
+                                `${result.invitedcount}/${result.totalcount}`
+                            ),
+                            type: 'success',
+                        });
+                        await updateUsersList();
+                        updateUsersTable();
+                    }
+                    if (result.skippedcount > 0) {
+                        Notification.addNotification({
+                            message: await Str.getString(
+                                'skippedinvitations',
+                                'onlyofficedocspace',
+                                `${result.skippedcount}/${result.totalcount}`
+                            ),
+                            type: 'warning',
+                        });
+                    }
+                    if (result.failedcount > 0) {
+                        Notification.addNotification({
+                            message: await Str.getString(
+                                'failedinvitations',
+                                'onlyofficedocspace',
+                                `${result.failedcount}/${result.totalcount}`
+                            ),
+                            type: 'error',
+                        });
+                    }
                 }
-                if (result.skippedcount > 0) {
-                    Notification.addNotification({
-                        message: await Str.getString(
-                            'skippedinvitations',
-                            'onlyofficedocspace',
-                            `${result.skippedcount}/${result.totalcount}`
-                        ),
-                        type: 'warning',
-                    });
-                }
-                if (result.failedcount > 0) {
-                    Notification.addNotification({
-                        message: await Str.getString(
-                            'failedinvitations',
-                            'onlyofficedocspace',
-                            `${result.failedcount}/${result.totalcount}`
-                        ),
-                        type: 'error',
-                    });
-                }
+            } catch (error) {
+                // eslint-disable-next-line no-console
+                console.log(error);
+                Notification.addNotification({
+                    message: await Str.getString(
+                        'unexpectederror:inviteusers',
+                        'onlyofficedocspace',
+                    ),
+                    type: 'error',
+                });
             }
 
             inviteButton.disabled = false;
