@@ -40,8 +40,8 @@ define(
         const selectors = {
             frames: {
                 system: "ds-system-frame",
-                login: "ds-login-frame",
                 select: "ds-select-frame",
+                container: "ds-frame-container",
             },
             modal: {
                 ids: {
@@ -93,6 +93,8 @@ define(
                 .classList.toggle('d-none', state.step !== STEPS.ERROR);
             document.getElementById(selectors.select.ids.containers.select)
                 .classList.toggle('d-none', state.step !== STEPS.SELECT_ITEM);
+            document.getElementById(selectors.frames.container)
+                .classList.toggle('d-none', state.step !== STEPS.LOADING);
 
             if (state.step === STEPS.LOADING) {
                 initDocSpace();
@@ -185,7 +187,7 @@ define(
                                     });
 
                                 modal.destroy();
-                                setState({step: STEPS.SELECT_ITEM});
+                                setState({step: data.item ? STEPS.DOCSPACE_ITEM : STEPS.SELECT_ITEM});
                             },
                             () => {
                                 document.getElementById("ds-login-error").style.display = "block";
