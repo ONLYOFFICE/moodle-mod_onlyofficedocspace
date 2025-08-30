@@ -156,17 +156,25 @@ define([
             return;
         }
 
-        const result = await Repository.checkDocSpaceConnectivity(url);
+        try {
+            const result = await Repository.checkDocSpaceConnectivity(url);
 
-        if (result.status && result.status === 'success') {
-            state.isUrlValid = true;
-            state.step = STEPS.CHECK_API_KEY;
-            setState({});
-            return;
-        }
+            if (result.status && result.status === 'success') {
+                state.isUrlValid = true;
+                state.step = STEPS.CHECK_API_KEY;
+                setState({});
+                return;
+            }
 
-        if (result.errors) {
-            setState({errors: {url: result.errors[0]}});
+            if (result.errors) {
+                setState({errors: {url: result.errors[0]}});
+            }
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.log(error);
+            setState({errors: {
+                general: await Str.getString('unexpectederror:docspaceurl', 'onlyofficedocspace')
+            }});
         }
     };
 
@@ -184,14 +192,22 @@ define([
             return;
         }
 
-        const result = await Repository.connectDocSpace(url, apiKey);
+        try {
+            const result = await Repository.connectDocSpace(url, apiKey);
 
-        if (result.status && result.status === 'success') {
-            state.step = STEPS.CONNECTED;
-            state.isUrlValid = true;
-            setState({success: await Str.getString('successfulconnection', 'onlyofficedocspace')});
-        } else if (result.errors) {
-            setState({errors: {apiKey: result.errors[0]}});
+            if (result.status && result.status === 'success') {
+                state.step = STEPS.CONNECTED;
+                state.isUrlValid = true;
+                setState({success: await Str.getString('successfulconnection', 'onlyofficedocspace')});
+            } else if (result.errors) {
+                setState({errors: {apiKey: result.errors[0]}});
+            }
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.log(error);
+            setState({errors: {
+                general: await Str.getString('unexpectederror:connectdocspace', 'onlyofficedocspace')
+            }});
         }
 
         ChangeChecker.disableAllChecks();
