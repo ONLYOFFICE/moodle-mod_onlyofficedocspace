@@ -59,10 +59,10 @@ class user_repository {
         $context = context_system::instance();
 
         $roles = $this->persistence->get_records_sql("
-            SELECT id, shortname 
-            FROM {role} 
+            SELECT id, shortname
+            FROM {role}
             WHERE shortname IN ('manager', 'coursecreator', 'editingteacher', 'teacher')
-            ORDER BY 
+            ORDER BY
                 CASE shortname
                     WHEN 'manager' THEN 1
                     WHEN 'coursecreator' THEN 2
@@ -100,7 +100,7 @@ class user_repository {
             FROM {user} u
             JOIN {role_assignments} ra ON ra.userid = u.id
             WHERE ra.roleid IN (" . implode(',', array_keys($roleids)) . ")
-            AND u.deleted = 0 
+            AND u.deleted = 0
             AND u.suspended = 0
             GROUP BY u.id
             ORDER BY u.firstname, u.lastname";

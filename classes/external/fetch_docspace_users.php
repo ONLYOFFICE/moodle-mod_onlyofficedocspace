@@ -49,7 +49,7 @@ class fetch_docspace_users extends \core_external\external_api {
     public static function execute_parameters() {
         return new external_function_parameters([
             'page' => new external_value(PARAM_INT, 'Page number', VALUE_DEFAULT, 1),
-            'limit' => new external_value(PARAM_INT, 'Per page limit', VALUE_DEFAULT, 10)
+            'limit' => new external_value(PARAM_INT, 'Per page limit', VALUE_DEFAULT, 10),
         ]);
     }
 
@@ -152,8 +152,8 @@ class fetch_docspace_users extends \core_external\external_api {
             'pagination' => new external_single_structure([
                 'page' => new external_value(PARAM_INT, 'Current page number'),
                 'limit' => new external_value(PARAM_INT, 'Users per page'),
-                'total' => new external_value(PARAM_INT, 'Total users number')
-            ])
+                'total' => new external_value(PARAM_INT, 'Total users number'),
+            ]),
         ]);
     }
 
