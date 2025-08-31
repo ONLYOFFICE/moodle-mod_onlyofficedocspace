@@ -35,13 +35,13 @@ export const render = function(selector, totalPages, currentPage = 1, onPageChan
   }
 
   /**
-  *
-  * @param {String} label
-  * @param {Number} page
-  * @param {Boolean} disabled
-  * @param {Boolean} active
-  * @returns
-  */
+   *
+   * @param {String} label
+   * @param {Number} page
+   * @param {Boolean} disabled
+   * @param {Boolean} active
+   * @returns
+   */
   function createItem(label, page, disabled = false, active = false) {
     const li = document.createElement("li");
     li.className = "page-item";
