@@ -119,7 +119,7 @@ export const disconnectDocSpace = () => {
  * @returns {Promise}
  */
 export const fetchDocSpaceUsers = (page = 1, limit = 10) => {
-    const args = { page, limit };
+    const args = {page, limit};
 
     return fetchMany([{methodname: 'mod_onlyofficedocspace_fetch_docspace_users', args}])[0];
 };
