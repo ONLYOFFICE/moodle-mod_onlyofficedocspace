@@ -240,7 +240,7 @@ define(
                         data.item = {
                             docspaceitemtype: selectorType,
                             docspaceitemname: name,
-                            docspaceitemicon:icon.href,
+                            docspaceitemicon: icon.href,
                         };
                         selectItem(itemInfo.id, selectorType, requestToken, name, icon.href);
                         setState({step: STEPS.DOCSPACE_ITEM});
