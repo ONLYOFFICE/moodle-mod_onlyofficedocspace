@@ -94,41 +94,79 @@ class user_repository {
 
     /**
      * Return users with editor roles
-     * @param int $offest
+     * @param int $offset
      * @param int $limit
      * @return array
      */
-    public function get_users_with_editor_roles(int $offest = 0, int $limit = 0) {
+    public function get_users_with_editor_roles(int $offset = 0, int $limit = 0) {
         $context = context_system::instance();
 
-        $systemroles = get_assignable_roles($context);
-        $courseroles = array_filter(
-            get_default_enrol_roles($context),
-            fn($role) => strtolower($role) !== 'student'
-        );
-        $archetypes = $systemroles + $courseroles;
+        $roles = $this->persistence->get_records_sql("
+            SELECT id, shortname 
+            FROM {role} 
+            WHERE shortname IN ('manager', 'coursecreator', 'editingteacher', 'teacher')
+            ORDER BY 
+                CASE shortname
+                    WHEN 'manager' THEN 1
+                    WHEN 'coursecreator' THEN 2
+                    WHEN 'editingteacher' THEN 3
+                    WHEN 'teacher' THEN 4
+                END
+        ");
 
-        $extrasql = "id IN (SELECT userid FROM {role_assignments} a WHERE a.contextid= "
-            . SYSCONTEXTID . " AND a.roleid IN (" . implode(",", array_keys($systemroles)) . ") "
-            . "UNION SELECT userid FROM {role_assignments} a "
-            . "INNER JOIN {context} b ON a.contextid=b.id WHERE b.contextlevel="
-            . CONTEXT_COURSE . " AND a.roleid IN (" . implode(",", array_keys($courseroles)) . "))";
-
-        $users = get_users_listing(
-            sort: 'firstname',
-            page: $offest,
-            recordsperpage: $limit,
-            extraselect: $extrasql,
-            extracontext: $context
-        );
-
-        foreach ($users as &$user) {
-            $roles = $this->persistence->get_records('role_assignments', ['userid' => $user->id], fields: 'id,roleid');
-            $roles = array_unique(array_map(fn($role) => $role->roleid, $roles));
-            $user->role = implode(',', array_intersect_key($archetypes, $roles));
+        if (empty($roles)) {
+            return [];
         }
 
-        return $users;
+        $roleids = array_column($roles, 'id');
+        $rolemap = array_combine(
+            array_column($roles, 'id'),
+            array_map(function($role) {
+                switch($role) {
+                    case 'manager':
+                        return get_string('manager', 'onlyofficedocspace');
+                    case 'coursecreator':
+                        return get_string('coursecreator', 'onlyofficedocspace');;
+                    case 'editingteacher':
+                        return get_string('editingteacher', 'onlyofficedocspace');;
+                    case 'teacher':
+                        return get_string('teacher', 'onlyofficedocspace');;
+                    default:
+                        return $role;
+                }
+            }
+            , array_column($roles, 'shortname'))
+        );
+
+        // 2. Get users with these roles
+        $sql = "SELECT DISTINCT u.*, MIN(ra.roleid) as highest_role
+            FROM {user} u
+            JOIN {role_assignments} ra ON ra.userid = u.id
+            WHERE ra.roleid IN (" . implode(',', array_keys($roleids)) . ")
+            AND u.deleted = 0 
+            AND u.suspended = 0
+            GROUP BY u.id
+            ORDER BY u.firstname, u.lastname";
+
+        $users = $this->persistence->get_records_sql($sql, [], $offset, $limit);
+
+        // 3. Format the results with role names
+        $result = [];
+        foreach ($users as $user) {
+            $isadmin = has_capability('moodle/site:config', $context, $user);
+
+            $result[] = (object)[
+                'id' => $user->id,
+                'firstname' => $user->firstname,
+                'lastname' => $user->lastname,
+                'email' => $user->email,
+                'role' => $isadmin
+                ? get_string('siteadmin', 'onlyofficedocspace')
+                : $rolemap[$user->highest_role] ?? '',
+            ];
+        }
+
+        return $result;
     }
 
     /**
