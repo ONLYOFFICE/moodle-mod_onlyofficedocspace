@@ -40,7 +40,6 @@ use mod_onlyofficedocspace\local\validators\docspace_url_validator;
  * connect_docspace external function class
  */
 class connect_docspace extends \core_external\external_api {
-
     /**
      * Returns description of method parameters
      *

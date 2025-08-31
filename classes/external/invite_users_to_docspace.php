@@ -41,7 +41,6 @@ use mod_onlyofficedocspace\local\moodle\repositories\user_repository;
  * invite_users external function class
  */
 class invite_users_to_docspace extends \core_external\external_api {
-
     /**
      * Returns description of method parameters
      *

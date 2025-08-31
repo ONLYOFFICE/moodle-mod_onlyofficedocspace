@@ -61,10 +61,12 @@ class docspace_api_key_validator extends validator {
 
             // Check permissions.
             $permissions = $apikeyinfo['permissions'] ?? [];
-            if (!(in_array('accounts.self:read', $permissions, true)
+            if (
+                !(in_array('accounts.self:read', $permissions, true)
                     && in_array('accounts:write', $permissions, true)
                     && in_array('rooms:write', $permissions, true)
-                    || empty($permissions))) {
+                    || empty($permissions))
+            ) {
                 $this->errors[] = get_string('validationerror:invalidapikey', 'onlyofficedocspace');
                 return false;
             }

@@ -35,7 +35,6 @@ use mod_onlyofficedocspace\local\errors\docspace_client_error;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class docspace_url_validator extends validator {
-
     /**
      * Validate DocSpace URL.
      *

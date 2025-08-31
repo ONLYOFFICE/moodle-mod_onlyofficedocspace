@@ -35,7 +35,6 @@ use mod_onlyofficedocspace\local\validators\docspace_url_validator;
  * check_docspace_connectivity external function class
  */
 class check_docspace_connectivity extends \core_external\external_api {
-
     /**
      * Returns description of method parameters
      *

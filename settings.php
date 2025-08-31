@@ -102,9 +102,9 @@ if ($sectionparam && $sectionparam === 'modsettingdocspaceusers') {
     } else {
         $settings->add(
             new admin_setting_heading(
-            'onlyofficedocspace/docspace_users',
-            '',
-            $OUTPUT->notification(get_string('docspaceconfigurationerror', 'onlyofficedocspace'), 'error')
+                'onlyofficedocspace/docspace_users',
+                '',
+                $OUTPUT->notification(get_string('docspaceconfigurationerror', 'onlyofficedocspace'), 'error')
             )
         );
     }
@@ -115,9 +115,9 @@ if ($sectionparam && $sectionparam === 'modsettingdocspaceusers') {
     );
     $settings->add(
         new admin_setting_heading(
-        'onlyofficedocspace/docspace_users_placeholder',
-        '',
-        $docspaceusersplaceholder
+            'onlyofficedocspace/docspace_users_placeholder',
+            '',
+            $docspaceusersplaceholder
         )
     );
 }

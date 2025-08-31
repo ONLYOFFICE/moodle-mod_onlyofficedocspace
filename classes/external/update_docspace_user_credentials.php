@@ -35,7 +35,6 @@ use mod_onlyofficedocspace\local\moodle\repositories\docspace_user_repository;
  * update_user_password external function class
  */
 class update_docspace_user_credentials extends \core_external\external_api {
-
     /**
      * Returns description of method parameters
      *

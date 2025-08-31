@@ -31,6 +31,9 @@ use core_privacy\local\request\approved_userlist;
 use core_privacy\local\request\contextlist;
 use core_privacy\local\request\userlist;
 use core_privacy\local\request\writer;
+use core_privacy\local\metadata\provider as metadata_provider;
+use core_privacy\local\request\plugin\provider as plugin_provider;
+use core_privacy\local\request\core_userlist_provider;
 use mod_onlyofficedocspace\local\moodle\repositories\docspace_user_repository;
 use mod_onlyofficedocspace\local\moodle\repositories\user_repository;
 
@@ -41,10 +44,7 @@ use mod_onlyofficedocspace\local\moodle\repositories\user_repository;
  * @copyright   2025 Ascensio System SIA <integration@onlyoffice.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class provider implements \core_privacy\local\metadata\provider,
-    \core_privacy\local\request\plugin\provider,
-    \core_privacy\local\request\core_userlist_provider {
-
+class provider implements core_userlist_provider, metadata_provider, plugin_provider {
     /**
      * Extends metadata about system.
      * @param collection $collection
@@ -53,24 +53,28 @@ class provider implements \core_privacy\local\metadata\provider,
     public static function get_metadata(collection $collection): collection {
         $collection->add_database_table(
             'onlyofficedocspace_dsuser',
-             [
+            [
                 'email' => 'privacy:metadata:onlyofficedocspace_dsuser:email',
                 'password' => 'privacy:metadata:onlyofficedocspace_dsuser:password',
              ],
             'privacy:metadata:onlyofficedocspace_dsuser'
         );
 
-        $collection->add_external_location_link('onlyofficedocspace_settings',
+        $collection->add_external_location_link(
+            'onlyofficedocspace_settings',
             [
                 'api_key' => 'privacy:metadata:onlyofficedocspace_settings:api_key',
             ],
-            'privacy:metadata:onlyofficedocspace_settings');
+            'privacy:metadata:onlyofficedocspace_settings'
+        );
 
-        $collection->add_external_location_link('onlyofficedocspace_users',
+        $collection->add_external_location_link(
+            'onlyofficedocspace_users',
             [
                 'email' => 'privacy:metadata:onlyofficedocspace_users:email',
             ],
-            'privacy:metadata:onlyofficedocspace_users');
+            'privacy:metadata:onlyofficedocspace_users'
+        );
 
         return $collection;
     }

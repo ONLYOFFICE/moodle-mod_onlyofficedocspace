@@ -30,7 +30,6 @@ use mod_onlyofficedocspace\local\docspace\enums\docspace_user_type;
  * DocSpace user class
  */
 class docspace_user {
-
     /**
      * Password hash
      * @var string

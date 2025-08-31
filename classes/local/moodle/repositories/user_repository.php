@@ -78,21 +78,26 @@ class user_repository {
         $roleids = array_column($roles, 'id');
         $rolemap = array_combine(
             array_column($roles, 'id'),
-            array_map(function($role) {
-                switch($role) {
-                    case 'manager':
-                        return get_string('manager', 'onlyofficedocspace');
-                    case 'coursecreator':
-                        return get_string('coursecreator', 'onlyofficedocspace');;
-                    case 'editingteacher':
-                        return get_string('editingteacher', 'onlyofficedocspace');;
-                    case 'teacher':
-                        return get_string('teacher', 'onlyofficedocspace');;
-                    default:
-                        return $role;
-                }
-            }
-            , array_column($roles, 'shortname'))
+            array_map(
+                function ($role) {
+                    switch ($role) {
+                        case 'manager':
+                            return get_string('manager', 'onlyofficedocspace');
+                        case 'coursecreator':
+                            return get_string('coursecreator', 'onlyofficedocspace');
+                        ;
+                        case 'editingteacher':
+                            return get_string('editingteacher', 'onlyofficedocspace');
+                        ;
+                        case 'teacher':
+                            return get_string('teacher', 'onlyofficedocspace');
+                        ;
+                        default:
+                            return $role;
+                    }
+                },
+                array_column($roles, 'shortname')
+            )
         );
 
         // 2. Get users with these roles

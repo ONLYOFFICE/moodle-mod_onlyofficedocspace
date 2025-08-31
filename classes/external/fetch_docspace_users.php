@@ -40,7 +40,6 @@ use mod_onlyofficedocspace\local\moodle\repositories\user_repository;
  * fetch_docspace_users external function class
  */
 class fetch_docspace_users extends \core_external\external_api {
-
     /**
      * Returns description of method parameters
      *

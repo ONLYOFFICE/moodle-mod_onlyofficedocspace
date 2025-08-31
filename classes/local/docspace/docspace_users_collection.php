@@ -28,7 +28,6 @@ namespace mod_onlyofficedocspace\local\docspace;
  * DocSpace users collection
  */
 class docspace_users_collection {
-
     /**
      * Docspace users list
      * @var array

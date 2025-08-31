@@ -57,7 +57,7 @@ class admin_setting_docspace_url extends admin_setting_configtext {
      * @param string $query Query string
      * @return string HTML output
      */
-    public function output_html($data, $query='') {
+    public function output_html($data, $query = '') {
         global $OUTPUT;
 
         $context = (object) [

@@ -43,8 +43,6 @@ require_once($CFG->dirroot . '/course/moodleform_mod.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_onlyofficedocspace_mod_form extends moodleform_mod {
-
-
     /**
      * Defines forms elements
      */

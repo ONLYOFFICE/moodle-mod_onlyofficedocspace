@@ -58,7 +58,7 @@ class admin_setting_docspace_api_key extends admin_setting_configtext {
      * @param string $query Query string
      * @return string HTML output
      */
-    public function output_html($data, $query='') {
+    public function output_html($data, $query = '') {
         global $OUTPUT;
 
         $createkeylink = $OUTPUT->render_from_template(

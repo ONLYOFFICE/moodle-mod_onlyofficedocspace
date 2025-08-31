@@ -28,7 +28,6 @@ namespace mod_onlyofficedocspace\local\docspace;
  * DocSpace password manager class
  */
 class docspace_password_manager {
-
     /**
      * Default algorithm
      * @var string

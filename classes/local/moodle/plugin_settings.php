@@ -28,7 +28,6 @@ namespace mod_onlyofficedocspace\local\moodle;
  * OnlyOffice DocSpace plugin settings class
  */
 class plugin_settings {
-
     /**
      * Plugin default value for url parameter
      */

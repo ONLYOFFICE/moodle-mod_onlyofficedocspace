@@ -35,7 +35,6 @@ use mod_onlyofficedocspace\local\moodle\repositories\docspace_user_repository;
  * Unlink DocSpace users external function class
  */
 class unlink_docspace_users extends \core_external\external_api {
-
     /**
      * Returns description of method parameters
      *

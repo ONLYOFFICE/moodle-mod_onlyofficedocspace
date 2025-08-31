@@ -34,7 +34,6 @@ use Psr\Http\Message\ResponseInterface;
  * DocSpace client class
  */
 class docspace_client {
-
     /**
      * __construct
      *
@@ -323,7 +322,7 @@ class docspace_client {
         array $body = [],
         array $headers = [],
         bool $authenticate = true
-        ): array {
+    ): array {
         $options['headers'] = array_merge([
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
