@@ -61,7 +61,12 @@ $string['loginmodal:description'] = 'Please enter your DocSpace password';
 $string['loginmodal:title'] = 'Moodle requests access to your ONLYOFFICE DocSpace';
 $string['logintodocspace'] = "Log in to ONLYOFFICE DocSpace";
 $string['modulename'] = 'ONLYOFFICE DocSpace';
-$string['modulename_help'] = 'This module enables users to connect ONLYOFFICE DocSpace rooms as activities in Moodle for collaboration.';
+$string['modulename_help'] = '
+The ONLYOFFICE module enables the users to create and edit office documents stored locally in Moodle using ONLYOFFICE Document Server, allows multiple users to collaborate in real time and to save back those changes to Moodle
+
+Help us improve ONLYOFFICE plugin - <a href="https://feedback.onlyoffice.com/forums/966080-your-voice-matters?category_id=519288" target="_blank">Share feedback</a>.
+For more information visit <a href="https://helpcenter.onlyoffice.com/integration/moodle-docspace.aspx" target="_blank">Help Center</a>.
+';
 $string['modulenameplural'] = 'ONLYOFFICE DocSpace';
 $string['onlyofficedocspace:addinstance'] = 'Add a new ONLYOFFICE DocSpace activity';
 $string['onlyofficedocspace:edit'] = 'Edit ONLYOFFICE DocSpace activity';
