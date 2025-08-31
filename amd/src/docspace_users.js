@@ -300,7 +300,7 @@ define([
             const headers = table.querySelectorAll("th button");
 
             const currentSort = button.getAttribute("aria-sort");
-            const newSort = currentSort === "ascending" ? "descending": "ascending";
+            const newSort = currentSort === "ascending" ? "descending" : "ascending";
 
             headers.forEach(h => {
                 h.setAttribute("aria-sort", "none");
