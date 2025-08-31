@@ -28,7 +28,7 @@
  */
 export const render = function(selector, totalPages, currentPage = 1, onPageChange = null) {
   const container = document.querySelector(selector);
-  container.innerHTML = ""; // clear previous
+  container.innerHTML = "";
 
   if (totalPages < 2) {
     return;

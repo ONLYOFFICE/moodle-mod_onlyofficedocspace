@@ -313,7 +313,6 @@ define(
                 // Bind event handlers.
                 document.getElementById(selectors.select.ids.buttons.login).addEventListener('click', showLoginModal);
                 document.getElementById(selectors.select.ids.buttons.selectRoom).addEventListener('click', showSelectModal);
-                // document.getElementById(selectors.select.ids.buttons.selectFile).addEventListener('click', showSelectModal);
                 document.getElementById(selectors.select.ids.buttons.remove).addEventListener('click', removeItem);
 
                 setState({step: STEPS.LOADING});
