@@ -50,49 +50,6 @@ class user_repository {
     }
 
     /**
-     * Get all users
-     * @param string $sort
-     * @param string $dir
-     * @param int $limitfrom
-     * @param int $limitnum
-     *
-     * @return array
-     */
-    public function get_all(string $sort = 'id', string $dir = 'ASC', int $limitfrom = 0, int $limitnum = 0): array {
-        $context = context_system::instance();
-
-        $systemroles = get_assignable_roles($context);
-        $courseroles = array_filter(
-            get_default_enrol_roles($context),
-            fn($role) => strtolower($role) !== 'student'
-        );
-        $archetypes = $systemroles + $courseroles;
-
-        $extrasql = "id IN (SELECT userid FROM {role_assignments} a WHERE a.contextid= "
-            . SYSCONTEXTID . " AND a.roleid IN (" . implode(",", array_keys($systemroles)) . ") "
-            . "UNION SELECT userid FROM {role_assignments} a "
-            . "INNER JOIN {context} b ON a.contextid=b.id WHERE b.contextlevel="
-            . CONTEXT_COURSE . " AND a.roleid IN (" . implode(",", array_keys($courseroles)) . "))";
-
-        $users = get_users_listing(
-            sort: $sort,
-            dir: $dir,
-            page: $limitfrom,
-            recordsperpage: $limitnum,
-            extraselect: $extrasql,
-            extracontext: $context
-        );
-
-        foreach ($users as &$user) {
-            $roles = $this->persistence->get_records('role_assignments', ['userid' => $user->id], fields: 'id,roleid');
-            $roles = array_unique(array_map(fn($role) => $role->roleid, $roles));
-            $user->role = implode(',', array_intersect_key($archetypes, $roles));
-        }
-
-        return $users;
-    }
-
-    /**
      * Return users with editor roles
      * @param int $offset
      * @param int $limit
@@ -184,35 +141,6 @@ class user_repository {
         $users = get_users_listing(extraselect: $extrasql);
 
         return $users;
-    }
-
-    /**
-     * Count users.
-     *
-     * @return int
-     */
-    public function count(): int {
-        global $CFG;
-
-        $context = context_system::instance();
-
-        $systemroles = array_keys(get_assignable_roles($context));
-        $courseroles = array_keys(array_filter(get_default_enrol_roles($context), fn($role) => strtolower($role) !== 'student'));
-
-        $extrasql = "id IN (SELECT userid FROM {role_assignments} a WHERE a.contextid= "
-            . SYSCONTEXTID . " AND a.roleid IN (" . implode(",", $systemroles) . ") "
-            . "UNION SELECT userid FROM {role_assignments} a "
-            . "INNER JOIN {context} b ON a.contextid=b.id WHERE b.contextlevel=50 AND a.roleid IN ("
-            . implode(",", $courseroles) . "))";
-
-        $sql = "SELECT COUNT(*) FROM {" . $this->table . "} WHERE NOT id = :id AND ";
-        $sql .= $extrasql;
-
-        $params = ['id' => $CFG->siteguest];
-
-        $count = $this->persistence->count_records_sql($sql, $params);
-
-        return $count;
     }
 
     /**
