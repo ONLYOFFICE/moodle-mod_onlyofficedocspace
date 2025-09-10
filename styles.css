@@ -166,6 +166,11 @@
     box-sizing: border-box;
 }
 
+.path-admin .ds-input-wrapper input::-webkit-clear-button {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
 .path-admin .ds-input-wrapper .ds-clear-btn {
     position: absolute;
     right: 0.5em;
