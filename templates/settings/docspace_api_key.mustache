@@ -20,8 +20,29 @@
     Admin text setting template.
 
     Context variables required for this template:
+    * rowid - form row id
+    * id - input id
+    * title - setting title
+    * settingname - setting name
+    * name - input name
+    * value - input value
+    * size - input size
+    * error - input error
+    * description - setting description
 
-    Example context (json): {}
+    Example context (json):
+    {
+        "rowid": "row-id",
+        "id": "id",
+        "title": "Title",
+        "settingname": "Setting name",
+        "name": "Name",
+        "value": "Default value",
+        "size": 5,
+        "error": "An error",
+        "helpbutton": "html"
+        "createkeylink": "link"
+    }
 }}
 <div class="form-item row" id="{{rowid}}">
     <div class="form-label col-sm-3 text-sm-right">
