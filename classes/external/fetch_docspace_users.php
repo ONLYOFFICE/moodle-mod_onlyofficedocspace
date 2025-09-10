@@ -55,6 +55,7 @@ class fetch_docspace_users extends \core_external\external_api {
     /**
      * Get DocSpace users
      * @param int $page
+     * @param int $limit
      * @return array
      */
     public static function execute($page, $limit) {

@@ -35,9 +35,13 @@ use admin_setting_configtext;
  */
 class admin_setting_docspace_api_key extends admin_setting_configtext {
     /**
-     * Constructor.
-     *
-     * @param bool $clearusers Flag to clear users in the database after validation
+     * Construct
+     * @param string $name
+     * @param string $visiblename
+     * @param string $description
+     * @param string $defaultsetting
+     * @param mixed $paramtype
+     * @param int $size
      */
     public function __construct(
         string $name,

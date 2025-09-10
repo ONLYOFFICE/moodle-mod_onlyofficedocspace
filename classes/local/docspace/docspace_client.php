@@ -238,7 +238,7 @@ class docspace_client {
      * @return ?array
      * @throws docspace_client_error
      */
-    public function fetch_file_info(int $id): ?array {
+    public function fetch_file_info(string $id): ?array {
         $uri = "api/2.0/files/file/$id";
 
         try {
@@ -260,7 +260,7 @@ class docspace_client {
      * @return ?array
      * @throws docspace_client_error
      */
-    public function fetch_room_info(int $id): ?array {
+    public function fetch_room_info(string $id): ?array {
         $uri = "api/2.0/files/rooms/$id";
 
         try {
@@ -279,13 +279,12 @@ class docspace_client {
      * Send a request to DocSpace
      * @param string $uri
      * @param string $method
-     * @param mixed $body
-     * @param array $headers
+     * @param array $options
      * @param bool $authenticate
      * @throws docspace_client_error
      * @return ResponseInterface
      */
-    protected function send(string $uri, string $method, $options = [], bool $authenticate = true): ResponseInterface {
+    protected function send(string $uri, string $method, array $options = [], bool $authenticate = true): ResponseInterface {
         if ($authenticate) {
             $options['headers']['Authorization'] = "Bearer $this->apikey";
         }
@@ -310,7 +309,7 @@ class docspace_client {
      *
      * @param string $uri
      * @param string $method
-     * @param mixed $body
+     * @param array $body
      * @param array $headers
      * @param bool $authenticate
      * @throws docspace_client_error

@@ -35,8 +35,13 @@ use admin_setting_configtext;
  */
 class admin_setting_docspace_url extends admin_setting_configtext {
     /**
-     * Constructor.
-     *
+     * Construct
+     * @param string $name
+     * @param string $visiblename
+     * @param string $description
+     * @param string $defaultsetting
+     * @param mixed $paramtype
+     * @param int $size
      */
     public function __construct(
         string $name,

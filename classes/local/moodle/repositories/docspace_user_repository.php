@@ -88,7 +88,7 @@ class docspace_user_repository {
     /**
      * Get multiple docspace users by their emails.
      *
-     * @param string $email
+     * @param array $emails
      * @return array
      */
     public function get_multiple_by_email(array $emails): array {
@@ -119,7 +119,7 @@ class docspace_user_repository {
      * Create a DocSpace user.
      *
      * @param array $data
-     * @param bool
+     * @return bool
      */
     public function create(array $data): bool {
         try {
@@ -140,7 +140,7 @@ class docspace_user_repository {
      * Create DocSpace users.
      *
      * @param array $users
-     * @param bool
+     * @return bool
      */
     public function create_multiple(array $users): bool {
         try {

@@ -179,7 +179,7 @@ class user_repository {
     /**
      * Get a user by id.
      *
-     * @param string $userid
+     * @param string $id
      * @return ?stdClass
      */
     public function get_by_id(string $id): ?stdClass {
