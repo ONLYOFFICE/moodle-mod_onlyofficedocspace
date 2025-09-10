@@ -24,7 +24,6 @@
 
 $string['activityname'] = 'Nome da Atividade';
 $string['adminsettings:updated'] = 'Configurações salvas com sucesso';
-$string['adminsettings:urldescription'] = "Digite o endereço correto do seu DocSpace do ONLYOFFICE.";
 $string['adminsettings:urlwarning'] = 'Tem certeza de que deseja alterar o DocSpace atual para outro? Os logins de usuários conectados serão perdidos.';
 $string['cspwarning'] = '<b>Verifique as configurações do CSP.</b><br/>Antes de conectar-se aqui, acesse <b>Configurações do DocSpace - Ferramentas do Desenvolvedor - SDK JavaScript</b> e adicione o endereço do portal Moodle à lista de permissões - <u class="font-weight-bold">{$a}</u>';
 $string['docspaceapperror'] = 'Erro durante a inicialização. Verifique as configurações do CSP do DocSpace.';
@@ -44,7 +43,6 @@ $string['docspaceuserinviteerror'] = 'Erro ao criar o usuário {$a} no DocSpace!
 $string['docspaceusernotfound'] = 'O usuário não foi encontrado no ONLYOFFICE DocSpace. Entre em contato com o administrador.';
 $string['docspaceuserrole:admin'] = 'Administrador da sala';
 $string['docspaceuserrole:power'] = 'Usuário avançado';
-$string['docspaceuserscategory:description'] = 'Para adicionar novos usuários ao ONLYOFFICE DocSpace e começar a trabalhar com o plugin, pressione <b>{$a}</b>. Somente usuários com as funções de Gerente, Professor e Criador de curso do Moodle podem ser convidados para o DocSpace. <br/> Todos os novos usuários serão adicionados com a função de <b>Usuário avançado</b>. Você pode alterar o tipo de função nas configurações de Contas no DocSpace. Observação: a função de <b>Usuário avançado</b> é paga.';
 $string['docspaceuserscategory:title'] = 'Usuários do DocSpace';
 $string['docspaceuserstatus'] = 'Status do usuário do DocSpace';
 $string['docspaceusertype'] = 'Tipo de usuário do DocSpace';
@@ -59,7 +57,6 @@ $string['loginmodal:description'] = 'Digite sua senha do DocSpace';
 $string['loginmodal:title'] = 'O Moodle solicita acesso ao seu DocSpace do ONLYOFFICE';
 $string['logintodocspace'] = "Entrar no DocSpace do ONLYOFFICE";
 $string['modulename'] = 'DocSpace do ONLYOFFICE';
-$string['modulename_help'] = 'Este módulo permite que os usuários conectem salas do DocSpace do ONLYOFFICE como atividades no Moodle para colaboração.';
 $string['modulenameplural'] = 'DocSpace do ONLYOFFICE';
 $string['onlyofficedocspace:addinstance'] = 'Adicionar uma nova atividade do DocSpace do ONLYOFFICE';
 $string['onlyofficedocspace:edit'] = 'Editar atividade do ONLYOFFICE DocSpace';
@@ -67,9 +64,6 @@ $string['onlyofficedocspace:view'] = 'Visualizar atividade do ONLYOFFICE DocSpac
 $string['paramsmissingvalidationerror'] = 'Credenciais necessárias ausentes';
 $string['pluginadministration'] = 'Administração da atividade do ONLYOFFICE DocSpace';
 $string['pluginname'] = 'DocSpace do ONLYOFFICE';
-$string['privacy:metadata:onlyofficedocspace_admin'] = 'Este plugin envia credenciais de administrador do DocSpace para o serviço externo ONLYOFFICE DocSpace para autenticação.';
-$string['privacy:metadata:onlyofficedocspace_admin:login'] = 'O nome de usuário do administrador é enviado ao serviço externo para autenticar solicitações de API.';
-$string['privacy:metadata:onlyofficedocspace_admin:password'] = 'A senha do administrador é enviada ao serviço de terceiros para autenticação. Ela nunca é armazenada no Moodle e é usada apenas durante a comunicação segura da API.';
 $string['privacy:metadata:onlyofficedocspace_dsuser'] = 'Este plugin armazena as credenciais do usuário do ONLYOFFICE DocSpace no banco de dados do Moodle para fins de autenticação.';
 $string['privacy:metadata:onlyofficedocspace_dsuser:email'] = 'O e-mail de um usuário do DocSpace registrado no serviço de terceiros.';
 $string['privacy:metadata:onlyofficedocspace_dsuser:password'] = 'A senha com hash de um usuário do DocSpace registrado no serviço de terceiros.';

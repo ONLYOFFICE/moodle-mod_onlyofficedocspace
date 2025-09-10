@@ -24,7 +24,6 @@
 
 $string['activityname'] = '活动名称';
 $string['adminsettings:updated'] = '设置已成功保存';
-$string['adminsettings:urldescription'] = "请输入 ONLYOFFICE 协作空间的正确地址。";
 $string['adminsettings:urlwarning'] = '您确定要将当前的协作空间更改为其他协作空间吗？已连接的用户登录信息将会丢失。';
 $string['cspwarning'] = '<b>检查 CSP 设置。</b><br/>在此连接之前，请前往 <b>协作空间设置 - 开发者工具 - JavaScript SDK</b>，并将 Moodle 门户地址添加到允许列表 - <u class="font-weight-bold">{$a}</u>';
 $string['docspaceapperror'] = '初始化过程中出错。请检查您的协作空间 CSP 设置。';
@@ -44,7 +43,6 @@ $string['docspaceuserinviteerror'] = '在协作空间中创建用户 {$a} 时出
 $string['docspaceusernotfound'] = '在 ONLYOFFICE 协作空间中未找到该用户。请联系管理员。';
 $string['docspaceuserrole:admin'] = '房间管理员';
 $string['docspaceuserrole:power'] = '用户';
-$string['docspaceuserscategory:description'] = '要将新用户添加到 ONLYOFFICE 协作空间并开始使用插件，请按 <b>{$a</b>。只有拥有 Moodle 管理员、教师和课程创建者角色的用户才能被邀请加入协作空间。<br/>所有新用户都将被添加为<b>用户</b>角色。您可以在协作空间的“帐户”设置中更改角色类型。';
 $string['docspaceuserscategory:title'] = '协作空间用户';
 $string['docspaceuserstatus'] = '协作空间用户状态';
 $string['docspaceusertype'] = '协作空间用户类型';
@@ -59,7 +57,6 @@ $string['loginmodal:description'] = '请输入协作空间密码';
 $string['loginmodal:title'] = 'Moodle 请求访问您的 ONLYOFFICE 协作空间';
 $string['logintodocspace'] = "登录 ONLYOFFICE 协作空间";
 $string['modulename'] = 'ONLYOFFICE 协作空间';
-$string['modulename_help'] = '此模块允许用户将 ONLYOFFICE 协作空间房间作为 Moodle 中的活动进行连接，以进行协作。';
 $string['modulenameplural'] = 'ONLYOFFICE 协作空间';
 $string['onlyofficedocspace:addinstance'] = '添加新的 ONLYOFFICE 协作空间活动';
 $string['onlyofficedocspace:edit'] = '编辑 ONLYOFFICE 协作空间活动';
@@ -67,9 +64,6 @@ $string['onlyofficedocspace:view'] = '查看 ONLYOFFICE 协作空间活动';
 $string['paramsmissingvalidationerror'] = '缺少必需的凭据';
 $string['pluginadministration'] = 'ONLYOFFICE 协作空间活动管理';
 $string['pluginname'] = 'ONLYOFFICE 协作空间';
-$string['privacy:metadata:onlyofficedocspace_admin'] = '此插件将协作空间管理员凭据发送到外部服务 ONLYOFFICE 协作空间进行身份验证。';
-$string['privacy:metadata:onlyofficedocspace_admin:login'] = '管理员的用户名将发送到外部服务以验证 API 请求。';
-$string['privacy:metadata:onlyofficedocspace_admin:password'] = '管理员的密码将发送到第三方服务进行身份验证。该密码绝不会存储在 Moodle 中，仅在安全的 API 通信期间使用。';
 $string['privacy:metadata:onlyofficedocspace_dsuser'] = '此插件将 ONLYOFFICE 协作空间用户凭据存储在 Moodle 数据库中以用于身份验证。';
 $string['privacy:metadata:onlyofficedocspace_dsuser:email'] = '在第三方服务中注册的协作空间用户的电子邮件地址。';
 $string['privacy:metadata:onlyofficedocspace_dsuser:password'] = '在第三方服务中注册的协作空间用户的哈希密码。';

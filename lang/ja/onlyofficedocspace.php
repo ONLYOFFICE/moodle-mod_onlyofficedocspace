@@ -24,7 +24,6 @@
 
 $string['activityname'] = 'アクティビティ名';
 $string['adminsettings:updated'] = '設定が正常に保存されました';
-$string['adminsettings:urldescription'] = "ONLYOFFICE DocSpaceの正しいアドレスを入力してください";
 $string['adminsettings:urlwarning'] = '現在のDocSpaceを別のDocSpaceに変更してもよろしいですか？接続中のユーザーのログイン情報は失われます。';
 $string['cspwarning'] = '<b>CSP設定をご確認ください。</b><br/>ここに接続する前に、<b>DocSpace設定 → 開発者ツール → JavaScript SDK</b>に移動し、許可リストにMoodleポータルアドレスを追加してください - <u class="font-weight-bold">{$a}</u>';
 $string['docspaceapperror'] = 'E初期化中にエラーが発生しました。DocSpace CSP設定をご確認ください。';
@@ -44,7 +43,6 @@ $string['docspaceuserinviteerror'] = 'DocSpaceでユーザー {$a} を作成で�
 $string['docspaceusernotfound'] = 'ONLYOFFICE DocSpaceでユーザーが見つかりませんでした。管理者にお問い合わせください。';
 $string['docspaceuserrole:admin'] = 'ルーム管理者';
 $string['docspaceuserrole:power'] = 'ユーザー';
-$string['docspaceuserscategory:description'] = 'ONLYOFFICE DocSpaceに新しいユーザーを追加し、プラグインの使用を開始するには、<b>{$a}</b> をクリックしてください。Moodle でマネージャー、教師、コース作成者の役割を持つユーザーのみが DocSpace に招待できます。<br/> 新しいユーザーはすべて <b>ユーザー</b> 役割で追加されます。役割の種類は DocSpace のアカウント設定で変更できます。';
 $string['docspaceuserscategory:title'] = 'DocSpaceユーザー';
 $string['docspaceuserstatus'] = 'DocSpaceユーザーのステータス';
 $string['docspaceusertype'] = 'DocSpaceユーザーのタイプ';
@@ -59,7 +57,6 @@ $string['loginmodal:description'] = 'DocSpaceのパスワードを入力して�
 $string['loginmodal:title'] = 'MoodleがONLYOFFICE DocSpaceへのアクセスを要求しています';
 $string['logintodocspace'] = "ONLYOFFICE DocSpaceにログインしてください";
 $string['modulename'] = 'ONLYOFFICE DocSpace';
-$string['modulename_help'] = 'このモジュールを使用すると、ユーザーはONLYOFFICE DocSpaceルームをMoodleのアクティビティとして接続して、コラボレーションを行うことができます。';
 $string['modulenameplural'] = 'ONLYOFFICE DocSpace';
 $string['onlyofficedocspace:addinstance'] = '新しい ONLYOFFICE DocSpace アクティビティを追加してください';
 $string['onlyofficedocspace:edit'] = 'ONLYOFFICE DocSpaceアクティビティを編集';
@@ -67,9 +64,6 @@ $string['onlyofficedocspace:view'] = 'ONLYOFFICE DocSpaceアクティビティ�
 $string['paramsmissingvalidationerror'] = '必要な認証情報が不足しています';
 $string['pluginadministration'] = 'ONLYOFFICE DocSpaceアクティビティの管理';
 $string['pluginname'] = 'ONLYOFFICE DocSpace';
-$string['privacy:metadata:onlyofficedocspace_admin'] = 'このプラグインは、認証のためにDocSpace管理者の認証情報を外部サービスONLYOFFICE DocSpaceに送信します。';
-$string['privacy:metadata:onlyofficedocspace_admin:login'] = '管理者のユーザー名は、APIリクエストの認証のために外部サービスに送信されます。';
-$string['privacy:metadata:onlyofficedocspace_admin:password'] = '管理者のパスワードは、認証のために第三者サービスに送信されます。これはMoodle内に保存されず、セキュアなAPI通信中にのみ使用されます。';
 $string['privacy:metadata:onlyofficedocspace_dsuser'] = 'このプラグインは、認証のためにONLYOFFICE DocSpaceユーザーの認証情報をMoodleデータベースに保存します。';
 $string['privacy:metadata:onlyofficedocspace_dsuser:email'] = '第三者サービスに登録されたDocSpaceユーザーのメールアドレスです。';
 $string['privacy:metadata:onlyofficedocspace_dsuser:password'] = '第三者サービスに登録されているDocSpaceユーザーのハッシュ化されたパスワードです。';
