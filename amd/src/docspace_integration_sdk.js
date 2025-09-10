@@ -21,7 +21,7 @@
 
 /* eslint-disable no-undef, no-console */
 define([], function() {
-    const DOCSPACE_API_URL = "static/scripts/sdk/1.0.1/api.js";
+    const DOCSPACE_API_URL = "static/scripts/sdk/2.0.0/api.js";
 
     const initScript = async(id, url) => {
         // eslint-disable-next-line consistent-return
