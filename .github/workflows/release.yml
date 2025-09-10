@@ -30,7 +30,7 @@ jobs:
         run: |
           cd ${{ github.workspace }}
           mkdir -p "./$PLUGIN_DIR"
-          rsync -av --exclude='$PLUGIN_DIR' ./ "./$PLUGIN_DIR"
+          rsync -av --exclude='onlyofficedocspace' ./ "./$PLUGIN_DIR"
           cd "./$PLUGIN_DIR"
           rm -rf ./.github/
           rm -rf ./.git/
