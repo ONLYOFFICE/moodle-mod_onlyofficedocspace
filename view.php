@@ -22,10 +22,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use mod_onlyofficedocspace\local\docspace\docspace_file_manager;
-use mod_onlyofficedocspace\local\docspace\docspace_settings;
-use mod_onlyofficedocspace\local\errors\docspace_error;
-use mod_onlyofficedocspace\local\moodle\moodle_docspace_user_manager;
+use mod_onlyofficedocspace\local\moodle\plugin_settings;
+use mod_onlyofficedocspace\local\moodle\repositories\docspace_user_repository;
 
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 require_once(dirname(__FILE__) . '/lib.php');
@@ -35,8 +33,6 @@ global $USER, $CFG;
 $id = optional_param('id', 0, PARAM_INT); // Course_module ID.
 $n = optional_param('n', 0, PARAM_INT);  // Resource instance ID.
 $redirect = optional_param('redirect', 0, PARAM_BOOL);
-$docspacesettings = new docspace_settings();
-$docspacesettings->ensureIntegrity();
 
 if ($id) {
     $cm = get_coursemodule_from_id('onlyofficedocspace', $id, 0, false, MUST_EXIST);
@@ -54,31 +50,19 @@ require_login($course, true, $cm);
 $context = CONTEXT_MODULE::instance($cm->id);
 require_capability('mod/onlyofficedocspace:view', $context);
 
-$docspacefilemanager = new docspace_file_manager($docspacesettings->url(), $docspacesettings->token());
-$docspacefile = null;
+$docspaceuser = null;
+$errortemplatename = 'mod_onlyofficedocspace/errors/docspace_not_found_guest';
+$docspaceurl = plugin_settings::url();
 
-try {
-    if ($onlyofficedocspace->docspaceitemtype === 'file') {
-        $docspacefile = $docspacefilemanager->getFile($onlyofficedocspace->docspaceitemid);
-    } else if ($onlyofficedocspace->docspaceitemtype === 'room') {
-        $docspacefile = $docspacefilemanager->getRoom($onlyofficedocspace->docspaceitemid);
-    }
-} catch (docspace_error $e) {
-    $filenotfoundmessage = $e->getMessage();
-}
+$caneditonlyofficedocspace = has_capability('mod/onlyofficedocspace:edit', $context);
+$hasadmincapabilities = has_capability('moodle/site:config', $context);
 
-$user = null;
-
-if (has_capability('mod/onlyofficedocspace:edit', $context)) {
-    $moodledocspaceusermanager = new moodle_docspace_user_manager();
-    $docspaceuser = $moodledocspaceusermanager->get($USER->email);
-
-    if ($docspaceuser) {
-        $user['email'] = $docspaceuser->email;
-        $user['hash'] = $docspaceuser->password;
-    } else {
-        $user['email'] = $USER->email;
-    }
+if ($caneditonlyofficedocspace) {
+    $docspaceuserrepository = new docspace_user_repository();
+    $docspaceuser = $docspaceuserrepository->get_by_moodleuserid($USER->id);
+    $errortemplatename = $hasadmincapabilities
+        ? 'mod_onlyofficedocspace/errors/docspace_not_found_admin'
+        : 'mod_onlyofficedocspace/errors/docspace_not_found_teacher';
 }
 
 if (property_exists($USER, 'lang')) {
@@ -89,6 +73,7 @@ if (property_exists($USER, 'lang')) {
 
 $editorconfig = [
     "frameId" => "ds-editor-frame",
+    "src" => $docspaceurl,
     "width" => "100%",
     "height" => "100%",
     "id" => $onlyofficedocspace->docspaceitemid,
@@ -119,20 +104,21 @@ $PAGE->set_heading(format_string($course->fullname));
 echo $OUTPUT->header();
 echo $OUTPUT->heading($cm->name);
 
-if ($docspacefile) {
+if (empty($docspaceurl)) {
+    echo $OUTPUT->notification(get_string('docspaceunreachable', 'onlyofficedocspace'), 'error');
+} else {
     echo $OUTPUT->render_from_template('mod_onlyofficedocspace/docspace_editor', []);
 
     $PAGE->requires->js_call_amd(
         'mod_onlyofficedocspace/docspace_editor',
         'init',
         [
-            'docspaceUrl' => $docspacesettings->url(),
+            'docspaceUrl' => $docspaceurl,
             'config' => $editorconfig,
-            'user' => $user,
+            'user' => $docspaceuser ? ['email' => $docspaceuser->email, 'hash' => $docspaceuser->password] : [],
+            'errorTemplateName' => $errortemplatename,
         ],
     );
-} else {
-    echo $OUTPUT->notification($filenotfoundmessage, 'error');
 }
 
 echo $OUTPUT->footer();

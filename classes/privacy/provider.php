@@ -31,8 +31,11 @@ use core_privacy\local\request\approved_userlist;
 use core_privacy\local\request\contextlist;
 use core_privacy\local\request\userlist;
 use core_privacy\local\request\writer;
-use mod_onlyofficedocspace\local\moodle\moodle_docspace_user_manager;
-use mod_onlyofficedocspace\local\moodle\moodle_user_manager;
+use core_privacy\local\metadata\provider as metadata_provider;
+use core_privacy\local\request\plugin\provider as plugin_provider;
+use core_privacy\local\request\core_userlist_provider;
+use mod_onlyofficedocspace\local\moodle\repositories\docspace_user_repository;
+use mod_onlyofficedocspace\local\moodle\repositories\user_repository;
 
 /**
  * Privacy provider class.
@@ -41,10 +44,7 @@ use mod_onlyofficedocspace\local\moodle\moodle_user_manager;
  * @copyright   2025 Ascensio System SIA <integration@onlyoffice.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class provider implements \core_privacy\local\metadata\provider,
-    \core_privacy\local\request\plugin\provider,
-    \core_privacy\local\request\core_userlist_provider {
-
+class provider implements core_userlist_provider, metadata_provider, plugin_provider {
     /**
      * Extends metadata about system.
      * @param collection $collection
@@ -53,25 +53,28 @@ class provider implements \core_privacy\local\metadata\provider,
     public static function get_metadata(collection $collection): collection {
         $collection->add_database_table(
             'onlyofficedocspace_dsuser',
-             [
+            [
                 'email' => 'privacy:metadata:onlyofficedocspace_dsuser:email',
                 'password' => 'privacy:metadata:onlyofficedocspace_dsuser:password',
              ],
             'privacy:metadata:onlyofficedocspace_dsuser'
         );
 
-        $collection->add_external_location_link('onlyofficedocspace_admin',
+        $collection->add_external_location_link(
+            'onlyofficedocspace_settings',
             [
-                'login' => 'privacy:metadata:onlyofficedocspace_admin:login',
-                'password' => 'privacy:metadata:onlyofficedocspace_admin:password',
+                'api_key' => 'privacy:metadata:onlyofficedocspace_settings:api_key',
             ],
-            'privacy:metadata:onlyofficedocspace_admin');
+            'privacy:metadata:onlyofficedocspace_settings'
+        );
 
-        $collection->add_external_location_link('onlyofficedocspace_users',
+        $collection->add_external_location_link(
+            'onlyofficedocspace_users',
             [
                 'email' => 'privacy:metadata:onlyofficedocspace_users:email',
             ],
-            'privacy:metadata:onlyofficedocspace_users');
+            'privacy:metadata:onlyofficedocspace_users'
+        );
 
         return $collection;
     }
@@ -84,9 +87,9 @@ class provider implements \core_privacy\local\metadata\provider,
      */
     public static function get_contexts_for_userid(int $userid): contextlist {
         $contextlist = new contextlist();
-        $usermanager = new moodle_user_manager();
+        $userrepository = new user_repository();
 
-        if ($usermanager->get($userid)) {
+        if ($userrepository->get_by_id($userid)) {
             $contextlist->add_system_context();
         }
 
@@ -125,8 +128,8 @@ class provider implements \core_privacy\local\metadata\provider,
 
         $user = $contextlist->get_user();
 
-        $docspaceusermanager = new moodle_docspace_user_manager();
-        $docspaceuser = $docspaceusermanager->get($user->email);
+        $docspaceuserrepository = new docspace_user_repository();
+        $docspaceuser = $docspaceuserrepository->get_by_moodleuserid($user->id);
 
         foreach ($contextlist->get_contexts() as $context) {
             writer::with_context($context)
@@ -146,11 +149,11 @@ class provider implements \core_privacy\local\metadata\provider,
         }
 
         $user = $contextlist->get_user();
-        $docspaceusermanager = new moodle_docspace_user_manager();
+        $docspaceuserrepository = new docspace_user_repository();
 
         foreach ($contextlist->get_contexts() as $context) {
             if ($context->contextlevel === CONTEXT_SYSTEM) {
-                $docspaceusermanager->delete([$user->email]);
+                $docspaceuserrepository->delete_multiple_by_moodleuserid([$user->id]);
             }
         }
     }
@@ -161,8 +164,8 @@ class provider implements \core_privacy\local\metadata\provider,
      * @param context $context Context to delete data from.
      */
     public static function delete_data_for_all_users_in_context(context $context) {
-        $docspaceusermanager = new moodle_docspace_user_manager();
-        $docspaceusermanager->clear();
+        $docspaceuserrepository = new docspace_user_repository();
+        $docspaceuserrepository->delete_all();
     }
 
     /**
@@ -172,12 +175,9 @@ class provider implements \core_privacy\local\metadata\provider,
      */
     public static function delete_data_for_users(approved_userlist $userlist) {
         $users = $userlist->get_users();
+        $ids = array_map(fn($user) => $user->id, $users);
 
-        $emails = array_map(function($user) {
-            return $user->email;
-        }, $users);
-
-        $docspaceusermanager = new moodle_docspace_user_manager();
-        $docspaceusermanager->delete($emails);
+        $docspaceuserrepository = new docspace_user_repository();
+        $docspaceuserrepository->delete_multiple_by_moodleuserid($ids);
     }
 }

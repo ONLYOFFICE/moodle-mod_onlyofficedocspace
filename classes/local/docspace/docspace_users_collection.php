@@ -28,34 +28,59 @@ namespace mod_onlyofficedocspace\local\docspace;
  * DocSpace users collection
  */
 class docspace_users_collection {
+    /**
+     * Docspace users list
+     * @var array
+     */
+    protected array $users;
 
     /**
-     * __construct
-     *
+     * Class contructor
      * @param array $users
      * @return void
      */
-    public function __construct(
-        /**
-         * @var array $users
-         */
-        private array $users
-    ) {
+    public function __construct(array $users = []) {
+        $this->users = $users;
     }
 
     /**
-     * get
+     * Add a user to the collection
+     * @param docspace_user $user
+     * @return void
+     */
+    public function add(docspace_user $user) {
+        $this->users[] = $user;
+    }
+
+    /**
+     * Get the user by email
      *
      * @param string $email
-     * @return array | null
+     * @return ?docspace_user
      */
-    public function get(string $email): array|null {
+    public function get_by_email(string $email): ?docspace_user {
         foreach ($this->users as $user) {
-            if ($user['email'] === $email) {
+            if ($user->email === $email) {
                 return $user;
             }
         }
 
         return null;
+    }
+
+    /**
+     * Check if the user with the given email exists
+     *
+     * @param string $email
+     * @return bool
+     */
+    public function exists(string $email): bool {
+        foreach ($this->users as $user) {
+            if ($user->email === $email) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

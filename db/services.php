@@ -25,26 +25,54 @@
 defined('MOODLE_INTERNAL') || die;
 
 $functions = [
-    'mod_onlyofficedocspace_invite_users' => [
-        'classname' => 'mod_onlyofficedocspace\external\invite_users',
+    'mod_onlyofficedocspace_invite_users_to_docspace' => [
+        'classname' => 'mod_onlyofficedocspace\external\invite_users_to_docspace',
         'description' => 'Invite users to OnlyOffice DocSpace',
         'type' => 'write',
         'ajax' => true,
         'capabilities'  => 'moodle/site:config',
         'services' => [],
     ],
-    'mod_onlyofficedocspace_update_admin_settings' => [
-        'classname' => 'mod_onlyofficedocspace\external\update_admin_settings',
-        'description' => 'Update DocSpace settings for the admin',
+    'mod_onlyofficedocspace_unlink_docspace_users' => [
+        'classname' => 'mod_onlyofficedocspace\external\unlink_docspace_users',
+        'description' => 'Unlink DocSpace users from Moodle',
         'type' => 'write',
         'ajax' => true,
         'capabilities'  => 'moodle/site:config',
         'services' => [],
     ],
-    'mod_onlyofficedocspace_update_user_password' => [
-        'classname' => 'mod_onlyofficedocspace\external\update_user_password',
-        'description' => 'Update DocSpace user password',
+    'mod_onlyofficedocspace_update_docspace_user_credentials' => [
+        'classname' => 'mod_onlyofficedocspace\external\update_docspace_user_credentials',
+        'description' => 'Update DocSpace user credentials',
         'type' => 'write',
+        'ajax' => true,
+        'services' => [],
+    ],
+    'mod_onlyofficedocspace_check_docspace_connectivity' => [
+        'classname' => 'mod_onlyofficedocspace\external\check_docspace_connectivity',
+        'description' => 'Check DocSpace connectivity',
+        'type' => 'read',
+        'ajax' => true,
+        'services' => [],
+    ],
+    'mod_onlyofficedocspace_connect_docspace' => [
+        'classname' => 'mod_onlyofficedocspace\external\connect_docspace',
+        'description' => 'Connect DocSpace',
+        'type' => 'write',
+        'ajax' => true,
+        'services' => [],
+    ],
+    'mod_onlyofficedocspace_disconnect_docspace' => [
+        'classname' => 'mod_onlyofficedocspace\external\disconnect_docspace',
+        'description' => 'Disconnect DocSpace',
+        'type' => 'write',
+        'ajax' => true,
+        'services' => [],
+    ],
+    'mod_onlyofficedocspace_fetch_docspace_users' => [
+        'classname' => 'mod_onlyofficedocspace\external\fetch_docspace_users',
+        'description' => 'Fetch DocSpace users list',
+        'type' => 'read',
         'ajax' => true,
         'services' => [],
     ],

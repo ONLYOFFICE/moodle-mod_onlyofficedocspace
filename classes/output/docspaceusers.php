@@ -24,11 +24,6 @@
 
 namespace mod_onlyofficedocspace\output;
 
-use mod_onlyofficedocspace\local\common\flash_message;
-use mod_onlyofficedocspace\local\docspace\enums\docspace_user_status;
-use mod_onlyofficedocspace\local\docspace\enums\docspace_user_type;
-use mod_onlyofficedocspace\local\http\requests\get_users_request;
-use mod_onlyofficedocspace\local\moodle\moodle_user_manager;
 use renderable;
 use templatable;
 use renderer_base;
@@ -42,113 +37,16 @@ use stdClass;
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class docspaceusers implements renderable, templatable {
-
-    /**
-     * __construct
-     *
-     * @param stdClass $params
-     * @return void
-     */
-    public function __construct(
-        /**
-         * @var stdClass $params
-         */
-        public stdClass $params
-    ) {
-    }
-
     /**
      * export data for mustache template
      * @param renderer_base $output
      * @return stdClass
      */
     public function export_for_template(renderer_base $output) {
-        global $OUTPUT;
-
+        global $PAGE;
         $data = new stdClass();
-        $moodleusermanager = new moodle_user_manager();
-        $moodleuserscount = $moodleusermanager->count();
-        $flash = new flash_message();
 
-        $users = (new get_users_request())
-            ->__invoke($this->params->sort, $this->params->dir, $this->params->page, $this->params->perpage);
-
-        $currentpageurl = '/admin/settings.php?section=manageonlyofficedocspaceusers';
-
-        $urls = [];
-
-        $columns = [
-            'firstname',
-            'lastname',
-            'email',
-        ];
-
-        foreach ($columns as $column) {
-            $columndir = $column === $this->params->sort && $this->params->dir === 'ASC' ? 'DESC' : 'ASC';
-            $url = "$currentpageurl&sort=$column&dir=$columndir&page=" . $this->params->page;
-            $urls[$column] = $url;
-        }
-
-        $paginator = [];
-        $maxpage = $moodleuserscount / $this->params->perpage;
-
-        $paginator[] = $this->params->page <= 1
-            ? "<a class=\"btn disabled\" role=\"button\" href=\"#\"><</a>"
-            : "<a class=\"btn btn-primary\" role=\"button\" href=\"$currentpageurl&sort="
-            . $this->params->sort
-            . "&dir=" . $this->params->dir . "&page=" . ($this->params->page - 1) . "\"><</a>";
-
-        for ($current = 1; $current <= $maxpage; $current++) {
-            $link = $current === $this->params->page
-                ? "<a class=\"btn disabled\" role=\"button\" href=\"$currentpageurl&sort="
-                . $this->params->sort . "&dir=" . $this->params->dir . "&page=$current\">$current</a>"
-                : "<a class=\"btn btn-secondary\" role=\"button\" href=\"$currentpageurl&sort="
-                . $this->params->sort . "&dir=" . $this->params->dir . "&page=$current\">$current</a>";
-            $paginator[] = $link;
-        }
-
-        $paginator[] = $this->params->page >= $maxpage
-            ? "<a class=\"btn disabled\" role=\"button\" href=\"#\">></a>"
-            : "<a class=\"btn btn-primary\" role=\"button\" href=\"$currentpageurl&sort="
-            . $this->params->sort . "&dir=" . $this->params->dir . "&page=" . ($this->params->page + 1) . "\">></a>";
-
-        foreach ($users as &$user) {
-            if ($user['status'] === docspace_user_status::ACTIVE) {
-                $user['status'] = $OUTPUT->image_url('check', 'onlyofficedocspace')->get_path();
-            } else if ($user['status'] === docspace_user_status::EXIST) {
-                $user['status'] = $OUTPUT->image_url('sandclock', 'onlyofficedocspace')->get_path();
-            } else {
-                $user['status'] = "";
-            }
-
-            if ($user['type'] === docspace_user_type::ROOM_ADMIN) {
-                $user['type'] = get_string('docspaceuserrole:admin', 'onlyofficedocspace');
-            } else {
-                $user['type'] = get_string('docspaceuserrole:power', 'onlyofficedocspace');
-            }
-        }
-
-        $invitations = [];
-
-        $sentinvitations = $flash->get('sent_invitations');
-        $skippedinvitations = $flash->get('skipped_invitations');
-        $failedinvitations = $flash->get('failed_invitations');
-
-        if ($sentinvitations) {
-            $invitations[] = $OUTPUT->notification($sentinvitations, 'success');
-        }
-        if ($skippedinvitations) {
-            $invitations[] = $OUTPUT->notification($skippedinvitations, 'warning');
-        }
-        if ($failedinvitations) {
-            $invitations[] = $OUTPUT->notification($failedinvitations, 'error');
-        }
-
-        $data->urls = $urls;
-        $data->paginator = count($paginator) > 2 ? $paginator : [];
-        $data->users = $users;
-        $data->invitations = $invitations;
-
+        $PAGE->requires->js_call_amd('mod_onlyofficedocspace/docspace_users', 'init', []);
         return $data;
     }
 }

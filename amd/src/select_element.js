@@ -18,152 +18,192 @@
  * @copyright  2025 Ascensio System SIA <integration@onlyoffice.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  **/
-/* eslint-disable no-undef, capitalized-comments */
+/* eslint-disable no-undef */
 define(
     [
-        'jquery',
         'core/modal_events',
+        'core/str',
         'mod_onlyofficedocspace/docspace_integration_sdk',
         'mod_onlyofficedocspace/select_modal',
         'mod_onlyofficedocspace/login_modal',
-        'core/str',
         'mod_onlyofficedocspace/repository'
     ],
-    function($, ModalEvents, DocspaceIntegrationSDK, DocSpaceSelectModal, DocSpaceLogInModal, Str, Repository) {
-        const frames = {
-            system: "ds-system-frame",
-            login: "ds-login-frame",
-            select: "ds-select-frame",
+    function(ModalEvents, Str, DocspaceIntegrationSDK, DocSpaceSelectModal, DocSpaceLogInModal, Repository) {
+        const STEPS = {
+            LOADING: 'loading',
+            LOGIN: 'login',
+            SELECT_ITEM: 'select_item',
+            DOCSPACE_ITEM: 'docspace_item',
+            ERROR: 'error',
         };
 
-        let logged = false;
-        let user;
-        let docspaceUrl;
-
-        const showLoginForm = function() {
-            const loginForm = document.getElementById("ds-login-form");
-            loginForm.classList.remove("d-none");
-        };
-
-        const hideLoginForm = function() {
-            const loginForm = document.getElementById("ds-login-form");
-            loginForm.classList.add("d-none");
-        };
-
-        const showSelectButtons = function() {
-            const selectForm = document.getElementById("ds-select-buttons");
-            selectForm.classList.remove("d-none");
-        };
-
-        const hideSelectButtons = function() {
-            const selectForm = document.getElementById("ds-select-buttons");
-            selectForm.classList.add("d-none");
-        };
-
-        const showSelectedItem = function() {
-            const loginForm = document.getElementById("ds-selected-item");
-            loginForm.classList.remove("d-none");
-        };
-
-        const hideSelectedItem = function() {
-            const loginForm = document.getElementById("ds-selected-item");
-            loginForm.classList.add("d-none");
-        };
-
-        const selectItem = async function(id, type, requestToken, name, icon) {
-            document.getElementsByName("docspaceitemid")[0].value = id;
-            document.getElementsByName("docspaceitemtype")[0].value = type;
-            document.getElementsByName("docspacerequesttoken")[0].value = requestToken;
-            document.getElementsByName("docspaceitemname")[0].value = name;
-            document.getElementsByName("docspaceitemicon")[0].value = icon;
-
-            const selectedItemType = document.getElementById("ds-selected-item-type");
-            selectedItemType
-                .querySelector("p")
-                .textContent = await Str.getString("selecteditemtype:" + type, 'mod_onlyofficedocspace');
-            const selectedItemInfo = document.getElementById("ds-selected-item-info");
-            selectedItemInfo.querySelector("img").src = icon;
-            selectedItemInfo.querySelector("p").textContent = name;
-        };
-
-        const setState = function(state = '') {
-            if (state === 'login') {
-                showLoginForm();
-                hideSelectButtons();
-                hideSelectedItem();
-            } else if (state === 'selectors') {
-                showSelectButtons();
-                hideLoginForm();
-                hideSelectedItem();
-            } else if (state === 'item') {
-                showSelectedItem();
-                hideLoginForm();
-                hideSelectButtons();
-            } else {
-                hideLoginForm();
-                hideSelectedItem();
-                hideSelectButtons();
+        const selectors = {
+            frames: {
+                system: "ds-system-frame",
+                select: "ds-select-frame",
+                container: "ds-frame-container",
+            },
+            modal: {
+                ids: {
+                    email: 'ds-login-email',
+                    password: 'ds-login-password',
+                    submit: 'ds-login-submit',
+                    cancel: 'ds-login-cancel',
+                }
+            },
+            select: {
+                ids: {
+                    containers: {
+                        login: 'ds-login-container',
+                        item: 'ds-item-container',
+                        itemInfo: 'ds-item-info',
+                        itemType: 'ds-item-type',
+                        select: 'ds-select-container',
+                        error: 'ds-error',
+                    },
+                    buttons: {
+                        login: 'ds-show-login-modal',
+                        selectRoom: 'ds-select-room',
+                        selectFile: 'ds-select-file',
+                        remove: 'ds-item-remove',
+                    }
+                }
             }
         };
 
-        const displayLoginModal = async function() {
-            await DocSpaceLogInModal.create({
-                templateContext: {
-                    email: user.email,
-                    url: docspaceUrl,
-                },
-                removeOnClose: true
-            })
-                // eslint-disable-next-line promise/always-return
-                .then((modal) => {
-                    modal.getRoot().on(ModalEvents.hidden, async() => {
-                        await DocSpace.SDK.frames[frames.login].destroyFrame();
-                    });
-                    modal.getRoot().on(ModalEvents.cancel, () => {
-                        modal.destroy();
-                    });
-                    modal.modal[0].classList.add("modal-dialog-centered");
-                    modal.modal[0].style = "width: 440px;";
-                    modal.show();
-                    const docSpace = DocSpace.SDK.initSystem({
-                        frameId: frames.login,
-                        width: 0,
-                        height: 0,
-                    });
-                    document.querySelector('button[data-action="ds-login-submit"]')
-                        .addEventListener("click", async function() {
-                            const password = document.getElementById("ds-login-password").value;
+        const data = {
+            url: '',
+            user: null,
+            item: null,
+        };
 
-                            const hashSettings = await docSpace.getHashSettings();
-                            const passwordHash = await docSpace.createHash(password.trim(), hashSettings);
+        let state = {step: STEPS.LOADING};
 
-                            // eslint-disable-next-line promise/catch-or-return, promise/no-nesting
-                            docSpace.login(user.email, passwordHash)
-                                .then(async function(response) {
-                                    // eslint-disable-next-line promise/always-return
-                                    if (response.status && response.status !== 200) {
-                                        document.getElementById("ds-login-error").style.display = "block";
-                                    } else {
-                                        // eslint-disable-next-line promise/no-nesting
-                                        await Repository.updateUserPassword(user.email, passwordHash)
-                                            .catch((error) => {
-                                                // eslint-disable-next-line no-console
-                                                console.log(error);
+        const setState = function(newState) {
+            state = {...state, ...newState};
+            render();
+        };
+
+        const render = async function() {
+            document.getElementById(selectors.select.ids.containers.item)
+                .classList.toggle('d-none', state.step !== STEPS.DOCSPACE_ITEM);
+            document.getElementById(selectors.select.ids.containers.login)
+                .classList.toggle('d-none', state.step !== STEPS.LOGIN);
+            document.getElementById(selectors.select.ids.containers.error)
+                .classList.toggle('d-none', state.step !== STEPS.ERROR);
+            document.getElementById(selectors.select.ids.containers.select)
+                .classList.toggle('d-none', state.step !== STEPS.SELECT_ITEM);
+            document.getElementById(selectors.frames.container)
+                .classList.toggle('d-none', state.step !== STEPS.LOADING);
+
+            if (state.step === STEPS.LOADING) {
+                initDocSpace();
+            }
+            if (state.step === STEPS.DOCSPACE_ITEM) {
+                document.getElementById(selectors.select.ids.containers.itemType)
+                    .querySelector("p").textContent = await Str.getString(
+                        'selecteditemtype:' + data.item.docspaceitemtype,
+                        'onlyofficedocspace'
+                    );
+                document.getElementById(selectors.select.ids.containers.itemInfo)
+                    .querySelector("img").src = data.item.docspaceitemicon;
+                document.getElementById(selectors.select.ids.containers.itemInfo)
+                    .querySelector("p").textContent = data.item.docspaceitemname;
+            }
+        };
+
+        const initDocSpace = async function() {
+            await DocspaceIntegrationSDK.initScript("oodsp-api-js", data.url)
+                .then(async() => {
+                    DocSpace.SDK.initSystem({
+                        frameId: selectors.frames.system,
+                        src: data.url,
+                        events: {
+                            async onAppReady() {
+                                if (data.user && data.user.email && data.user.passwordHash) {
+                                    await authenticateWithDocSpace(
+                                        data.user.email,
+                                        data.user.passwordHash,
+                                        () => {
+                                            setState({
+                                                step: data.item ? STEPS.DOCSPACE_ITEM : STEPS.SELECT_ITEM
                                             });
-
-                                        modal.destroy();
-                                        setState('selectors');
-                                    }
-                                });
-                        });
-                    document.querySelector('button[data-action="ds-login-cancel"]')
-                        .addEventListener("click", function() {
-                            modal.destroy();
-                        });
+                                        },
+                                        () => {
+                                            setState({step: STEPS.LOGIN});
+                                        }
+                                    );
+                                } else {
+                                    setState({step: STEPS.LOGIN});
+                                }
+                            },
+                            onAppError() {
+                                setState({step: STEPS.ERROR});
+                            }
+                        }
+                    });
+                    return;
+                }).catch(() => {
+                    setState({step: STEPS.ERROR});
                 });
         };
 
-        const displaySelectorModal = async function(event) {
+        const showLoginModal = async function() {
+            await DocSpaceLogInModal.create({
+                templateContext: {
+                    email: data.user ? data.user.email : '',
+                    url: data.url,
+                },
+                removeOnClose: true
+            })
+            .then((modal) => {
+                modal.getRoot().on(ModalEvents.cancel, () => {
+                    modal.destroy();
+                });
+                modal.modal[0].classList.add("modal-dialog-centered");
+                modal.modal[0].style = "width: 440px;";
+                modal.show();
+                document.getElementById(selectors.modal.ids.submit)
+                    .addEventListener("click", async function(event) {
+                        const submitButton = event.target;
+                        submitButton.disabled = true;
+
+                        const email = document.getElementById(selectors.modal.ids.email).value.trim();
+                        const password = document.getElementById(selectors.modal.ids.password).value.trim();
+
+                        const docspace = DocSpace.SDK.frames[selectors.frames.system];
+                        const hashSettings = await docspace.getHashSettings();
+                        const passwordHash = await docspace.createHash(password.trim(), hashSettings);
+
+                        await authenticateWithDocSpace(
+                            email,
+                            passwordHash,
+                            async() => {
+                                // eslint-disable-next-line promise/no-nesting
+                                await Repository.updateUserPassword(email, passwordHash)
+                                    .catch((error) => {
+                                        // eslint-disable-next-line no-console
+                                        console.log(error);
+                                    });
+
+                                modal.destroy();
+                                setState({step: data.item ? STEPS.DOCSPACE_ITEM : STEPS.SELECT_ITEM});
+                            },
+                            () => {
+                                document.getElementById("ds-login-error").style.display = "block";
+                            },
+                        );
+                        submitButton.disabled = false;
+                    });
+                document.getElementById(selectors.modal.ids.cancel)
+                    .addEventListener("click", function() {
+                        modal.destroy();
+                    });
+                return;
+            });
+        };
+
+        const showSelectModal = async function(event) {
             const button = event.target;
             const selectorType = button.dataset.selectorType;
             const titleText = selectorType === "room"
@@ -180,28 +220,33 @@ define(
             modal.modal[0].classList.add("modal-dialog-centered");
             modal.modal[0].querySelector(".modal-content").style = "width:480px;border-radius: 0";
             modal.getRoot().on(ModalEvents.hidden, async() => {
-                await DocSpace.SDK.frames[frames.select].destroyFrame();
+                await DocSpace.SDK.frames[selectors.frames.select].destroyFrame();
             });
             modal.show();
 
             const config = {
-                frameId: frames.select,
+                frameId: selectors.frames.select,
+                src: data.url,
                 width: "100%",
                 height: "538px",
                 showSelectorCancel: true,
                 roomType: 6,
                 events: {
                     onSelectCallback: async function(event) {
-                        const data = selectorType === "room" ? event[0] : event;
-                        const name = selectorType === "room" ? data.label : data.title + data.fileExst;
-                        const icon = URL.parse(data.icon) ?? new URL(data.icon, docspaceUrl);
-                        const requestToken = data.requestTokens[0].requestToken;
-                        selectItem(data.id, selectorType, requestToken, name, icon.href);
-                        setState('item');
+                        const itemInfo = selectorType === "room" ? event[0] : event;
+                        const name = selectorType === "room" ? itemInfo.label : itemInfo.title + itemInfo.fileExst;
+                        const icon = URL.parse(itemInfo.icon) ?? new URL(itemInfo.icon, data.url);
+                        const requestToken = itemInfo.requestTokens[0].requestToken;
+                        data.item = {
+                            docspaceitemtype: selectorType,
+                            docspaceitemname: name,
+                            docspaceitemicon: icon.href,
+                        };
+                        selectItem(itemInfo.id, selectorType, requestToken, name, icon.href);
+                        setState({step: STEPS.DOCSPACE_ITEM});
                         modal.destroy();
                     },
                     onCloseCallback: function() {
-                        clearSelectedItem();
                         modal.destroy();
                     }
                 },
@@ -218,87 +263,60 @@ define(
             DocSpace.SDK.initFrame(config);
         };
 
-        const clearSelectedItem = function() {
-            selectItem('', '', '', '', '');
-            setState();
-            if (logged) {
-                setState('selectors');
-            } else {
-                loginToDocSpace();
+        const authenticateWithDocSpace = async function(email, passwordHash, onSuccess = null, onFail = null) {
+            const docspace = DocSpace.SDK.frames[selectors.frames.system];
+            const docspaceUser = await docspace.getUserInfo();
+
+            if (docspaceUser && docspaceUser.email !== email) {
+                await docspace.logout();
             }
+
+            await docspace.login(email, passwordHash)
+                .then(result => {
+                    const name = result.name ?? '';
+                    if (name.toLowerCase() === 'error') {
+                        if (onFail) {
+                            onFail();
+                        }
+                    } else {
+                        if (onSuccess) {
+                            onSuccess();
+                        }
+                    }
+                    return;
+                }).catch(() => {
+                    if (onFail) {
+                        onFail();
+                    }
+                });
         };
 
-        const loginToDocSpace = async function() {
-            DocSpace.SDK.initSystem({
-                frameId: frames.system,
-                width: "100%",
-                height: "100%",
-                events: {
-                    onAppReady: async function() {
-                        const docSpace = DocSpace.SDK.frames[frames.system];
-                        const docSpaceUser = await docSpace.getUserInfo();
+        const selectItem = async function(id, type, requestToken, name, icon) {
+            document.getElementsByName("docspaceitemid")[0].value = id;
+            document.getElementsByName("docspaceitemtype")[0].value = type;
+            document.getElementsByName("docspacerequesttoken")[0].value = requestToken;
+            document.getElementsByName("docspaceitemname")[0].value = name;
+            document.getElementsByName("docspaceitemicon")[0].value = icon;
+        };
 
-                        if (docSpaceUser && docSpaceUser.email === user.email) {
-                            logged = true;
-                            setState('selectors');
-                        } else {
-                            if (docSpaceUser) {
-                                await docSpace.logout();
-                            }
-                            logged = false;
-
-                            if (user.hash) {
-                                await docSpace.login(user.email, user.hash)
-                                    .then(function(response) {
-                                        // eslint-disable-next-line promise/always-return
-                                        if (response && response.status && response.status !== 200) {
-                                            setState('login');
-                                        } else {
-                                            logged = true;
-                                            setState('selectors');
-                                        }
-                                    });
-                            } else {
-                                setState('login');
-                            }
-                        }
-
-                        await docSpace.destroyFrame();
-                    }
-                }
-            });
+        const removeItem = async function() {
+            selectItem('', '', '', '', '');
+            setState({step: STEPS.SELECT_ITEM});
         };
 
         return {
-            init: async function(url, currentUser, activity) {
-                user = currentUser;
-                docspaceUrl = url;
+            init: async function(url, user, item) {
+                data.url = url;
+                data.user = user;
+                data.item = item;
 
-                await DocspaceIntegrationSDK.initScript("oodsp-api-js", docspaceUrl);
+                // Bind event handlers.
+                document.getElementById(selectors.select.ids.buttons.login).addEventListener('click', showLoginModal);
+                document.getElementById(selectors.select.ids.buttons.selectRoom).addEventListener('click', showSelectModal);
+                document.getElementById(selectors.select.ids.buttons.remove).addEventListener('click', removeItem);
 
-                if (activity) {
-                    selectItem(
-                        activity.docspaceitemid,
-                        activity.docspaceitemtype,
-                        activity.docspacerequesttoken,
-                        activity.docspaceitemname,
-                        activity.docspaceitemicon
-                    );
-                    setState('item');
-                } else {
-                    loginToDocSpace();
-                }
-
-                const selectRoomButton = document.getElementById("ds-select-room");
-                // const selectFileButton = document.getElementById("ds-select-file");
-                const removeSelectedItemButton = document.getElementById("remove-selected-item");
-                const loginButton = document.getElementById("ds-login-button");
-
-                selectRoomButton.addEventListener("click", displaySelectorModal);
-                // selectFileButton.addEventListener("click", displaySelectorModal);
-                removeSelectedItemButton.addEventListener("click", clearSelectedItem);
-                loginButton.addEventListener("click", displayLoginModal);
+                setState({step: STEPS.LOADING});
             }
         };
     });
-/* eslint-enable no-undef, capitalized-comments */
+/* eslint-enable no-undef*/
