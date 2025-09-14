@@ -108,6 +108,7 @@ $string['selecteditemtype:file'] = 'Selected file';
 $string['selecteditemtype:room'] = 'Selected room';
 $string['selectelement'] = 'Connect existing DocSpace room <span class="text-nowrap">or file<span>';
 $string['selectelement:room'] = 'Connect existing DocSpace room';
+$string['selectelement:room_help'] = 'This activity connects with an existing ONLYOFFICE DocSpace public room, giving students access to view all documents there.';
 $string['selectfile'] = 'Select file';
 $string['selectroom'] = 'Browse DocSpace rooms';
 $string['sentinvitations'] = 'Invitation successfully sent to {$a} user(s)';
