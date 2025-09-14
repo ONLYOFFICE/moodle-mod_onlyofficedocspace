@@ -109,7 +109,7 @@ $string['selecteditemtype:room'] = 'Selected room';
 $string['selectelement'] = 'Connect existing DocSpace room <span class="text-nowrap">or file<span>';
 $string['selectelement:room'] = 'Connect existing DocSpace room';
 $string['selectfile'] = 'Select file';
-$string['selectroom'] = 'Select room';
+$string['selectroom'] = 'Browse DocSpace rooms';
 $string['sentinvitations'] = 'Invitation successfully sent to {$a} user(s)';
 $string['settings'] = 'ONLYOFFICE DocSpace Settings';
 $string['settingsintro'] = 'Embed public rooms from your DocSpace into Moodle courses, enabling teachers and managers to create, edit, and share office files with students.';
