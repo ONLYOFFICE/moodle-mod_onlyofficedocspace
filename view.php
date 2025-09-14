@@ -79,6 +79,7 @@ $editorconfig = [
     "id" => $onlyofficedocspace->docspaceitemid,
     "requestToken" => $onlyofficedocspace->docspacerequesttoken,
     "locale" => $lang,
+    "theme" => "Base",
 ];
 
 if ($onlyofficedocspace->docspaceitemtype === 'file') {

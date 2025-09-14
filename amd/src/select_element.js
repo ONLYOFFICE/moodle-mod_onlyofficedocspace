@@ -230,6 +230,7 @@ define(
                 width: "100%",
                 height: "538px",
                 showSelectorCancel: true,
+                theme: "Base",
                 roomType: 6,
                 events: {
                     onSelectCallback: async function(event) {
