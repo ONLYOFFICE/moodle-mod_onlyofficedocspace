@@ -218,7 +218,7 @@ define(
             });
             modal.body[0].classList.add("p-0", "py-2");
             modal.modal[0].classList.add("modal-dialog-centered");
-            modal.modal[0].querySelector(".modal-content").style = "width:480px;border-radius: 0";
+            modal.modal[0].querySelector(".modal-content").style = "max-width:480px;border-radius: 0";
             modal.getRoot().on(ModalEvents.hidden, async() => {
                 await DocSpace.SDK.frames[selectors.frames.select].destroyFrame();
             });
