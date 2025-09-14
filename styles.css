@@ -91,8 +91,10 @@
 }
 
 .path-mod-onlyofficedocspace .ds-error-header img.icon {
-    width: 242px !important; /* stylelint-disable-line declaration-no-important */
-    height: 242px !important; /* stylelint-disable-line declaration-no-important */
+    width: 242px;
+    height: 242px;
+    max-height: none;
+    max-width: none;
 }
 
 .path-mod-onlyofficedocspace .ds-error-body {
