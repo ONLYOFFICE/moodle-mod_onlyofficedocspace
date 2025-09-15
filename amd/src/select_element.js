@@ -161,7 +161,7 @@ define(
                     modal.destroy();
                 });
                 modal.modal[0].classList.add("modal-dialog-centered");
-                modal.modal[0].style = "width: 440px;";
+                modal.modal[0].style = "max-width: 440px;";
                 modal.show();
                 document.getElementById(selectors.modal.ids.submit)
                     .addEventListener("click", async function(event) {
