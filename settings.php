@@ -42,6 +42,7 @@ $categoryparam = $PAGE->url->get_param('category');
 $connected = plugin_settings::url() && plugin_settings::api_key();
 
 if ($ADMIN->fulltree && ($categoryparam === $admincategoryname || $sectionparam === 'modsettingonlyofficedocspace')) {
+    $settings->hidden = false;
     $defaulthost = 'https://docspaceserver.url';
     $helpcentermoodleurl = 'https://helpcenter.onlyoffice.com/integration/moodle-docspace.aspx';
     $suggestfeatureurl = 'https://feedback.onlyoffice.com/forums/966080-your-voice-matters?category_id=519288';
@@ -89,6 +90,7 @@ $settings = new admin_settingpage(
 
 if ($ADMIN->fulltree) {
     if ($categoryparam === $admincategoryname) {
+        $settings->hidden = false;
         $docspaceusersplaceholder = $OUTPUT->render_from_template(
             'onlyofficedocspace/docspace_users_category',
             ['url' => new moodle_url('/admin/settings.php', ['section' => 'modsettingdocspaceusers'])]
