@@ -29,7 +29,8 @@ use mod_onlyofficedocspace\output\docspaceusers;
 
 defined('MOODLE_INTERNAL') || die();
 
-$ADMIN->add('modsettings', new admin_category('onlyoffice_docspace', get_string('pluginname', 'onlyofficedocspace')));
+$admincategoryname = 'onlyoffice_docspace';
+$ADMIN->add('modsettings', new admin_category($admincategoryname, get_string('pluginname', 'onlyofficedocspace')));
 $settings = new admin_settingpage(
     'modsettingonlyofficedocspace',
     get_string('settings', 'onlyofficedocspace'),
@@ -42,7 +43,7 @@ if ($ADMIN->fulltree) {
     $sectionparam = $PAGE->url->get_param('section');
     $categoryparam = $PAGE->url->get_param('category');
 
-    if ($categoryparam === 'onlyoffice_docspace' || $sectionparam === 'modsettingonlyofficedocspace') {
+    if ($categoryparam === $admincategoryname || $sectionparam === 'modsettingonlyofficedocspace') {
         $defaulthost = 'https://docspaceserver.url';
         $helpcentermoodleurl = 'https://helpcenter.onlyoffice.com/integration/moodle-docspace.aspx';
         $suggestfeatureurl = 'https://feedback.onlyoffice.com/forums/966080-your-voice-matters?category_id=519288';
@@ -78,7 +79,7 @@ if ($ADMIN->fulltree) {
     }
 }
 
-$ADMIN->add('onlyoffice_docspace', $settings);
+$ADMIN->add($admincategoryname, $settings);
 
 // Define docspace users page.
 
@@ -122,5 +123,5 @@ if ($sectionparam && $sectionparam === 'modsettingdocspaceusers') {
     );
 }
 
-$ADMIN->add('onlyoffice_docspace', $settings);
+$ADMIN->add($admincategoryname, $settings);
 $settings = null;
