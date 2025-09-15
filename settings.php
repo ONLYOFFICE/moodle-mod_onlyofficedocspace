@@ -34,7 +34,8 @@ $ADMIN->add('modsettings', new admin_category($admincategoryname, get_string('pl
 $settings = new admin_settingpage(
     'modsettingonlyofficedocspace',
     get_string('settings', 'onlyofficedocspace'),
-    'moodle/site:config'
+    'moodle/site:config',
+    true,
 );
 $sectionparam = null;
 $connected = plugin_settings::url() && plugin_settings::api_key();
@@ -86,7 +87,8 @@ $ADMIN->add($admincategoryname, $settings);
 $settings = new admin_settingpage(
     'modsettingdocspaceusers',
     get_string('docspaceuserscategory:title', 'onlyofficedocspace'),
-    'moodle/site:config'
+    'moodle/site:config',
+    true,
 );
 
 if ($sectionparam && $sectionparam === 'modsettingdocspaceusers') {
