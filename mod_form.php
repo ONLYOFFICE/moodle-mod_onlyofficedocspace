@@ -147,6 +147,7 @@ class mod_onlyofficedocspace_mod_form extends moodleform_mod {
             '',
             false
         );
+        $mform->addHelpButton('select_element', 'selectelement:room', 'onlyofficedocspace');
         $mform->addRule(
             'select_element',
             get_string('required'),

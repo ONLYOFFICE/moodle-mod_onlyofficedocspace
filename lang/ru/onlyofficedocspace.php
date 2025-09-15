@@ -42,7 +42,6 @@ $string['docspaceuseralreadyexists'] = 'Пользователь {$a} уже с�
 $string['docspaceuserinviteerror'] = 'Ошибка создания пользователя {$a} в DocSpace! Возможно, достигнут лимит платных пользователей DocSpace.';
 $string['docspaceusernotfound'] = 'Пользователь не найден в ONLYOFFICE DocSpace. Обратитесь к администратору.';
 $string['docspaceuserrole:admin'] = 'Администратор комнаты';
-$string['docspaceuserrole:power'] = 'Пользователь';
 $string['docspaceuserscategory:title'] = 'Пользователи DocSpace';
 $string['docspaceuserstatus'] = 'Статус пользователя DocSpace';
 $string['docspaceusertype'] = 'Тип пользователя DocSpace';
@@ -75,7 +74,6 @@ $string['selecteditemtype:room'] = 'Выбранная комната';
 $string['selectelement'] = 'Подключить существующую комнату DocSpace <span class="text-nowrap">или файл<span>';
 $string['selectelement:room'] = 'Подключить существующую комнату DocSpace';
 $string['selectfile'] = 'Выберите файл';
-$string['selectroom'] = 'Выберите комнату';
 $string['sentinvitations'] = 'Приглашение успешно отправлено {$a} пользователю(ям)';
 $string['settings'] = 'Настройки ONLYOFFICE DocSpace';
 $string['skippedinvitations'] = 'Приглашение пропущено для {$a} пользователя(ей). Пользователи с указанными адресами электронной почты могут уже существовать в DocSpace.';

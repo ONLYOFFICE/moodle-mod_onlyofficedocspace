@@ -35,10 +35,7 @@ $string['createkey'] = 'Create a key';
 $string['cspwarning'] = '<b>Check the CSP settings.</b><br/>Before connecting here, please go to the <b>DocSpace Settings - Developer tools - JavaScript SDK</b> and add the Moodle portal address to the allow list - <u class="font-weight-bold">{$a}</u>';
 $string['disconnect'] = 'Disconnect';
 $string['docspaceapikey'] = 'ONLYOFFICE DocSpace API key';
-$string['docspaceapikey_help'] = '
-Before connecting the app, please go to the <b>link</b>, create new API key and insert it here. You can create API key with Permissions = <b>All</b> or create API key with <b>restricted access</b>. In this case, the following Access Scopes should be selected for valid work of this app: (Profile: Read, Contacts: Write, Rooms: Write).
-<br/>{$a->createkeylink}
-';
+$string['docspaceapikey_help'] = 'Before connecting the app, please go to the <b>link</b>, create new API key and insert it here. You can create API key with Permissions = <b>All</b> or create API key with <b>restricted access</b>. In this case, the following Access Scopes should be selected for valid work of this app: (Profile: Read, Contacts: Write, Rooms: Write).';
 $string['docspaceapperror'] = 'Error during initialization. Please check your DocSpace CSP settings.';
 $string['docspaceautherror'] = 'The authentication process has failed.';
 $string['docspaceauthinvalidcredentials'] = 'Authentication failed. Incorrect login/password';
@@ -58,9 +55,13 @@ $string['docspaceusernotfound'] = 'The user was not found in ONLYOFFICE DocSpace
 $string['docspaceuserrole:admin'] = 'Room admin';
 $string['docspaceuserrole:power'] = 'User';
 $string['docspaceuserscategory:description'] = '
+To add new users to ONLYOFFICE DocSpace select users and then press <b>Invite to DocSpace</b>.<br/>
+All new users will be added with <b>User role</b>, you can change the role in <b>Accounts settings in DocSpace</b>.<br/>
+To remove connection between Moodle and DocSpace accounts select user and press <b>Unlink DocSpace Account</b>.';
+$string['docspaceuserscategory:title'] = 'DocSpace users';
+$string['docspaceuserscategory_desc'] = '
 To add new users to ONLYOFFICE DocSpace and start working with the plugin, please press <b>{$a}</b>.<br/>
 All new users will be added with User role, you can change the role in Accounts settings in DocSpace.';
-$string['docspaceuserscategory:title'] = 'DocSpace users';
 $string['docspaceuserstatus'] = 'DocSpace user status';
 $string['docspaceusertype'] = 'DocSpace user type';
 $string['documentserverurldescription'] = 'The DocSpace Service Address specifies the address of the server ';
@@ -108,8 +109,9 @@ $string['selecteditemtype:file'] = 'Selected file';
 $string['selecteditemtype:room'] = 'Selected room';
 $string['selectelement'] = 'Connect existing DocSpace room <span class="text-nowrap">or file<span>';
 $string['selectelement:room'] = 'Connect existing DocSpace room';
+$string['selectelement:room_help'] = 'This activity connects with an existing ONLYOFFICE DocSpace public room, giving students access to view all documents there.';
 $string['selectfile'] = 'Select file';
-$string['selectroom'] = 'Select room';
+$string['selectroom'] = 'Browse DocSpace rooms';
 $string['sentinvitations'] = 'Invitation successfully sent to {$a} user(s)';
 $string['settings'] = 'ONLYOFFICE DocSpace Settings';
 $string['settingsintro'] = 'Embed public rooms from your DocSpace into Moodle courses, enabling teachers and managers to create, edit, and share office files with students.';

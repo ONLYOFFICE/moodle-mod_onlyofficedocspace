@@ -161,7 +161,7 @@ define(
                     modal.destroy();
                 });
                 modal.modal[0].classList.add("modal-dialog-centered");
-                modal.modal[0].style = "width: 440px;";
+                modal.modal[0].style = "max-width: 440px;";
                 modal.show();
                 document.getElementById(selectors.modal.ids.submit)
                     .addEventListener("click", async function(event) {
@@ -218,7 +218,7 @@ define(
             });
             modal.body[0].classList.add("p-0", "py-2");
             modal.modal[0].classList.add("modal-dialog-centered");
-            modal.modal[0].querySelector(".modal-content").style = "width:480px;border-radius: 0";
+            modal.modal[0].querySelector(".modal-content").style = "max-width:480px;border-radius: 0";
             modal.getRoot().on(ModalEvents.hidden, async() => {
                 await DocSpace.SDK.frames[selectors.frames.select].destroyFrame();
             });
@@ -230,6 +230,7 @@ define(
                 width: "100%",
                 height: "538px",
                 showSelectorCancel: true,
+                theme: "Base",
                 roomType: 6,
                 events: {
                     onSelectCallback: async function(event) {
@@ -273,8 +274,7 @@ define(
 
             await docspace.login(email, passwordHash)
                 .then(result => {
-                    const name = result.name ?? '';
-                    if (name.toLowerCase() === 'error') {
+                    if (result.status && result.status !== 200) {
                         if (onFail) {
                             onFail();
                         }

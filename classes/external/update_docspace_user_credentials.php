@@ -99,7 +99,11 @@ class update_docspace_user_credentials extends \core_external\external_api {
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'status' => new external_value(PARAM_TEXT, 'External function status: success or error'),
-            'errors' => new external_multiple_structure(new external_value(PARAM_TEXT, 'Error message'), 'Error message list'),
+            'errors' => new external_multiple_structure(
+                new external_value(PARAM_TEXT, 'Error message'),
+                'Error message list',
+                VALUE_OPTIONAL
+            ),
         ]);
     }
 
