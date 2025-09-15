@@ -54,6 +54,9 @@ $string['docspaceuserinviteerror'] = 'Error create user {$a} in DocSpace! The li
 $string['docspaceusernotfound'] = 'The user was not found in ONLYOFFICE DocSpace. Please, contact the administrator.';
 $string['docspaceuserrole:admin'] = 'Room admin';
 $string['docspaceuserrole:power'] = 'User';
+$string['docspaceuserscategory_desc'] = '
+To add new users to ONLYOFFICE DocSpace and start working with the plugin, please press <b>{$a}</b>.<br/>
+All new users will be added with User role, you can change the role in Accounts settings in DocSpace.';
 $string['docspaceuserscategory:description'] = '
 To add new users to ONLYOFFICE DocSpace select users and then press <b>Invite to DocSpace</b>.<br/>
 All new users will be added with <b>User role</b>, you can change the role in <b>Accounts settings in DocSpace</b>.<br/>
