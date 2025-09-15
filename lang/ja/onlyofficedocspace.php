@@ -42,7 +42,6 @@ $string['docspaceuseralreadyexists'] = '{$a} というユーザーは DocSpace�
 $string['docspaceuserinviteerror'] = 'DocSpaceでユーザー {$a} を作成できませんでした。有料DocSpaceユーザーの制限に達している可能性があります。';
 $string['docspaceusernotfound'] = 'ONLYOFFICE DocSpaceでユーザーが見つかりませんでした。管理者にお問い合わせください。';
 $string['docspaceuserrole:admin'] = 'ルーム管理者';
-$string['docspaceuserrole:power'] = 'ユーザー';
 $string['docspaceuserscategory:title'] = 'DocSpaceユーザー';
 $string['docspaceuserstatus'] = 'DocSpaceユーザーのステータス';
 $string['docspaceusertype'] = 'DocSpaceユーザーのタイプ';
@@ -75,7 +74,6 @@ $string['selecteditemtype:room'] = '選択されたルーム';
 $string['selectelement'] = '既存のDocSpaceルーム<span class="text-nowrap">またはファイル<span>';
 $string['selectelement:room'] = '既存のDocSpaceルームに接続する';
 $string['selectfile'] = 'ファイルの選択';
-$string['selectroom'] = 'ルームの選択';
 $string['sentinvitations'] = '{$a}人のユーザーに招待が正常に送信されました';
 $string['settings'] = 'ONLYOFFICE DocSpaceの設定';
 $string['skippedinvitations'] = '{$a}人のユーザーへの招待はスキップされました。指定のメールアドレスを持つユーザーは、DocSpace にすでに存在している可能性があります。';

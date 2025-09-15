@@ -42,7 +42,6 @@ $string['docspaceuseralreadyexists'] = '¡El usuario {$a} ya existe en DocSpace!
 $string['docspaceuserinviteerror'] = '¡Error al crear usuario {$a} en DocSpace! Puede que se haya alcanzado el límite de usuarios de pago en DocSpace.';
 $string['docspaceusernotfound'] = 'El usuario no se ha encontrado en ONLYOFFICE DocSpace. Por favor, póngase en contacto con el administrador.';
 $string['docspaceuserrole:admin'] = 'Administrador de sala';
-$string['docspaceuserrole:power'] = 'Usuario';
 $string['docspaceuserscategory:title'] = 'Usuarios de DocSpace';
 $string['docspaceuserstatus'] = 'Estado de usuario de DocSpace';
 $string['docspaceusertype'] = 'Tipo de usuario de DocSpace';
@@ -75,7 +74,6 @@ $string['selecteditemtype:room'] = 'Sala seleccionada';
 $string['selectelement'] = 'Conectar la sala de DocSpace existente <span class="text-nowrap">o archivo<span>';
 $string['selectelement:room'] = 'Conectar la sala de DocSpace existente';
 $string['selectfile'] = 'Seleccionar archivo';
-$string['selectroom'] = 'Seleccionar sala';
 $string['sentinvitations'] = 'Invitación enviada correctamente a usuario(s) {$a}';
 $string['settings'] = 'Configuración de ONLYOFFICE DocSpace';
 $string['skippedinvitations'] = 'Invitación omitida para usuario(s) {$a}. Puede que ya existan en DocSpace usuarios con los correos electrónicos indicados.';
