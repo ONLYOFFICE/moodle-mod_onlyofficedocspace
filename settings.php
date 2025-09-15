@@ -41,41 +41,39 @@ $sectionparam = $PAGE->url->get_param('section');
 $categoryparam = $PAGE->url->get_param('category');
 $connected = plugin_settings::url() && plugin_settings::api_key();
 
-if ($ADMIN->fulltree) {
-    if ($categoryparam === $admincategoryname || $sectionparam === 'modsettingonlyofficedocspace') {
-        $defaulthost = 'https://docspaceserver.url';
-        $helpcentermoodleurl = 'https://helpcenter.onlyoffice.com/integration/moodle-docspace.aspx';
-        $suggestfeatureurl = 'https://feedback.onlyoffice.com/forums/966080-your-voice-matters?category_id=519288';
+if ($ADMIN->fulltree && ($categoryparam === $admincategoryname || $sectionparam === 'modsettingonlyofficedocspace')) {
+    $defaulthost = 'https://docspaceserver.url';
+    $helpcentermoodleurl = 'https://helpcenter.onlyoffice.com/integration/moodle-docspace.aspx';
+    $suggestfeatureurl = 'https://feedback.onlyoffice.com/forums/966080-your-voice-matters?category_id=519288';
 
-        // Add the plugin intro text.
-        $docspaceintro = $OUTPUT->render_from_template('mod_onlyofficedocspace/settings/docspace_intro', [
-            'learnmoreurl' => $helpcentermoodleurl,
-            'suggesturl' => $suggestfeatureurl,
-        ]);
-        $settings->add(new admin_setting_heading('mod_onlyofficedocspace/intro', '', $docspaceintro));
+    // Add the plugin intro text.
+    $docspaceintro = $OUTPUT->render_from_template('mod_onlyofficedocspace/settings/docspace_intro', [
+        'learnmoreurl' => $helpcentermoodleurl,
+        'suggesturl' => $suggestfeatureurl,
+    ]);
+    $settings->add(new admin_setting_heading('mod_onlyofficedocspace/intro', '', $docspaceintro));
 
-        // Add DocSpace URL setting.
-        $settings->add(new admin_setting_docspace_url(
-            "onlyofficedocspace/docspace_server_url",
-            get_string('docspaceserverurl', 'onlyofficedocspace'),
-            get_string('adminsettings:urldescription', 'onlyofficedocspace'),
-            '',
-        ));
+    // Add DocSpace URL setting.
+    $settings->add(new admin_setting_docspace_url(
+        "onlyofficedocspace/docspace_server_url",
+        get_string('docspaceserverurl', 'onlyofficedocspace'),
+        get_string('adminsettings:urldescription', 'onlyofficedocspace'),
+        '',
+    ));
 
-        // Add DocSpace API key setting.
-        $settings->add(new admin_setting_docspace_api_key(
-            "onlyofficedocspace/docspace_api_key",
-            get_string('docspaceapikey', 'onlyofficedocspace'),
-            '',
-            '',
-        ));
+    // Add DocSpace API key setting.
+    $settings->add(new admin_setting_docspace_api_key(
+        "onlyofficedocspace/docspace_api_key",
+        get_string('docspaceapikey', 'onlyofficedocspace'),
+        '',
+        '',
+    ));
 
-        // Add the setting buttons.
-        $settingbuttons = $OUTPUT->render_from_template('mod_onlyofficedocspace/settings/docspace_setting_buttons', []);
-        $settings->add(new admin_setting_heading('mod_onlyofficedocspace/setting_buttons', '', $settingbuttons));
+    // Add the setting buttons.
+    $settingbuttons = $OUTPUT->render_from_template('mod_onlyofficedocspace/settings/docspace_setting_buttons', []);
+    $settings->add(new admin_setting_heading('mod_onlyofficedocspace/setting_buttons', '', $settingbuttons));
 
-        $PAGE->requires->js_call_amd('mod_onlyofficedocspace/admin_settings', 'init', ['connected' => $connected]);
-    }
+    $PAGE->requires->js_call_amd('mod_onlyofficedocspace/admin_settings', 'init', ['connected' => $connected]);
 }
 
 $ADMIN->add($admincategoryname, $settings);
