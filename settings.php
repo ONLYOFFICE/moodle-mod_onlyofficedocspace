@@ -87,38 +87,40 @@ $settings = new admin_settingpage(
     true,
 );
 
-if ($sectionparam && $sectionparam === 'modsettingdocspaceusers') {
-    if ($connected) {
-        $docspaceusersrenderable = new docspaceusers();
-        $docspaceusersrenderer = $PAGE->get_renderer('mod_onlyofficedocspace');
-        $settings->add(
-            new admin_setting_heading(
-                'onlyofficedocspace/docspace_users',
-                '',
-                $docspaceusersrenderer->render($docspaceusersrenderable)
-            )
-        );
+if ($ADMIN->fulltree) {
+    if ($sectionparam && $sectionparam === 'modsettingdocspaceusers') {
+        if ($connected) {
+            $docspaceusersrenderable = new docspaceusers();
+            $docspaceusersrenderer = $PAGE->get_renderer('mod_onlyofficedocspace');
+            $settings->add(
+                new admin_setting_heading(
+                    'onlyofficedocspace/docspace_users',
+                    '',
+                    $docspaceusersrenderer->render($docspaceusersrenderable)
+                )
+            );
+        } else {
+            $settings->add(
+                new admin_setting_heading(
+                    'onlyofficedocspace/docspace_users',
+                    '',
+                    $OUTPUT->notification(get_string('docspaceconfigurationerror', 'onlyofficedocspace'), 'error')
+                )
+            );
+        }
     } else {
+        $docspaceusersplaceholder = $OUTPUT->render_from_template(
+            'onlyofficedocspace/docspace_users_category',
+            ['url' => new moodle_url('/admin/settings.php', ['section' => 'modsettingdocspaceusers'])]
+        );
         $settings->add(
             new admin_setting_heading(
-                'onlyofficedocspace/docspace_users',
+                'onlyofficedocspace/docspace_users_placeholder',
                 '',
-                $OUTPUT->notification(get_string('docspaceconfigurationerror', 'onlyofficedocspace'), 'error')
+                $docspaceusersplaceholder
             )
         );
     }
-} else {
-    $docspaceusersplaceholder = $OUTPUT->render_from_template(
-        'onlyofficedocspace/docspace_users_category',
-        ['url' => new moodle_url('/admin/settings.php', ['section' => 'modsettingdocspaceusers'])]
-    );
-    $settings->add(
-        new admin_setting_heading(
-            'onlyofficedocspace/docspace_users_placeholder',
-            '',
-            $docspaceusersplaceholder
-        )
-    );
 }
 
 $ADMIN->add($admincategoryname, $settings);
