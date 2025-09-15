@@ -37,13 +37,11 @@ $settings = new admin_settingpage(
     'moodle/site:config',
     true,
 );
-$sectionparam = null;
+$sectionparam = $PAGE->url->get_param('section');
+$categoryparam = $PAGE->url->get_param('category');
 $connected = plugin_settings::url() && plugin_settings::api_key();
 
 if ($ADMIN->fulltree) {
-    $sectionparam = $PAGE->url->get_param('section');
-    $categoryparam = $PAGE->url->get_param('category');
-
     if ($categoryparam === $admincategoryname || $sectionparam === 'modsettingonlyofficedocspace') {
         $defaulthost = 'https://docspaceserver.url';
         $helpcentermoodleurl = 'https://helpcenter.onlyoffice.com/integration/moodle-docspace.aspx';
