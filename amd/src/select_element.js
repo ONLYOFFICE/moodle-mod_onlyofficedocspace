@@ -274,8 +274,7 @@ define(
 
             await docspace.login(email, passwordHash)
                 .then(result => {
-                    const name = result.name ?? '';
-                    if (name.toLowerCase() === 'error') {
+                    if (result.status && result.status !== 200) {
                         if (onFail) {
                             onFail();
                         }
