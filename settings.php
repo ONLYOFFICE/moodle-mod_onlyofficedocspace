@@ -37,9 +37,14 @@ $settings = new admin_settingpage(
     'moodle/site:config',
     true,
 );
-$sectionparam = $PAGE->url->get_param('section');
-$categoryparam = $PAGE->url->get_param('category');
+$sectionparam = '';
+$categoryparam = '';
 $connected = plugin_settings::url() && plugin_settings::api_key();
+
+if ($ADMIN->fulltree) {
+    $sectionparam = $PAGE->url->get_param('section');
+    $categoryparam = $PAGE->url->get_param('category');
+}
 
 if ($ADMIN->fulltree && ($categoryparam === $admincategoryname || $sectionparam === 'modsettingonlyofficedocspace')) {
     $settings->hidden = false;
