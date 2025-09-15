@@ -88,7 +88,19 @@ $settings = new admin_settingpage(
 );
 
 if ($ADMIN->fulltree) {
-    if ($sectionparam && $sectionparam === 'modsettingdocspaceusers') {
+    if ($categoryparam === $admincategoryname) {
+        $docspaceusersplaceholder = $OUTPUT->render_from_template(
+            'onlyofficedocspace/docspace_users_category',
+            ['url' => new moodle_url('/admin/settings.php', ['section' => 'modsettingdocspaceusers'])]
+        );
+        $settings->add(
+            new admin_setting_heading(
+                'onlyofficedocspace/docspace_users_placeholder',
+                '',
+                $docspaceusersplaceholder
+            )
+        );
+    } else if ($sectionparam === 'modsettingdocspaceusers') {
         if ($connected) {
             $docspaceusersrenderable = new docspaceusers();
             $docspaceusersrenderer = $PAGE->get_renderer('mod_onlyofficedocspace');
@@ -108,18 +120,6 @@ if ($ADMIN->fulltree) {
                 )
             );
         }
-    } else {
-        $docspaceusersplaceholder = $OUTPUT->render_from_template(
-            'onlyofficedocspace/docspace_users_category',
-            ['url' => new moodle_url('/admin/settings.php', ['section' => 'modsettingdocspaceusers'])]
-        );
-        $settings->add(
-            new admin_setting_heading(
-                'onlyofficedocspace/docspace_users_placeholder',
-                '',
-                $docspaceusersplaceholder
-            )
-        );
     }
 }
 
