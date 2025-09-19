@@ -50,14 +50,14 @@ $string['docspaceroomnotfound'] = 'La stanza richiesta non è stata trovata. Con
 $string['docspaceserverurl'] = 'Indirizzo del servizio DocSpace';
 $string['docspaceunreachable'] = 'DocSpace non è disponibile.';
 $string['docspaceuseralreadyexists'] = 'L\'utente {$a} esiste già in DocSpace!';
-$string['docspaceuserinviteerror'] = 'Errore nella creazione dell’utente {$a} in DocSpace! Potrebbe essere stato raggiunto il limite degli utenti a pagamento di DocSpace.';
+$string['docspaceuserinviteerror'] = 'Errore nella creazione dell\'utente {$a} in DocSpace! Potrebbe essere stato raggiunto il limite degli utenti a pagamento di DocSpace.';
 $string['docspaceusernotfound'] = 'L\'utente non è stato trovato in ONLYOFFICE DocSpace. Contatta l\'amministratore.';
 $string['docspaceuserrole:admin'] = 'Amministratore della stanza';
 $string['docspaceuserrole:power'] = 'Utente';
 $string['docspaceuserscategory:description'] = '
 Per aggiungere nuovi utenti a ONLYOFFICE DocSpace seleziona gli utenti e poi premi <b>Invita a DocSpace</b>.<br/>
-Tutti i nuovi utenti verranno aggiunti con il <b>ruolo Utente</b>, potrai cambiare il ruolo nelle <b>impostazioni Account in DocSpace</b>.<br/>
-Per rimuovere il collegamento tra gli account Moodle e DocSpace seleziona l’utente e premi <b>Scollega Account DocSpace</b>.';
+Tutti i nuovi utenti verranno aggiunti con il ruolo <b>Utente</b>, potrai cambiare il ruolo nelle <b>impostazioni Account in DocSpace</b>.<br/>
+Per rimuovere il collegamento tra gli account Moodle e DocSpace seleziona l\'utente e premi <b>Scollega Account DocSpace</b>.';
 $string['docspaceuserscategory:title'] = 'Utenti di DocSpace';
 $string['docspaceuserscategory_desc'] = '
 Per aggiungere nuovi utenti a ONLYOFFICE DocSpace e iniziare a lavorare con il plugin, premi <b>{$a}</b>.<br/>
@@ -96,15 +96,15 @@ $string['onlyofficedocspace:view'] = 'Visualizza l\'attività ONLYOFFICE DocSpac
 $string['paramsmissingvalidationerror'] = 'I parametri richiesti non sono presenti';
 $string['pluginadministration'] = 'Amministratore dell\'attività di ONLYOFFICE DocSpace';
 $string['pluginname'] = 'ONLYOFFICE DocSpace';
-$string['privacy:metadata:onlyofficedocspace_dsuser'] = 'This plugin stores ONLYOFFICE DocSpace user credentials in the Moodle database for authentication purposes.';
-$string['privacy:metadata:onlyofficedocspace_dsuser:email'] = 'The email of a DocSpace user as registered in the third-party service.';
-$string['privacy:metadata:onlyofficedocspace_dsuser:password'] = 'The hashed password of a DocSpace user as registered in the third-party service.';
-$string['privacy:metadata:onlyofficedocspace_settings'] = 'This plugin sends DocSpace API key to the external service ONLYOFFICE DocSpace for authentication.';
-$string['privacy:metadata:onlyofficedocspace_settings:api_key'] = 'The API key is sent to the external service to authenticate API requests.';
-$string['privacy:metadata:onlyofficedocspace_users'] = 'This plugin sends user emails to the external service ONLYOFFICE DocSpace for registration and synchronization purposes.';
-$string['privacy:metadata:onlyofficedocspace_users:email'] = 'The user’s email address is sent to the external service ONLYOFFICE DocSpace for account creation and synchronization.';
-$string['rolewarning'] = 'The current Moodle user will be added to DocSpace with the <b>Room admin</b> role';
-$string['roomunavailable'] = 'Room unavailable.';
+$string['privacy:metadata:onlyofficedocspace_dsuser'] = 'Questo plugin memorizza le credenziali utente di ONLYOFFICE DocSpace nel database di Moodle per scopi di autenticazione.';
+$string['privacy:metadata:onlyofficedocspace_dsuser:email'] = 'L\'email di un utente DocSpace registrata nel servizio di terze parti.';
+$string['privacy:metadata:onlyofficedocspace_dsuser:password'] = 'La password con hash di un utente DocSpace registrata nel servizio di terze parti';
+$string['privacy:metadata:onlyofficedocspace_settings'] = 'Questo plugin invia la chiave API di DocSpace al servizio esterno ONLYOFFICE DocSpace per l\'autenticazione.';
+$string['privacy:metadata:onlyofficedocspace_settings:api_key'] = 'La chiave API viene inviata al servizio esterno per autenticare le richieste API.';
+$string['privacy:metadata:onlyofficedocspace_users'] = 'Questo plugin invia le email degli utenti al servizio esterno ONLYOFFICE DocSpace per scopi di registrazione e sincronizzazione.';
+$string['privacy:metadata:onlyofficedocspace_users:email'] = 'L\'indirizzo email dell\'utente viene inviato al servizio esterno ONLYOFFICE DocSpace per la creazione e la sincronizzazione dell\'account.';
+$string['rolewarning'] = 'L\'attuale utente Moodle verrà aggiunto a DocSpace con il ruolo di <b>Amministratore della stanza</b>';
+$string['roomunavailable'] = 'Stanza non disponibile.';
 $string['selecteditemtype:file'] = 'File selezionato';
 $string['selecteditemtype:room'] = 'Stanza selezionata';
 $string['selectelement'] = 'Connetti la stanza DocSpace esistente <span class="text-nowrap">o il file<span>';

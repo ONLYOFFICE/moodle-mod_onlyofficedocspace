@@ -56,7 +56,7 @@ $string['docspaceuserrole:admin'] = 'Administrador da sala';
 $string['docspaceuserrole:power'] = 'Usuário';
 $string['docspaceuserscategory:description'] = '
 Para adicionar novos usuários ao ONLYOFFICE DocSpace, selecione usuários e pressione <b>Convidar para o DocSpace</b>.<br/>
-Todos os novos usuários serão adicionados com <b>Função de usuário</b>. Você pode alterar a função em <b>Configurações de contas no DocSpace</b>.<br/>
+Todos os novos usuários serão adicionados com função de <b>Usuário</b>. Você pode alterar a função em <b>Configurações de contas no DocSpace</b>.<br/>
 Para remover a conexão entre as contas Moodle e DocSpace, selecione o usuário e pressione <b>Desvincular conta DocSpace</b>.';
 $string['docspaceuserscategory:title'] = 'Usuários do DocSpace';
 $string['docspaceuserscategory_desc'] = '

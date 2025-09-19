@@ -56,7 +56,7 @@ $string['docspaceuserrole:admin'] = 'Room admin';
 $string['docspaceuserrole:power'] = 'User';
 $string['docspaceuserscategory:description'] = '
 To add new users to ONLYOFFICE DocSpace select users and then press <b>Invite to DocSpace</b>.<br/>
-All new users will be added with <b>User role</b>, you can change the role in <b>Accounts settings in DocSpace</b>.<br/>
+All new users will be added with <b>User</b> role, you can change the role in <b>Accounts settings in DocSpace</b>.<br/>
 To remove connection between Moodle and DocSpace accounts select user and press <b>Unlink DocSpace Account</b>.';
 $string['docspaceuserscategory:title'] = 'DocSpace users';
 $string['docspaceuserscategory_desc'] = '
