@@ -24,25 +24,25 @@
 
 $string['activityname'] = 'Название элемента';
 $string['adminsettings:updated'] = 'Настройки успешно сохранены';
-$string['adminsettings:urldescription'] = 'Enter the URL of your DocSpace in the field above. For example, https://yourcompany.docspace.com.';
+$string['adminsettings:urldescription'] = 'Введите URL-адрес вашего DocSpace в поле выше. Например, https://yourcompany.docspace.com.';
 $string['adminsettings:urlwarning'] = 'Вы уверены, что хотите изменить текущий DocSpace на другой? Подключенные логины пользователей будут утеряны.';
-$string['change'] = 'Change';
-$string['confirmchange_desc'] = 'If you press the Disconnect button, you will not have access to the currently connected ONLYOFFICE DocSpace. This will remove the connections between Rooms and Activities, and disconnect all users.';
-$string['confirmdisconnect_desc'] = 'If you press the Change button, you will have to re-enter the credentials for the currently connected ONLYOFFICE DocSpace. Connections between Rooms and Activities might be lost. Information about optional user export won’t be deleted.';
-$string['connect'] = 'Connect';
-$string['coursecreator'] = 'Course creator';
-$string['createkey'] = 'Create a key';
+$string['change'] = 'Изменить';
+$string['confirmchange_desc'] = 'Если вы нажмете кнопку «Отключить», у вас не будет доступа к текущему подключенному ONLYOFFICE DocSpace. Это приведет к разрыву соединений между комнатами и действиями и отключению всех пользователей.';
+$string['confirmdisconnect_desc'] = 'При нажатии кнопки «Изменить» нужно будет вновь ввести учетные данные для текущего подключенного ONLYOFFICE DocSpace. Связи между комнатами и действиями могут быть потеряны. Информация об опциональном экспорте пользователей не будет удалена.';
+$string['connect'] = 'Подключить';
+$string['coursecreator'] = 'Создатель курса';
+$string['createkey'] = 'Создать ключ';
 $string['cspwarning'] = 'Проверьте настройки CSP.</b><br/>Перед подключением перейдите в <b>Настройки DocSpace - Инструменты разработчика - JavaScript SDK</b> и добавьте адрес портала Moodle в список разрешенных - <u class="font-weight-bold">{$a}</u>';
-$string['disconnect'] = 'Disconnect';
-$string['docspaceapikey'] = 'ONLYOFFICE DocSpace API key';
-$string['docspaceapikey_help'] = 'Before connecting the app, please go to the <b>link</b>, create new API key and insert it here. You can create API key with Permissions = <b>All</b> or create API key with <b>restricted access</b>. In this case, the following Access Scopes should be selected for valid work of this app: (Profile: Read, Contacts: Write, Rooms: Write).';
+$string['disconnect'] = 'Отключить';
+$string['docspaceapikey'] = 'Ключ API ONLYOFFICE DocSpace';
+$string['docspaceapikey_help'] = 'Перед подключением приложения перейдите по <b>ссылке</b>, создайте новый ключ API и вставьте его сюда. Вы можете создать ключ API с разрешениями = <b>Все</b> или с <b>ограниченным доступом</b>. В этом случае для корректной работы приложения необходимо выбрать следующие области доступа: (Профиль: Чтение, Контакты: Запись, Комнаты: Запись).';
 $string['docspaceapperror'] = 'Ошибка при инициализации. Проверьте настройки DocSpace CSP.';
 $string['docspaceautherror'] = 'Процесс аутентификации не пройден.';
 $string['docspaceauthinvalidcredentials'] = 'Аутентификация не пройдена. Неверный логин/пароль';
 $string['docspaceconfigurationerror'] = 'Сначала настройте плагин на странице настроек ONLYOFFICE DocSpace';
 $string['docspacefilenotfound'] = 'Требуемый файл не найден. Проверьте, существует ли такой файл, или обратитесь к администратору.';
 $string['docspacelogin'] = 'Логин DocSpace';
-$string['docspacenotfound_desc'] = 'Please ensure that this room is located at the same DocSpace Service Address specified in the Settings.';
+$string['docspacenotfound_desc'] = 'Пожалуйста, убедитесь, что эта комната находится по тому же адресу сервиса DocSpace, который указан в Настройках.';
 $string['docspacepassword'] = 'Пароль DocSpace';
 $string['docspacepermissiondenied'] = 'Указанный пользователь не является администратором DocSpace!';
 $string['docspacerequestuserserror'] = 'Запрос пользователя DocSpace не выполнен';
@@ -53,41 +53,41 @@ $string['docspaceuseralreadyexists'] = 'Пользователь {$a} уже с�
 $string['docspaceuserinviteerror'] = 'Ошибка создания пользователя {$a} в DocSpace! Возможно, достигнут лимит платных пользователей DocSpace.';
 $string['docspaceusernotfound'] = 'Пользователь не найден в ONLYOFFICE DocSpace. Обратитесь к администратору.';
 $string['docspaceuserrole:admin'] = 'Администратор комнаты';
-$string['docspaceuserrole:power'] = 'User';
+$string['docspaceuserrole:power'] = 'Пользователь';
 $string['docspaceuserscategory:description'] = '
-To add new users to ONLYOFFICE DocSpace select users and then press <b>Invite to DocSpace</b>.<br/>
-All new users will be added with <b>User role</b>, you can change the role in <b>Accounts settings in DocSpace</b>.<br/>
-To remove connection between Moodle and DocSpace accounts select user and press <b>Unlink DocSpace Account</b>.';
+Чтобы добавить новых пользователей в ONLYOFFICE DocSpace, выберите пользователей и нажмите <b>Пригласить в DocSpace</b>.<br/>
+Все новые пользователи будут добавляться с ролью <b>Пользователь</b>. Вы можете изменить роль в <b>Настройках учетных записей в DocSpace</b>.<br/>
+Чтобы удалить связь между учетными записями Moodle и DocSpace, выберите пользователя и нажмите <b>Отключить учетную запись DocSpace</b>.';
 $string['docspaceuserscategory:title'] = 'Пользователи DocSpace';
 $string['docspaceuserscategory_desc'] = '
-To add new users to ONLYOFFICE DocSpace and start working with the plugin, please press <b>{$a}</b>.<br/>
-All new users will be added with User role, you can change the role in Accounts settings in DocSpace.';
+Чтобы добавить новых пользователей в ONLYOFFICE DocSpace и начать работу с плагином, нажмите<b>{$a}</b>.<br/>
+Все новые пользователи будут добавляться с ролью Пользователя. Вы можете изменить роль в настройках учетных записей в DocSpace.';
 $string['docspaceuserstatus'] = 'Статус пользователя DocSpace';
 $string['docspaceusertype'] = 'Тип пользователя DocSpace';
 $string['documentserverurldescription'] = 'В адресе сервиса DocSpace указывается адрес сервера';
-$string['editingteacher'] = 'Editing teacher';
+$string['editingteacher'] = 'Преподаватель редактирования';
 $string['emptyselection'] = 'Ничего не выбрано';
-$string['emptyuserslist'] = 'No users found';
+$string['emptyuserslist'] = 'Пользователи не найдены';
 $string['enterfullscreen'] = 'Открыть полный экран';
 $string['exitfullscreen'] = 'Выйти из полноэкранного режима';
 $string['exportusers'] = 'Экспортировать пользователей';
 $string['failedinvitations'] = 'Приглашение не отправлено {$a} пользователям. Возможно, достигнут лимит платных пользователей DocSpace.';
-$string['forgotpassword'] = 'Forgot password?';
-$string['gotosettings'] = 'Go to Settings';
-$string['invalidlink'] = 'Invalid link';
+$string['forgotpassword'] = 'Забыли пароль?';
+$string['gotosettings'] = 'Перейти в Настройки';
+$string['invalidlink'] = 'Неверная ссылка';
 $string['invitetodocspace'] = 'Пригласить в DocSpace';
-$string['learnmore'] = 'Learn more';
+$string['learnmore'] = 'Подробнее';
 $string['loginmodal:description'] = 'Введите пароль DocSpace';
 $string['loginmodal:title'] = 'Moodle запрашивает доступ к вашему ONLYOFFICE DocSpace';
 $string['logintodocspace'] = "Войти в ONLYOFFICE DocSpace";
-$string['manager'] = 'Manager';
-$string['modalloginerror'] = 'Invalid authorization credentials. Please check your Email and password and try to log in again.';
+$string['manager'] = 'Менеджер';
+$string['modalloginerror'] = 'Неверные учетные данные авторизации. Проверьте адрес электронной почты и пароль и попробуйте войти снова.';
 $string['modulename'] = 'ONLYOFFICE DocSpace';
 $string['modulename_help'] = '
-The ONLYOFFICE module enables the users to create and edit office documents stored locally in Moodle using ONLYOFFICE Document Server, allows multiple users to collaborate in real time and to save back those changes to Moodle
+Модуль ONLYOFFICE позволяет пользователям создавать и редактировать офисные документы, которые хранятся локально, в Moodle с помощью Сервера документов ONLYOFFICE, а также предоставляет возможность нескольким пользователям работать совместно в режиме реального времени и сохранять изменения в Moodle
 
-Help us improve ONLYOFFICE plugin - <a href="https://feedback.onlyoffice.com/forums/966080-your-voice-matters?category_id=519288" target="_blank">Share feedback</a>.
-For more information visit <a href="https://helpcenter.onlyoffice.com/integration/moodle-docspace.aspx" target="_blank">Help Center</a>.
+Помогите нам улучшить плагин ONLYOFFICE- <a href="https://feedback.onlyoffice.com/forums/966080-your-voice-matters?category_id=519288" target="_blank">Поделитесь отзывом</a>.
+Для получения дополнительной информации обратитесь в <a href="https://helpcenter.onlyoffice.com/integration/moodle-docspace.aspx" target="_blank">Справочный центр</a>.
 ';
 $string['modulenameplural'] = 'ONLYOFFICE DocSpace';
 $string['onlyofficedocspace:addinstance'] = 'Добавить новый элемент ONLYOFFICE DocSpace';
@@ -98,8 +98,8 @@ $string['pluginadministration'] = 'Администрирование элеме
 $string['pluginname'] = 'ONLYOFFICE DocSpace';
 $string['privacy:metadata:onlyofficedocspace_dsuser'] = 'Этот плагин сохраняет учетные данные пользователя ONLYOFFICE DocSpace в базе данных Moodle для целей аутентификации.';
 $string['privacy:metadata:onlyofficedocspace_dsuser:email'] = 'Электронная почта пользователя DocSpace, зарегистрированного в сторонней службе.';
-$string['privacy:metadata:onlyofficedocspace_settings'] = 'This plugin sends DocSpace API key to the external service ONLYOFFICE DocSpace for authentication.';
-$string['privacy:metadata:onlyofficedocspace_settings:api_key'] = 'The API key is sent to the external service to authenticate API requests.';
+$string['privacy:metadata:onlyofficedocspace_settings'] = 'Этот плагин отправляет ключ API DocSpace в сторонний сервис ONLYOFFICE DocSpace для аутентификации.';
+$string['privacy:metadata:onlyofficedocspace_settings:api_key'] = 'Ключ API отправляется в сторонний сервис для аутентификации запросов API.';
 $string['privacy:metadata:onlyofficedocspace_dsuser:password'] = 'Хешированный пароль пользователя DocSpace, зарегистрированного в сторонней службе.';
 $string['privacy:metadata:onlyofficedocspace_users'] = 'Этот плагин отправляет электронные письма пользователей во внешнюю службу ONLYOFFICE DocSpace для регистрации и синхронизации.';
 $string['privacy:metadata:onlyofficedocspace_users:email'] = 'Адрес электронной почты пользователя отправляется во внешнюю службу ONLYOFFICE DocSpace для создания учетной записи и синхронизации.';
@@ -108,30 +108,30 @@ $string['roomunavailable'] = 'Room unavailable.';
 $string['selecteditemtype:file'] = 'Выбранный файл';
 $string['selecteditemtype:room'] = 'Выбранная комната';
 $string['selectelement'] = 'Подключить существующую комнату DocSpace <span class="text-nowrap">или файл<span>';
-$string['selectelement:room_help'] = 'This activity connects with an existing ONLYOFFICE DocSpace public room, giving students access to view all documents there.';
+$string['selectelement:room_help'] = 'Это действие подключается к существующей публичной комнате ONLYOFFICE DocSpace и предоставляет студентам доступ к просмотру всех находящихся там документов.';
 $string['selectelement:room'] = 'Подключить существующую комнату DocSpace';
 $string['selectfile'] = 'Выберите файл';
-$string['selectroom'] = 'Browse DocSpace rooms';
+$string['selectroom'] = 'Просмотр комнат DocSpace';
 $string['sentinvitations'] = 'Приглашение успешно отправлено {$a} пользователю(ям)';
 $string['settings'] = 'Настройки ONLYOFFICE DocSpace';
-$string['settingsintro'] = 'Embed public rooms from your DocSpace into Moodle courses, enabling teachers and managers to create, edit, and share office files with students.';
-$string['siteadmin'] = 'Site administrator';
-$string['skippeddisable'] = 'Account disabling skipped for {$a} user(s). User(s) with the specified email(s) addresses may already be unlinked from DocSpace.';
+$string['settingsintro'] = 'Встраивайте публичные комнаты из вашего аккаунта DocSpace в курсы Moodle, чтобы преподаватели и менеджеры могли создавать, редактировать офисные файлы и делиться ими со студентами.';
+$string['siteadmin'] = 'Администратор сайта';
+$string['skippeddisable'] = 'Отключение учетных записей пропущено для {$a} пользователя(ей). Пользователи с указанными адресами электронной почты, возможно, уже отключены от DocSpace.';
 $string['skippedinvitations'] = 'Приглашение пропущено для {$a} пользователя(ей). Пользователи с указанными адресами электронной почты могут уже существовать в DocSpace.';
-$string['somethingwentwrong'] = 'Something went wrong';
-$string['successfulconnection'] = 'Your DocSpace has been successfully connected!';
-$string['successfuldisable'] = 'The selected DocSpace account has been successfully disabled';
-$string['suggestfeature'] = 'Suggest a feature';
-$string['teacher'] = 'Teacher';
-$string['unexpectederror:connectdocspace'] = 'Unexpected error happened while connecting DocSpace with Moodle';
-$string['unexpectederror:docspaceurl'] = 'Unexpected error happened while checking DocSpace URL';
-$string['unexpectederror:inviteusers'] = 'Unexpected error happened while attempting to invite users to DocSpace';
-$string['unexpectederror:unlinkusers'] = 'Unexpected error happened while attempting to unlink DocSpace users';
-$string['unlinkdocspaceaccount'] = 'Unlink DocSpace Account';
-$string['unlinkwarningmessage'] = 'Are you sure you want to disable the selected DocSpace account?';
-$string['validationerror:emptyapikey'] = 'API Key value cannot be empty.';
-$string['validationerror:emptyurl'] = 'URL cannot be empty';
-$string['validationerror:invalidapikey'] = 'Invalid DocSpace API key';
-$string['validationerror:invalidurl'] = 'Invalid URL format';
+$string['somethingwentwrong'] = 'Что-то пошло не так';
+$string['successfulconnection'] = 'Ваш DocSpace успешно подключен!';
+$string['successfuldisable'] = 'Выбранная учетная запись DocSpace успешно отключена';
+$string['suggestfeature'] = 'Предложить функцию';
+$string['teacher'] = 'Преподаватель';
+$string['unexpectederror:connectdocspace'] = 'Произошла непредвиденная ошибка при подключении DocSpace к Moodle';
+$string['unexpectederror:docspaceurl'] = 'Произошла непредвиденная ошибка при проверке URL DocSpace';
+$string['unexpectederror:inviteusers'] = 'Произошла непредвиденная ошибка при попытке пригласить пользователей в DocSpace';
+$string['unexpectederror:unlinkusers'] = 'Произошла непредвиденная ошибка при попытке отключить пользователей DocSpace';
+$string['unlinkdocspaceaccount'] = 'Отключить учетную запись DocSpace';
+$string['unlinkwarningmessage'] = 'Вы уверены, что хотите отключить выбранную учетную запись DocSpace?';
+$string['validationerror:emptyapikey'] = 'Значение ключа API не может быть пустым.';
+$string['validationerror:emptyurl'] = 'URL не может быть пустым';
+$string['validationerror:invalidapikey'] = 'Неверный ключ API DocSpace';
+$string['validationerror:invalidurl'] = 'Неверный формат URL';
 $string['validationerror:password'] = 'Введенный вами пароль неверен';
-$string['warning'] = 'Warning';
+$string['warning'] = 'Предупреждение';
