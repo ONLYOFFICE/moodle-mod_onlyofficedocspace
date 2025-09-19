@@ -62,6 +62,9 @@ class check_docspace_connectivity extends \core_external\external_api {
             'url' => $url,
         ]);
 
+        // Sanitize data.
+        $url = rtrim(trim($url), "/");
+
         $docspaceurlvalidator = new docspace_url_validator();
 
         if (!$docspaceurlvalidator->validate($url)) {
