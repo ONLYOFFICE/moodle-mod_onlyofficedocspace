@@ -87,7 +87,7 @@ $string['modulename_help'] = '
 Le module ONLYOFFICE permet aux utilisateurs de créer et de modifier des documents bureautiques stockés localement dans Moodle à l\'aide d\'ONLYOFFICE Document Server. Il permet à plusieurs utilisateurs de collaborer en temps réel et d\'enregistrer ces modifications dans Moodle
 
 Help us improve ONLYOFFICE plugin - <a href="https://feedback.onlyoffice.com/forums/966080-your-voice-matters?category_id=519288" target="_blank">Partager vos retours</a>.
-Pour plus d\'informations, visitez<a href="https://helpcenter.onlyoffice.com/integration/moodle-docspace.aspx" target="_blank">le Centre d\'aide</a>.
+Pour plus d\'informations, visitez<a href="https://helpcenter.onlyoffice.com/fr/integration/moodle-docspace.aspx" target="_blank">le Centre d\'aide</a>.
 ';
 $string['modulenameplural'] = 'ONLYOFFICE DocSpace';
 $string['onlyofficedocspace:addinstance'] = 'Ajouter une nouvelle activité ONLYOFFICE DocSpace';

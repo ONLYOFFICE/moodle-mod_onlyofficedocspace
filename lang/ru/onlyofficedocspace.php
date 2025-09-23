@@ -65,7 +65,7 @@ $string['docspaceuserscategory_desc'] = '
 $string['docspaceuserstatus'] = 'Статус пользователя DocSpace';
 $string['docspaceusertype'] = 'Тип пользователя DocSpace';
 $string['documentserverurldescription'] = 'В адресе сервиса DocSpace указывается адрес сервера';
-$string['editingteacher'] = 'Преподаватель редактирования';
+$string['editingteacher'] = 'Преподаватель с правами редактирования';
 $string['emptyselection'] = 'Ничего не выбрано';
 $string['emptyuserslist'] = 'Пользователи не найдены';
 $string['enterfullscreen'] = 'Открыть полный экран';
@@ -104,7 +104,7 @@ $string['privacy:metadata:onlyofficedocspace_dsuser:password'] = 'Хеширов
 $string['privacy:metadata:onlyofficedocspace_users'] = 'Этот плагин отправляет электронные письма пользователей во внешнюю службу ONLYOFFICE DocSpace для регистрации и синхронизации.';
 $string['privacy:metadata:onlyofficedocspace_users:email'] = 'Адрес электронной почты пользователя отправляется во внешнюю службу ONLYOFFICE DocSpace для создания учетной записи и синхронизации.';
 $string['rolewarning'] = 'Текущий пользователь Moodle будет добавлен в DocSpace с ролью <b>Администратор комнаты</b>';
-$string['roomunavailable'] = 'Room unavailable.';
+$string['roomunavailable'] = 'Комната недоступна.';
 $string['selecteditemtype:file'] = 'Выбранный файл';
 $string['selecteditemtype:room'] = 'Выбранная комната';
 $string['selectelement'] = 'Подключить существующую комнату DocSpace <span class="text-nowrap">или файл<span>';
