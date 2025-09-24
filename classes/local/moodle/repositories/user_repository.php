@@ -141,9 +141,10 @@ class user_repository {
             return [];
         }
 
-        $idlist = implode(",", $ids);
-        $extrasql = "id IN ( $idlist )";
-        $users = get_users_listing(extraselect: $extrasql);
+        $placeholders = implode(',', array_fill(0, count($ids), '?'));
+        $selectsql = "id IN ( $placeholders )";
+
+        $users = $this->persistence->get_records_select($this->table, $selectsql, $ids);
 
         return $users;
     }
