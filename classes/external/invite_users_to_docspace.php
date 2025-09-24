@@ -58,6 +58,7 @@ class invite_users_to_docspace extends \core_external\external_api {
      * @return array
      */
     public static function execute($userids) {
+        global $CFG;
         $contextsystem = context_system::instance();
         self::validate_context($contextsystem);
         require_capability('moodle/site:config', $contextsystem);
@@ -111,6 +112,7 @@ class invite_users_to_docspace extends \core_external\external_api {
                     'firstname' => $user->firstname,
                     'lastname' => $user->lastname,
                     'type' => docspace_user_type::POWER_USER->value,
+                    'language' => $user->lang ?? $CFG->lang,
                 ]);
 
                 $invitedusers[] = $user;
