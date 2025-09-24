@@ -185,6 +185,7 @@ class docspace_client {
             'firstName'    => $data['firstname'],
             'lastName'     => $data['lastname'],
             'type'         => $data['type'],
+            'cultureName'  => $data['language'] ?? 'en',
         ];
 
         $this->post_json($uri, $user);
