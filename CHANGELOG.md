@@ -1,4 +1,6 @@
 # Change Log
+
+## 2.0.0
 ## Added
 - new API key admin setting
 - option to unlink DocSpace users
