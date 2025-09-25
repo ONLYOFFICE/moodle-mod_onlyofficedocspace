@@ -28,7 +28,6 @@ namespace mod_onlyofficedocspace\local\common;
  * flash_message
  */
 class flash_message {
-
     /**
      * flash message key
      * @var string

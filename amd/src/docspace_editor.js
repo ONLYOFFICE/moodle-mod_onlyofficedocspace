@@ -19,7 +19,12 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  **/
 /* eslint-disable no-undef */
-define(['jquery', 'mod_onlyofficedocspace/docspace_integration_sdk', 'core/str'], function($, DocSpaceIntegrationSDK, Str) {
+define([
+    'core/str',
+    'core/templates',
+    'jquery',
+    'mod_onlyofficedocspace/docspace_integration_sdk',
+], function(Str, Templates, $, DocSpaceIntegrationSDK) {
     const createFullScreenButtons = function() {
         let enterFullScreenText = Str.getString('enterfullscreen', 'onlyofficedocspace');
         let exitFullScreenText = Str.getString('exitfullscreen', 'onlyofficedocspace');
@@ -82,11 +87,23 @@ define(['jquery', 'mod_onlyofficedocspace/docspace_integration_sdk', 'core/str']
     };
 
     return {
-        init: async function(docspaceUrl, config, user) {
+        init: async function(docspaceUrl, config, user, errorTemplateName) {
+            config.events = {
+                onNotFound: () => {
+                    // eslint-disable-next-line promise/catch-or-return
+                    Templates.renderForPromise(errorTemplateName, {})
+                        .then(({html, js}) => {
+                            DocSpace.SDK.frames[config.frameId].destroyFrame();
+                            Templates.appendNodeContents('#ds-editor-error', html, js);
+                            return;
+                        });
+                },
+            };
             await DocSpaceIntegrationSDK.initScript('oodsp-api-js', docspaceUrl)
                 // eslint-disable-next-line promise/always-return
                 .then(async() => {
                     DocSpace.SDK.initSystem({
+                        src: docspaceUrl,
                         frameId: config.frameId,
                         width: config.width,
                         height: config.height,

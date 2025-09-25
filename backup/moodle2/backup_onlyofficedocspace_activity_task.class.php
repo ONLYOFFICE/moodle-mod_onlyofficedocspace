@@ -33,8 +33,6 @@ require_once($CFG->dirroot . '/mod/onlyofficedocspace/backup/moodle2/backup_only
  * complete backup of the activity
  */
 class backup_onlyofficedocspace_activity_task extends backup_activity_task {
-
-
     /**
      * Define (add) particular settings this activity can have
      */

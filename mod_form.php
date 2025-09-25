@@ -25,8 +25,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use mod_onlyofficedocspace\local\docspace\docspace_settings;
-use mod_onlyofficedocspace\local\moodle\moodle_docspace_user_manager;
+use mod_onlyofficedocspace\local\moodle\plugin_settings;
+use mod_onlyofficedocspace\local\moodle\repositories\docspace_user_repository;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -43,8 +43,6 @@ require_once($CFG->dirroot . '/course/moodleform_mod.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_onlyofficedocspace_mod_form extends moodleform_mod {
-
-
     /**
      * Defines forms elements
      */
@@ -53,24 +51,16 @@ class mod_onlyofficedocspace_mod_form extends moodleform_mod {
 
         $mform = $this->_form;
 
-        $docspacesettings = new docspace_settings();
+        $docspaceurl = plugin_settings::url();
 
-        try {
-            $docspacesettings->healthCheck();
-        } catch (Exception) {
+        if (empty($docspaceurl)) {
             $mform->addElement('html', $OUTPUT->notification(get_string('docspaceunreachable', 'onlyofficedocspace'), 'error'));
             $this->standard_hidden_coursemodule_elements();
             return;
         }
 
-        $moodledocspaceusermanager = new moodle_docspace_user_manager();
-        $docspaceuser = $moodledocspaceusermanager->get($USER->email);
-
-        if (!$docspaceuser) {
-            $mform->addElement('html', $OUTPUT->notification(get_string('docspaceusernotfound', 'onlyofficedocspace'), 'error'));
-            $this->standard_hidden_coursemodule_elements();
-            return;
-        }
+        $docspaceuserrepository = new docspace_user_repository();
+        $docspaceuser = $docspaceuserrepository->get_by_moodleuserid($USER->id);
 
         // Adding the "general" fieldset, where all the common settings are showed.
         $mform->addElement('header', 'general', get_string('general', 'form'));
@@ -139,15 +129,15 @@ class mod_onlyofficedocspace_mod_form extends moodleform_mod {
         $mform->setType('docspaceitemicon', PARAM_TEXT);
 
         $selectelements[] = &$mform->createElement('html', $OUTPUT->render_from_template('onlyofficedocspace/select_element', [
-            'docspaceurl' => $docspacesettings->url(),
+            'docspaceurl' => $docspaceurl,
         ]));
         $PAGE->requires->js_call_amd(
             'mod_onlyofficedocspace/select_element',
             'init',
             [
-                'docspaceUrl' => $docspacesettings->url(),
-                'user' => ['email' => $docspaceuser->email, 'hash' => $docspaceuser->password],
-                'activity' => $onlyofficedocspaceactivity,
+                'url' => $docspaceurl,
+                'user' => $docspaceuser ? ['email' => $docspaceuser->email, 'passwordHash' => $docspaceuser->password] : [],
+                'item' => $onlyofficedocspaceactivity,
             ],
         );
         $mform->addGroup(
@@ -157,6 +147,7 @@ class mod_onlyofficedocspace_mod_form extends moodleform_mod {
             '',
             false
         );
+        $mform->addHelpButton('select_element', 'selectelement:room', 'onlyofficedocspace');
         $mform->addRule(
             'select_element',
             get_string('required'),

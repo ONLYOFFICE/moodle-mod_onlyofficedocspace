@@ -31,7 +31,6 @@ require_once($CFG->dirroot . '/mod/onlyofficedocspace/backup/moodle2/restore_onl
  * Restore task that provides all the settings and steps to perform one complete restore of the activity
  */
 class restore_onlyofficedocspace_activity_task extends restore_activity_task {
-
     /**
      * Define (add) particular settings this activity can have
      */
@@ -67,13 +66,18 @@ class restore_onlyofficedocspace_activity_task extends restore_activity_task {
     public static function define_decode_rules() {
         $rules = [];
 
-        $rules[] = new restore_decode_rule('ONLYOFFICEDOCSPACEVIEWBYID',
-                '/mod/onlyofficedocspace/view.php?id=$1', 'course_module');
-        $rules[] = new restore_decode_rule('ONLYOFFICEDOCSPACEINDEX',
-                '/mod/onlyofficedocspace/index.php?id=$1', 'course');
+        $rules[] = new restore_decode_rule(
+            'ONLYOFFICEDOCSPACEVIEWBYID',
+            '/mod/onlyofficedocspace/view.php?id=$1',
+            'course_module'
+        );
+        $rules[] = new restore_decode_rule(
+            'ONLYOFFICEDOCSPACEINDEX',
+            '/mod/onlyofficedocspace/index.php?id=$1',
+            'course'
+        );
 
         return $rules;
-
     }
 
     /**
@@ -82,14 +86,30 @@ class restore_onlyofficedocspace_activity_task extends restore_activity_task {
     public static function define_restore_log_rules() {
         $rules = [];
 
-        $rules[] = new restore_log_rule('onlyofficedocspace', 'add',
-                'view.php?id={course_module}', '{onlyofficedocspace}');
-        $rules[] = new restore_log_rule('onlyofficedocspace', 'update',
-                'view.php?id={course_module}', '{onlyofficedocspace}');
-        $rules[] = new restore_log_rule('onlyofficedocspace', 'view',
-                'view.php?id={course_module}', '{onlyofficedocspace}');
-        $rules[] = new restore_log_rule('onlyofficedocspace', 'preview',
-                'view.php?id={course_module}', '{onlyofficedocspace}');
+        $rules[] = new restore_log_rule(
+            'onlyofficedocspace',
+            'add',
+            'view.php?id={course_module}',
+            '{onlyofficedocspace}'
+        );
+        $rules[] = new restore_log_rule(
+            'onlyofficedocspace',
+            'update',
+            'view.php?id={course_module}',
+            '{onlyofficedocspace}'
+        );
+        $rules[] = new restore_log_rule(
+            'onlyofficedocspace',
+            'view',
+            'view.php?id={course_module}',
+            '{onlyofficedocspace}'
+        );
+        $rules[] = new restore_log_rule(
+            'onlyofficedocspace',
+            'preview',
+            'view.php?id={course_module}',
+            '{onlyofficedocspace}'
+        );
 
         return $rules;
     }

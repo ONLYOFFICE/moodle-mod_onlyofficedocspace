@@ -1,0 +1,45 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see http://www.gnu.org/licenses/.
+}}
+{{!
+    @template mod_onlyofficedocspace/settings/docspace_intro
+
+    Displays ONLYOFFICE DocSpace settings intro content
+
+    Classes required for JS:
+    * none
+
+    Data attributes required for JS:
+    * none
+
+    Context variables required for this template:
+    * none
+
+    Example context (json):
+    {}
+
+}}
+<div class="ds-settings-intro">
+    <p>{{#str}} settingsintro, onlyofficedocspace {{/str}}</p>
+    <p class="ds-settings-intro-links">
+        <a href="{{learnmoreurl}}" target="_blank">
+            {{#str}} learnmore, onlyofficedocspace {{/str}}
+        </a>
+        <a href="{{suggesturl}}" target="_blank">
+            {{#str}} suggestfeature, onlyofficedocspace {{/str}}
+        </a>
+    </p>
+</div>

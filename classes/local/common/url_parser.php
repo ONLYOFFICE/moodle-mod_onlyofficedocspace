@@ -28,8 +28,6 @@ namespace mod_onlyofficedocspace\local\common;
  * url_parser
  */
 class url_parser {
-
-
     /**
      * get the base of the url
      *

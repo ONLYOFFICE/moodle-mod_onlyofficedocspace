@@ -2,13 +2,13 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-.path-mod-onlyofficedocspace #ds-login-form {
+.path-mod-onlyofficedocspace #ds-login-container {
     padding: 16px;
     border-radius: 8px;
     flex: 1;
 }
 
-.path-mod-onlyofficedocspace #ds-login-form h4 {
+.path-mod-onlyofficedocspace #ds-login-container h4 {
     font-size: 16px;
     font-weight: 400;
 }
@@ -32,7 +32,7 @@
     font-size: 18px;
 }
 
-.path-mod-onlyofficedocspace #ds-select-buttons {
+.path-mod-onlyofficedocspace #ds-select-container {
     display: flex;
     column-gap: 16px;
     border-radius: 8px;
@@ -40,12 +40,12 @@
     padding: 16px;
 }
 
-.path-mod-onlyofficedocspace #ds-selected-item {
+.path-mod-onlyofficedocspace #ds-item-container {
     border-radius: 8px;
     flex: 1;
 }
 
-.path-mod-onlyofficedocspace #ds-selected-item > div {
+.path-mod-onlyofficedocspace #ds-item-container > div {
     padding: 12px;
 }
 
@@ -81,4 +81,161 @@
     top: 0;
     margin: 0 0 0 50px;
     z-index: 100;
+}
+
+.path-mod-onlyofficedocspace .ds-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 470px;
+}
+
+.path-mod-onlyofficedocspace .ds-error-header img.icon {
+    width: 242px;
+    height: 242px;
+    max-height: none;
+    max-width: none;
+}
+
+.path-mod-onlyofficedocspace .ds-error-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.path-mod-onlyofficedocspace .ds-error-body h1 {
+    font-size: 23px;
+    line-height: 28px;
+    font-weight: 700;
+    color: #333;
+}
+
+.path-mod-onlyofficedocspace .ds-error-body p {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 450;
+    color: #73767c;
+    text-align: center;
+}
+
+.path-admin #ds-invite-users-table button.sortable {
+    all: unset;
+    cursor: pointer;
+    color: #0f6cbf;
+    text-decoration: underline;
+}
+
+.path-admin #ds-invite-users-table button.sortable.asc::after {
+    content: "▲";
+    color: #000;
+}
+
+.path-admin #ds-invite-users-table button.sortable.desc::after {
+    content: "▼";
+    color: #000;
+}
+
+.path-mod #ds-invite-users-table button.sortable:hover {
+    color: #0f6cbf;
+}
+
+.path-admin .disabled {
+    pointer-events: none;
+    opacity: 0.6;
+    user-select: none;
+}
+
+.path-admin #check-docspace-url-btn .icon {
+    margin: 0;
+}
+
+.path-admin .hidden {
+    display: none !important; /* stylelint-disable-line declaration-no-important */
+}
+
+.path-admin .docspace-control-buttons {
+    display: flex;
+    column-gap: 10px;
+}
+
+.path-admin .ds-input-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.path-admin .ds-input-wrapper input {
+    width: 272px !important; /* stylelint-disable-line declaration-no-important */
+    box-sizing: border-box;
+}
+
+.path-admin .ds-input-wrapper input::-webkit-clear-button {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.path-admin .ds-input-wrapper .ds-clear-btn {
+    position: absolute;
+    right: 0.5em;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 1.2em;
+    line-height: 1;
+}
+
+.path-admin .ds-input-wrapper .ds-clear-btn:focus {
+    outline: none;
+}
+
+.path-admin .ds-input-wrapper .ds-check-icon {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.path-admin .ds-input-wrapper .ds-check-icon img {
+    width: 13px;
+    height: 10px;
+    margin-right: 0.3rem;
+}
+
+.path-admin .ds-settings-intro {
+    display: flex;
+    flex-direction: column;
+    row-gap: 11px;
+    margin: 24px 0;
+    margin-top: 16px;
+}
+
+.path-admin .ds-settings-intro p {
+    margin: 0;
+}
+
+.path-admin .ds-settings-intro-links {
+    display: flex;
+    column-gap: 24px;
+}
+
+.path-admin .ds-settings-intro-links a {
+    font-weight: 500;
+    color: #0f6cbf;
+    text-decoration: none;
+    cursor: pointer;
+    display: flex;
+    gap: 4px;
+}
+
+.path-admin .ds-settings-intro-links a::after {
+    content: url([[pix:onlyofficedocspace|top_right_arrow]]);
+    width: 12px;
+    height: 12px;
+}
+
+.path-admin .ds-create-key-link {
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 2%;
 }

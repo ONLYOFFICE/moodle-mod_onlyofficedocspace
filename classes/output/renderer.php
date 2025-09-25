@@ -35,7 +35,6 @@ use plugin_renderer_base;
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class renderer extends plugin_renderer_base {
-
     /**
      * Returns html to display the content of mod_folder.
      * @param docspaceusers $page the docspaceusers page to be rendered.
@@ -45,5 +44,4 @@ class renderer extends plugin_renderer_base {
         $data = $page->export_for_template($this);
         return parent::render_from_template('mod_onlyofficedocspace/docspace_users', $data);
     }
-
 }

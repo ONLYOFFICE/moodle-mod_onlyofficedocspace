@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'mod_onlyofficedocspace';
-$plugin->version = 2025012900;
-$plugin->release = 'v1.0.2';
+$plugin->version = 2025092500;
+$plugin->release = 'v2.0.0';
 $plugin->requires = 2023100905;
 $plugin->maturity = MATURITY_STABLE;

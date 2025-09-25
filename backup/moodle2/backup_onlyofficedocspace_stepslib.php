@@ -27,7 +27,6 @@
  * Define the complete choice structure for backup, with file and id annotations
  */
 class backup_onlyofficedocspace_activity_structure_step extends backup_activity_structure_step {
-
     /**
      * Define structure.
      *

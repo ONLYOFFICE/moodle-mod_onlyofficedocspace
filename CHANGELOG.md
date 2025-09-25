@@ -1,5 +1,17 @@
 # Change Log
 
+## 2.0.0
+## Added
+- new API key admin setting
+- option to unlink DocSpace users
+- option to disconnect DocSpace
+- custom DocSpace item not found templates
+
+## Changed
+- removed DocSpace login admin setting
+- removed DocSpace password admin setting
+- moodle users can now log in to DocSpace with any email existing in the portal
+
 ## 1.0.2
 ## Changed
 - fixes according to markets code checks

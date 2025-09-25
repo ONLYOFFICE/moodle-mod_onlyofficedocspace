@@ -5,6 +5,10 @@ on:
     tags:
       - 'v*'
 
+env:
+  MOODLE_MOD_DIR: moodle/public/mod
+  PLUGIN_DIR: onlyofficedocspace
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -25,9 +29,9 @@ jobs:
       - name: Prepare Plugin
         run: |
           cd ${{ github.workspace }}
-          mkdir -p ./onlyofficedocspace
-          rsync -av --exclude='onlyofficedocspace' ./ ./onlyofficedocspace
-          cd ./onlyofficedocspace
+          mkdir -p "./$PLUGIN_DIR"
+          rsync -av --exclude='onlyofficedocspace' ./ "./$PLUGIN_DIR"
+          cd "./$PLUGIN_DIR"
           rm -rf ./.github/
           rm -rf ./.git/
       - name: Checkout Moodle
@@ -37,7 +41,7 @@ jobs:
           path: ./moodle
       - name: Copy Plugin
         run: |
-          cp -r onlyofficedocspace ./moodle/mod/onlyofficedocspace
+          cp -r "$PLUGIN_DIR" "./$MOODLE_MOD_DIR/$PLUGIN_DIR"
       - name: Build Plugin
         run: |
           cd ./moodle
@@ -45,13 +49,13 @@ jobs:
           grunt
       - name: Zip Artifact
         run: |
-          cd moodle/mod/
-          mv onlyofficedocspace moodle-mod_onlyofficedocspace-${{ steps.info.outputs.version }}
+          cd "$MOODLE_MOD_DIR/"
+          mv "$PLUGIN_DIR" moodle-mod_onlyofficedocspace-${{ steps.info.outputs.version }}
           zip -r moodle-mod_onlyofficedocspace-${{ steps.info.outputs.version }}.zip moodle-mod_onlyofficedocspace-${{ steps.info.outputs.version }}/
       - name: Create Release
         uses: ncipollo/release-action@v1
         id: create_release
         with:
-          artifacts: "moodle/mod/moodle-mod_onlyofficedocspace-${{ steps.info.outputs.version }}.zip"
+          artifacts: "${{ env.MOODLE_MOD_DIR }}/moodle-mod_onlyofficedocspace-${{ steps.info.outputs.version }}.zip"
           bodyFile: RELEASE.md
           tag: v${{ steps.info.outputs.version }}

@@ -24,10 +24,10 @@
 
 namespace mod_onlyofficedocspace\local\docspace\enums;
 // phpcs:disable
-enum docspace_user_status: int {
+enum docspace_user_status: string {
 
-    case ACTIVE = 1;
-    case EXIST = 2;
-    case NOT_FOUND = 3;
+    case ACTIVE = "active";
+    case EXISTS = "exists";
+    case NOT_FOUND = "not_found";
 }
 // phpcs:enable

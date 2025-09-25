@@ -1,0 +1,70 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_onlyofficedocspace/settings/docspace_api_key
+
+    Admin text setting template.
+
+    Context variables required for this template:
+    * rowid - form row id
+    * id - input id
+    * title - setting title
+    * settingname - setting name
+    * name - input name
+    * value - input value
+    * size - input size
+    * error - input error
+    * description - setting description
+
+    Example context (json):
+    {
+        "rowid": "row-id",
+        "id": "id",
+        "title": "Title",
+        "settingname": "Setting name",
+        "name": "Name",
+        "value": "Default value",
+        "size": 5,
+        "error": "An error",
+        "helpbutton": "html",
+        "createkeylink": "link"
+    }
+}}
+<div class="form-item row" id="{{rowid}}">
+    <div class="form-label col-sm-3 text-sm-right">
+        <div>
+            <label for="{{id}}">
+                {{title}}
+            </label>
+            {{{helpbutton}}}
+        </div>
+        <span class="form-shortname d-block small text-muted">{{settingname}}</span>
+    </div>
+    <div class="form-setting col-sm-9 mb-3">
+        <div><span id="{{id}}-error" class="error hidden">{{error}}</span></div>
+        
+        <div class="form-text defaultsnext">
+            <div class="ds-input-wrapper">
+                <input type="password" name="{{name}}" value="{{value}}" size="{{size}}" id="{{id}}" class="form-control">
+                <button type="button" class="ds-clear-btn hidden" aria-label="Clear input">&times;</button>
+            </div>
+            <div>
+                {{{createkeylink}}}
+            </div>
+        </div>
+    </div>
+</div>

@@ -26,44 +26,33 @@ import {call as fetchMany} from 'core/ajax';
 /**
  * Invite users to OnlyOffice DocSpace
  *
- * @param   {object} users Users list
+ * @param   {object} userids User ids
  * @returns {Promise}
  */
-export const inviteUsers = (users) => {
+export const inviteUsersToDocSpace = (userids) => {
     const args = {
-        users
+        userids
     };
 
-    return fetchMany([{methodname: 'mod_onlyofficedocspace_invite_users', args}])[0];
+    return fetchMany([{methodname: 'mod_onlyofficedocspace_invite_users_to_docspace', args}])[0];
 };
 
 /**
- * Update DocSpace admin settings
+ * Unlink DocSpace users from Moodle
  *
- * @param   {string} url DocSpace url
- * @param   {string} email DocSpace admin email
- * @param   {string} password DocSpace admin password hash
- * @param   {string} randompassword Random password hash
+ * @param   {object} userids User ids
  * @returns {Promise}
  */
-export const updateAdminSettings = (
-    url,
-    email,
-    password,
-    randompassword
-) => {
+export const unlinkDocSpaceUsers = (userids) => {
     const args = {
-        url,
-        email,
-        password,
-        randompassword
+        userids
     };
 
-    return fetchMany([{methodname: 'mod_onlyofficedocspace_update_admin_settings', args}])[0];
+    return fetchMany([{methodname: 'mod_onlyofficedocspace_unlink_docspace_users', args}])[0];
 };
 
 /**
- * Update DocSpace user password
+ * Update DocSpace user credentials
  *
  * @param   {string} email DocSpace admin email
  * @param   {string} password DocSpace admin password hash
@@ -78,5 +67,59 @@ export const updateUserPassword = (
         password,
     };
 
-    return fetchMany([{methodname: 'mod_onlyofficedocspace_update_user_password', args}])[0];
+    return fetchMany([{methodname: 'mod_onlyofficedocspace_update_docspace_user_credentials', args}])[0];
+};
+
+/**
+ * Check DocSpace connectivity
+ *
+ * @param   {string} url DocSpace url
+ * @returns {Promise}
+ */
+export const checkDocSpaceConnectivity = (url) => {
+    const args = {
+        url,
+    };
+
+    return fetchMany([{methodname: 'mod_onlyofficedocspace_check_docspace_connectivity', args}])[0];
+};
+
+/**
+ * Connect DocSpace
+ *
+ * @param   {string} url DocSpace url
+ * @param   {string} apikey DocSpace API Key
+ * @returns {Promise}
+ */
+export const connectDocSpace = (url, apikey) => {
+    const args = {
+        url,
+        apikey,
+    };
+
+    return fetchMany([{methodname: 'mod_onlyofficedocspace_connect_docspace', args}])[0];
+};
+
+/**
+ * Disconnect DocSpace
+ *
+ * @returns {Promise}
+ */
+export const disconnectDocSpace = () => {
+    const args = {};
+
+    return fetchMany([{methodname: 'mod_onlyofficedocspace_disconnect_docspace', args}])[0];
+};
+
+/**
+ * Fetch DocSpace users list
+ *
+ * @param   {Number} page Page number
+ * @param   {Number} limit Per page number
+ * @returns {Promise}
+ */
+export const fetchDocSpaceUsers = (page = 1, limit = 10) => {
+    const args = {page, limit};
+
+    return fetchMany([{methodname: 'mod_onlyofficedocspace_fetch_docspace_users', args}])[0];
 };
