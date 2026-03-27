@@ -1,6 +1,12 @@
 # ONLYOFFICE DocSpace plugin for Moodle
 
-This plugin enables users to connect [ONLYOFFICE DocSpace](https://www.onlyoffice.com/docspace.aspx) rooms as activities in Moodle for collaboration.
+This plugin enables users to connect [ONLYOFFICE DocSpace](https://www.onlyoffice.com/docspace) rooms as activities in Moodle for collaboration.
+
+<p align="center">
+  <a href="https://www.onlyoffice.com/office-for-moodle">
+    <img width="800" src="https://static-site.onlyoffice.com/public/images/templates/office-for-moodle/materials/screenshot2_0@2x.png" alt="ONLYOFFICE DocSpace for Moodle">
+  </a>
+</p>
 
 ## Plugin installation 📥
 
@@ -10,13 +16,13 @@ Moodle admins can install the plugin following the usual Moodle plugin installat
 
 ### If you are new to ONLYOFFICE DocSpace
 
-You can register a free account on the official website: [onlyoffice.com/docspace-registration.aspx](https://www.onlyoffice.com/docspace-registration.aspx).
+You can register a free account on the official website: [onlyoffice.com/docspace-registration](https://www.onlyoffice.com/docspace-registration).
 
-The STARTUP plan of ONLYOFFICE DocSpace is absolutely free to use. If you want to check other tariff plans, visit [this page](https://www.onlyoffice.com/docspace-prices.aspx).
+The STARTUP plan of ONLYOFFICE DocSpace is absolutely free to use. If you want to check other tariff plans, visit [this page](https://www.onlyoffice.com/docspace-prices).
 
 ### Connection settings
 
-At first, go to your ONLYOFFICE DocSpace ([sign up](https://www.onlyoffice.com/docspace-registration.aspx) / [sign in](https://www.onlyoffice.com/docspace-signin.aspx)) -> **Developer Tools -> API keys -> Create new secret key** to create the API key.
+At first, go to your ONLYOFFICE DocSpace ([sign up](https://www.onlyoffice.com/docspace-registration) / [sign in](https://www.onlyoffice.com/docspace-registration#login)) -> **Developer Tools -> API keys -> Create new secret key** to create the API key.
 
 Set **Permissions = All** for full access, or customize permissions by selecting **Permissions = Restricted**.
 
@@ -26,7 +32,7 @@ The minimum required permissions for the API key are:
 - Profile: Read
 - Contacts: Write
 
-ℹ️ Ensure the API key is created by a user with the DocSpace Admin role.
+> Ensure the API key is created by a user with the DocSpace Admin role.
 
 In Moodle, go to **Site Administration -> Plugins -> Activity Modules -> ONLYOFFICE DocSpace**.
 
@@ -46,12 +52,12 @@ To add a Moodle user to DocSpace, select the checkbox and click the **Invite to 
 In the **DocSpace User Status** column, you can track whether a Moodle user has been added to DocSpace or not:
 
 - Green checkmark ✅: a Moodle user with the specified email has been added to DocSpace. Synchronization was successful.
-- Empty value: there is no Moodle user with the specified email in DocSpace. You can invite them.
+- Empty value ⚪: there is no Moodle user with the specified email in DocSpace. You can invite them.
 - Hourglass ⏳: there is a user in DocSpace with the specified email, but there was a synchronization issue. When logging into the DocSpace plugin for the first time, the user will need to provide a DocSpace login and password to complete synchronization.
 
 To remove user data from DocSpace in Moodle, simply check the box next to the desired user and click the **Unlink DocSpace Account** button. This will delete the selected users' DocSpace data from Moodle.
 
-## Plugin usage ⭐️
+## Plugin usage
 
 The plugin adds a new type of ONLYOFFICE DocSpace activity when creating a course in Moodle.
 
@@ -72,7 +78,7 @@ To access the room for file editing, the following conditions must be met:
 
 All other users have access to the DocSpace room for viewing. This way, e.g., teachers can share the learning materials with students.
 
-## Project info ℹ️
+## Project info
 
 Official website: [www.onlyoffice.com](https://www.onlyoffice.com/)
 
@@ -80,6 +86,9 @@ Code repository: [github.com/ONLYOFFICE/moodle-mod_onlyofficedocspace](https://g
 
 Moodle Plugins Directory: [moodle.org/plugins/mod_onlyofficedocspace](https://moodle.org/plugins/mod_onlyofficedocspace)
 
-## Need help? Feedback & Support 💡
+## Need help? User Feedback and Support 💡
 
-In case of technical problems, the best way to get help is to submit your issues [here](https://github.com/ONLYOFFICE/moodle-mod_onlyofficedocspace/issues). Alternatively, you can contact ONLYOFFICE team via [community.onlyoffice.com](https://community.onlyoffice.com) or [feedback.onlyoffice.com](https://feedback.onlyoffice.com/forums/966080-your-voice-matters).
+* **🐞 Found a bug?** Please report it by creating an [issue](https://github.com/ONLYOFFICE/moodle-mod_onlyofficedocspace/issues).
+* **❓ Have a question?** Ask our community and developers on the [ONLYOFFICE Forum](https://community.onlyoffice.com).
+* **👨‍💻 Need help for developers?** Check our [API documentation](https://api.onlyoffice.com).
+* **💡 Want to suggest a feature?** Share your ideas on our [feedback platform](https://feedback.onlyoffice.com/forums/966080-your-voice-matters).
