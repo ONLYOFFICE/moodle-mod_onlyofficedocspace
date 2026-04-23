@@ -171,6 +171,12 @@ define(
                         const email = document.getElementById(selectors.modal.ids.email).value.trim();
                         const password = document.getElementById(selectors.modal.ids.password).value.trim();
 
+                        if (!email || !password) {
+                            document.getElementById("ds-login-error").style.display = "block";
+                            submitButton.disabled = false;
+                            return;
+                        }
+
                         const docspace = DocSpace.SDK.frames[selectors.frames.system];
                         const hashSettings = await docspace.getHashSettings();
                         const passwordHash = await docspace.createHash(password.trim(), hashSettings);
