@@ -272,29 +272,27 @@ define(
 
         const authenticateWithDocSpace = async function(email, passwordHash, onSuccess = null, onFail = null) {
             const docspace = DocSpace.SDK.frames[selectors.frames.system];
-            const docspaceUser = await docspace.getUserInfo();
 
-            if (docspaceUser && docspaceUser.email !== email) {
-                await docspace.logout();
+            try {
+                const currentUser = await docspace.getUserInfo();
+                if (currentUser && currentUser.email !== email) {
+                    await docspace.logout();
+                }
+
+                const result = await docspace.login(email, passwordHash);
+                if (result.status && result.status !== 200) {
+                    return onFail?.();
+                }
+
+                const verifiedUser = await docspace.getUserInfo();
+                if (!verifiedUser || verifiedUser.email !== email) {
+                    return onFail?.();
+                }
+
+                return onSuccess?.();
+            } catch (e) {
+                return onFail?.();
             }
-
-            await docspace.login(email, passwordHash)
-                .then(result => {
-                    if (result.status && result.status !== 200) {
-                        if (onFail) {
-                            onFail();
-                        }
-                    } else {
-                        if (onSuccess) {
-                            onSuccess();
-                        }
-                    }
-                    return;
-                }).catch(() => {
-                    if (onFail) {
-                        onFail();
-                    }
-                });
         };
 
         const selectItem = async function(id, type, requestToken, name, icon) {
