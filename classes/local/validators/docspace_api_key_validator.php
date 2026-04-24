@@ -71,9 +71,9 @@ class docspace_api_key_validator extends validator {
                 return false;
             }
 
-            // Check if the owner is admin.
+            // Check if the API key owner is a DocSpace admin or portal owner.
             $owner = $docspaceclient->fetch_api_key_owner();
-            if (empty($owner) || !isset($owner['isAdmin']) || !$owner['isAdmin']) {
+            if (empty($owner) || !(($owner['isAdmin'] ?? false) || ($owner['isOwner'] ?? false))) {
                 $this->errors[] = get_string('validationerror:invalidapikey', 'onlyofficedocspace');
                 return false;
             }
