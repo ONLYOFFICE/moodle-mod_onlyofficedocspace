@@ -94,10 +94,9 @@ define([
         document.querySelector(selectors.errors.url).classList.toggle('hidden', !(state.errors && state.errors.url));
         document.querySelector(selectors.errors.apiKey).classList.toggle('hidden', !(state.errors && state.errors.apiKey));
 
-        document.querySelectorAll('.ds-create-key-link').forEach(link => {
-            const url = document.querySelector(selectors.inputs.url).value;
-            link.href = state.isUrlValid ? url : '#';
-        });
+        const url = document.querySelector(selectors.inputs.url).value.replace(/\/+$/, '');
+        document.querySelector('.ds-create-key-link').href = state.isUrlValid
+            ? `${url}/portal-settings/developer-tools/api-keys` : '#';
 
         if (state.success) {
             await Notification.addNotification({
