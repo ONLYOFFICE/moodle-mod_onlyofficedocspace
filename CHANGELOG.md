@@ -2,6 +2,7 @@
 
 ##
 ## Changed
+- fixed API key owner validation to also accept portal owners (related to the changes in DocSpace 3.7)
 - no longer supports Moodle v4.4 and earlier
 
 ## 2.0.0
