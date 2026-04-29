@@ -18,7 +18,7 @@
  * OnlyOffice DocSpace URL admin setting class.
  *
  * @package    mod_onlyofficedocspace
- * @copyright  2025 Ascensio System SIA <integration@onlyoffice.com>
+ * @copyright  2026 Ascensio System SIA <integration@onlyoffice.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,7 +30,7 @@ use admin_setting_configtext;
  * Plugin DocSpace URL admin setting class.
  *
  * @package    mod_onlyofficedocspace
- * @copyright  2025 Ascensio System SIA <integration@onlyoffice.com>
+ * @copyright  2026 Ascensio System SIA <integration@onlyoffice.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class admin_setting_docspace_url extends admin_setting_configtext {
