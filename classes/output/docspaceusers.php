@@ -18,7 +18,7 @@
  * Contains class mod_onlyofficedocspace\output\docspaceusers.
  *
  * @package     mod_onlyofficedocspace
- * @copyright   2025 Ascensio System SIA <integration@onlyoffice.com>
+ * @copyright   2026 Ascensio System SIA <integration@onlyoffice.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -33,7 +33,7 @@ use stdClass;
  * Class containing data form instance display.
  *
  * @package     mod_onlyofficedocspace
- * @copyright   2025 Ascensio System SIA <integration@onlyoffice.com>
+ * @copyright   2026 Ascensio System SIA <integration@onlyoffice.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class docspaceusers implements renderable, templatable {

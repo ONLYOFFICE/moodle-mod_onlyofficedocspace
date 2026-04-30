@@ -18,7 +18,7 @@
  * DocSpace URL validator class.
  *
  * @package    mod_onlyofficedocspace
- * @copyright  2025 Ascensio System SIA <integration@onlyoffice.com>
+ * @copyright  2026 Ascensio System SIA <integration@onlyoffice.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -31,7 +31,7 @@ use mod_onlyofficedocspace\local\errors\docspace_client_error;
  * DocSpace URL validator class.
  *
  * @package    mod_onlyofficedocspace
- * @copyright  2025 Ascensio System SIA <integration@onlyoffice.com>
+ * @copyright  2026 Ascensio System SIA <integration@onlyoffice.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class docspace_url_validator extends validator {

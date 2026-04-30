@@ -18,7 +18,7 @@
  * Privacy api.
  *
  * @package     mod_onlyofficedocspace
- * @copyright   2025 Ascensio System SIA <integration@onlyoffice.com>
+ * @copyright   2026 Ascensio System SIA <integration@onlyoffice.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -41,7 +41,7 @@ use mod_onlyofficedocspace\local\moodle\repositories\user_repository;
  * Privacy provider class.
  *
  * @package     mod_onlyofficedocspace
- * @copyright   2025 Ascensio System SIA <integration@onlyoffice.com>
+ * @copyright   2026 Ascensio System SIA <integration@onlyoffice.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class provider implements core_userlist_provider, metadata_provider, plugin_provider {
