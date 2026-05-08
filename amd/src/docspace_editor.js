@@ -112,11 +112,14 @@ define([
                                 const docSpace = DocSpace.SDK.frames[config.frameId];
                                 const currentUser = await docSpace.getUserInfo();
 
-                                if ((!user && currentUser) || (currentUser && currentUser.email !== user.email)) {
+                                const currentUserMismatch = (!user && currentUser)
+                                    || (currentUser && currentUser.email !== user.email);
+
+                                if (currentUserMismatch) {
                                     await docSpace.logout();
                                 }
 
-                                if (user && user.hash) {
+                                if (user && user.hash && (!currentUser || currentUserMismatch)) {
                                     await docSpace.login(user.email, user.hash);
                                 }
 
