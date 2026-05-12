@@ -217,7 +217,7 @@ class docspace_client {
      * @throws docspace_client_error
      */
     public function fetch_user_by_email(string $email): ?docspace_user {
-        $uri = "api/2.0/people/email?email=$email";
+        $uri = 'api/2.0/people/email?email=' . rawurlencode($email);
 
         try {
             $response = $this->get_json($uri);
