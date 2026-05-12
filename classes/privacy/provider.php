@@ -104,11 +104,11 @@ class provider implements core_userlist_provider, metadata_provider, plugin_prov
     public static function get_users_in_context(userlist $userlist) {
         $context = $userlist->get_context();
 
-        if ($context != CONTEXT_SYSTEM) {
+        if ($context->contextlevel !== CONTEXT_SYSTEM) {
             return;
         }
 
-        $sql = "SELECT u.id
+        $sql = "SELECT u.id AS userid
                   FROM {user} u
                  WHERE u.email
                     IN (SELECT email FROM {onlyofficedocspace_dsuser})";
