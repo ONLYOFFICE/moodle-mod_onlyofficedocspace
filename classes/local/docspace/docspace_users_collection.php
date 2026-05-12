@@ -60,7 +60,7 @@ class docspace_users_collection {
      */
     public function get_by_email(string $email): ?docspace_user {
         foreach ($this->users as $user) {
-            if ($user->email === $email) {
+            if (mb_strtolower($user->email) === mb_strtolower($email)) {
                 return $user;
             }
         }
@@ -76,7 +76,7 @@ class docspace_users_collection {
      */
     public function exists(string $email): bool {
         foreach ($this->users as $user) {
-            if ($user->email === $email) {
+            if (mb_strtolower($user->email) === mb_strtolower($email)) {
                 return true;
             }
         }
