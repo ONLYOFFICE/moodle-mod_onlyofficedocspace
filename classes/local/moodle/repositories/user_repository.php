@@ -31,12 +31,10 @@ use stdClass;
  * User repository class
  */
 class user_repository {
-    /**
-     * @var $persistence persistence driver
-     */
+    /** @var \moodle_database Persistence driver. */
     private $persistence;
      /**
-      * @var $table table name
+      * @var string table name
       */
     private string $table = 'user';
 
@@ -149,31 +147,28 @@ class user_repository {
     }
 
     /**
-     * Return user counts with system or course editor roles
+     * Return user counts with editor-class roles (manager, coursecreator, editingteacher, teacher).
      * @return int
      */
     public function count_users_with_editor_roles(): int {
         global $CFG;
 
-        $context = context_system::instance();
+        [$insql, $inparams] = $this->persistence->get_in_or_equal(
+            ['manager', 'coursecreator', 'editingteacher', 'teacher'],
+            SQL_PARAMS_NAMED,
+            'sn'
+        );
 
-        $systemroles = array_keys(get_assignable_roles($context));
-        $courseroles = array_keys(array_filter(get_default_enrol_roles($context), fn($role) => strtolower($role) !== 'student'));
+        $sql = "SELECT COUNT(DISTINCT u.id)
+                  FROM {user} u
+                  JOIN {role_assignments} ra ON ra.userid = u.id
+                  JOIN {role} r ON r.id = ra.roleid
+                 WHERE r.shortname $insql
+                   AND u.id <> :guestid";
 
-        $extrasql = "id IN (SELECT userid FROM {role_assignments} a WHERE a.contextid= "
-            . SYSCONTEXTID . " AND a.roleid IN (" . implode(",", $systemroles) . ") "
-            . "UNION SELECT userid FROM {role_assignments} a "
-            . "INNER JOIN {context} b ON a.contextid=b.id WHERE b.contextlevel=50 AND a.roleid IN ("
-            . implode(",", $courseroles) . "))";
+        $params = $inparams + ['guestid' => $CFG->siteguest];
 
-        $sql = "SELECT COUNT(*) FROM {" . $this->table . "} WHERE NOT id = :id AND ";
-        $sql .= $extrasql;
-
-        $params = ['id' => $CFG->siteguest];
-
-        $count = $this->persistence->count_records_sql($sql, $params);
-
-        return $count;
+        return $this->persistence->count_records_sql($sql, $params);
     }
 
     /**
