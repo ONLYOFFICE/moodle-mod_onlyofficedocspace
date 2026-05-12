@@ -154,29 +154,6 @@ class docspace_user_repository {
     }
 
     /**
-     * Create or update a docspace user.
-     *
-     * @param string $email
-     * @param string $password
-     */
-    public function create_or_update(string $email, string $password = ''): void {
-        $user = $this->get_by_email($email);
-
-        if ($user === null) {
-            $this->persistence->insert_record($this->table, [
-                'email' => $email,
-                'password' => $password,
-            ]);
-        } else {
-            $this->persistence->update_record($this->table, [
-                'id' => $user->id,
-                'email' => $email,
-                'password' => $password,
-            ]);
-        }
-    }
-
-    /**
      * Update user data.
      *
      * @param array $data
