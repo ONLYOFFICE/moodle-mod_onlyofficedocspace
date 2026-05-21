@@ -50,7 +50,7 @@ if ($ADMIN->fulltree && ($categoryparam === $admincategoryname || $sectionparam 
     $settings->hidden = false;
     $defaulthost = 'https://docspaceserver.url';
     $helpcentermoodleurl = 'https://helpcenter.onlyoffice.com/integration/moodle-docspace.aspx';
-    $suggestfeatureurl = 'https://feedback.onlyoffice.com/forums/966080-your-voice-matters?category_id=519288';
+    $suggestfeatureurl = 'https://community.onlyoffice.com/c/suggestions/integrations/56';
 
     // Add the plugin intro text.
     $docspaceintro = $OUTPUT->render_from_template('mod_onlyofficedocspace/settings/docspace_intro', [
